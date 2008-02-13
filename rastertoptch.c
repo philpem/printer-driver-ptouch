@@ -312,6 +312,7 @@
 #include <math.h>
 #include <cups/raster.h>
 #include <cups/cups.h>
+#include <limits.h>
 
 #if STDC_HEADERS
 # include <string.h>
