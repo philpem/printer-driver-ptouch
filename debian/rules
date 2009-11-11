@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+%:
+	dh --with quilt $@
+
+override_dh_auto_install:
+	dh_auto_install
+	rm -rf debian/ptouch-driver/usr/share/foomatic/db/source/printer
+	install -D -m 644 debian/local/apport-hook.py $(CURDIR)/debian/ptouch-driver/usr/share/apport/package-hooks/source_ptouch-driver.py
+
+override_dh_auto_test:
