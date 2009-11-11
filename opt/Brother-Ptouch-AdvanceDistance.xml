@@ -1,0 +1,102 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<option type='enum' id='Brother-Ptouch-AdvanceDistance'>
+  <comments>
+    <en>The extra distance, in points (72nds of an inch), by which to
+    advance the tape as indicated by AdvanceMedia
+    </en>
+  </comments>
+  <arg_longname>
+    <en>Advance Distance</en>
+  </arg_longname>
+  <arg_shortname>
+    <en>AdvanceDistance</en><!-- backends only know <en> shortnames! -->
+  </arg_shortname>
+  <arg_min>0</arg_min>
+  <arg_max>75</arg_max>
+  <arg_execution>
+    <arg_group>Finishing</arg_group>
+    <arg_order>110</arg_order>
+    <arg_spot>A</arg_spot>
+    <arg_postscript />
+    <arg_proto>&lt;&lt;/AdvanceDistance %s&gt;&gt;setpagedevice</arg_proto>
+  </arg_execution>
+  <constraints>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <arg_defval>ev/None</arg_defval>
+    </constraint>
+  </constraints>
+  <enum_vals>
+   <enum_val id="ev/None">
+    <ev_longname>
+     <en>None</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>0None</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>0</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/Small">
+    <ev_longname>
+     <en>Small</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>1Small</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>22</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/Medium">
+    <ev_longname>
+     <en>Medium</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>2Medium</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>34</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/Large">
+    <ev_longname>
+     <en>Large</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>3Large</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>74</ev_driverval>
+   </enum_val>
+  </enum_vals>
+</option>

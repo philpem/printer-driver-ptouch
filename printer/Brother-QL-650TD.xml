@@ -1,0 +1,97 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<printer id="printer/Brother-QL-650TD">
+  <make>Brother</make>
+  <model>QL-650TD</model>
+  <pcmodel>BRQ650</pcmodel>
+  <mechanism>
+    <thermal/>
+    <!--not "color"-->
+    <resolution>
+      <dpi>
+        <x>300</x>
+        <y>300</y>
+      </dpi>
+    </resolution>
+    <consumables>
+      <comments>
+        <en>
+        Special &quot;DK&quot; adhesive labels or adhesive tape thermal paper.
+        No ink or ribbons needed.
+	Die Cut Standard Address Labels 29mm x 90mm, 400 Labels 	 - $7.99
+	Die Cut Shipping Labels 62mm x 100mm, 300 Labels 	 - $13.99
+	Die Cut File Folder Labels 17mm x 87mm, 300 labels 	 - $6.99
+	Multipurpose Die Cut Labels 17mm x 54mm, 400 Labels 	 - $7.99
+	CD/DVD Film Labels 58mm x 58mm, 100 Labels 	 - $14.99
+	Large Die Cut Address Labels 38mm x 90mm, 400 Labels/Roll 	 - $10.99
+	Small Address Label 29mm x 62mm, 800 Labels 	 - $13.99
+	Clear Continuous Film Roll 62mm x 15.24m, Clear 	 - $44.99
+	White Continuous Film Roll 62mm x 30.48m, White 	 - $13.99
+	White Continuous Film Roll 29mm x 30.48m, White 	 - $8.99
+	White Continuous Film Roll 29mm x 15.24m, White 	 - $15.99
+	White Continuous Film Roll 62mm x 15.24m, White 	 - $30.99
+	White Continuous Film Roll 12mm x 30.48m, White 	 - $7.99
+	Yellow Continuous Film Roll 62mm x 15.24m, Yellow 	 - $44.99
+        Cutter Unit, 2 pcs
+        Cleaning Sheets, 10 sheets
+        </en>
+      </comments>
+      <partno>DK-11201</partno>	
+      <partno>DK-11202</partno>	
+      <partno>DK-11203</partno>	
+      <partno>DK-11204</partno>	
+      <partno>DK-11207</partno>	
+      <partno>DK-11208</partno>	
+      <partno>DK-11209</partno>	
+      <partno>DK-22113</partno>	
+      <partno>DK-22205</partno>	
+      <partno>DK-22210</partno>	
+      <partno>DK-22211</partno>	
+      <partno>DK-22212</partno>	
+      <partno>DK-22214</partno>	
+      <partno>DK-22606</partno>
+      <partno>DKBU99</partno>
+      <partno>DKCL99</partno>
+    </consumables>
+  </mechanism>
+  <url>http://www.advizia.com/brother/modelDetail.asp?PkgID=386702&amp;User=ptouch&amp;Rnd=785</url>
+  <lang>
+    <proprietary />
+  </lang>
+  <autodetect>
+    <general>
+      <ieee1284>MFG:Brother;CMD:PT-CBP;MDL:QL-650TD;CLS:PRINTER;</ieee1284>
+      <commandset>PT-CBP</commandset>
+      <description>Brother QL-650TD</description>
+      <manufacturer>Brother</manufacturer>
+      <model>QL-650TD</model>
+    </general>
+  </autodetect>
+  <functionality>B</functionality>
+  <driver>ptouch</driver>
+  <unverified />
+  <!--no "contrib_url"-->
+  <comments>
+    <en>
+    Prints 3 inches per second.
+    </en>
+  </comments>
+</printer>

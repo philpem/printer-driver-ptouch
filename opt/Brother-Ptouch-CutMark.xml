@@ -1,0 +1,179 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<option type='enum' id='Brother-Ptouch-CutMark'>
+  <!-- A multilingual <comments> block can appear here, too;
+       it should be treated as documentation for the user. -->
+  <arg_longname>
+    <en>Cut Mark</en>
+  </arg_longname>
+  <arg_shortname>
+    <en>CutMark</en><!-- backends only know <en> shortnames! -->
+  </arg_shortname>
+  <arg_execution>
+    <arg_group>Finishing</arg_group>
+    <arg_order>110</arg_order>
+    <arg_spot>A</arg_spot>
+    <arg_postscript />
+    <arg_proto>&lt;&lt;/CutMedia %s&gt;&gt;setpagedevice</arg_proto>
+  </arg_execution>
+  <constraints>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <arg_defval>ev/Off</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-QL-550</printer><!-- Brother P-touch QL-650TD -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-QL-650TD</printer><!-- Brother P-touch QL-650TD -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-PC</printer><!-- Brother P-touch PT-PC -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-18R</printer><!-- Brother P-touch PT-18R -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-550A</printer><!-- Brother P-touch PT-550A -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-1950</printer><!-- Brother P-touch PT-1950 -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-1950VP</printer><!-- Brother P-touch PT-1950VP -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-1960</printer><!-- Brother P-touch PT-1960 -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2300</printer><!-- Brother P-touch PT-2300 -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2450DX</printer><!-- Brother P-touch PT-2450DX -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2500PC</printer><!-- Brother P-touch PT-2500PC -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2600</printer><!-- Brother P-touch PT-2600 -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2610</printer><!-- Brother P-touch PT-2610 -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-3600</printer><!-- Brother P-touch PT-3600 -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-9200DX</printer><!-- Brother P-touch PT-9200DX -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-9200PC</printer><!-- Brother P-touch PT-9200PC -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-9400</printer><!-- Brother P-touch PT-9400 -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-9500PC</printer><!-- Brother P-touch PT-9500PC -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+    <constraint sense='false'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-9600</printer><!-- Brother P-touch PT-9600 -->
+      <arg_defval>na</arg_defval>
+    </constraint>
+  </constraints>
+  <enum_vals>
+   <enum_val id="ev/Off">
+    <ev_longname>
+     <en>Do not print cut marks</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>Off</en>
+     <!-- Until someone tells me how to learn the user locale in
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>0</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/LabelEnd">
+    <ev_longname>
+     <en>Print cut mark after each label</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>LabelEnd</en>
+     <!-- Until someone tells me how to learn the user locale in
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>4</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/JobEnd">
+    <ev_longname>
+     <en>Print cut mark at the end of the job</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>JobEnd</en>
+     <!-- Until someone tells me how to learn the user locale in
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>2</ev_driverval>
+   </enum_val>
+  </enum_vals>
+</option>

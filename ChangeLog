@@ -1,0 +1,69 @@
+2009-02-04  Arne John Glenstrup  <panic@arnesthinkpad>
+
+	* rastertoptch.c:
+	  - Added limits.h include file for MAX_INT etc.
+	  - Explicitly discard return value of fwrite
+
+2006-09-08  Arne John Glenstrup  <panic@arnesacer.vip.itu.dk>
+
+	* opt/:
+	  - Added PT-2300 to the list of printers
+
+2006-05-01  Arne John Glenstrup  <panic@arnesacer.vip.itu.dk>
+
+	* configure.ac: 
+	  - Added a check for cups/cups.h and cups/raster.h
+
+2006-03-09  Arne John Glenstrup  <panic@arnesacer.vip.itu.dk>
+
+	* rastertoptch.c:
+	  - Added ConcatPages option to print several pages as 1 page
+	    This requires a major restructuring, so all pixel data is
+	    now internally stored in RLE format.
+
+2006-03-01  Arne John Glenstrup  <panic@arnesacer.vip.itu.dk>
+
+	* rastertoptch.c:
+	  - Added option to dis/enable "ESC i z ...", fixing PT-* problem
+	  - Fixed rounding bug so that emitted lines is exactly the number
+	    stated in the preamble
+
+2006-02-12  Arne John Glenstrup  <panic@arnesacer.vip.itu.dk>
+
+	* rastertoptch.c:
+	  - Made AdvanceMedia work correctly
+
+2006-02-09  Arne John Glenstrup  <panic@arnesacer.vip.itu.dk>
+
+	* rastertoptch.c: 
+	  - Fixed bug causing error for continuous tape
+	  - Fixed bug in emitting empty lines for RLE
+
+2006-02-03  Arne John Glenstrup  <panic@arnesacer.vip.itu.dk>
+
+	* Installation: Moved rastertoptch to /usr/bin
+
+	* rastertoptch.c:
+	  - Removed bug that would surface when non-null margins
+	  - Improved horizontal line placement and out-of-bound checks
+
+-----
+
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
