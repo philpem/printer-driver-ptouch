@@ -2,9 +2,35 @@
 %:
 	dh --with quilt $@
 
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -f debian/local/pyppd/*/*.pyc
+	rm -f debian/local/pyppd/pyppd-ppdfile
+	rm -rf foomatic-db foomatic
+
 override_dh_auto_install:
 	dh_auto_install
 	rm -rf debian/ptouch-driver/usr/share/foomatic/db/source/printer
+
+	# Pre-build PPD files
+	mkdir $(CURDIR)/foomatic-db
+	cp -r /usr/share/foomatic/* $(CURDIR)/foomatic-db
+	rm -f $(CURDIR)/foomatic-db/db/source/*/*ptouch*.xml
+	cp -r $(CURDIR)/debian/ptouch-driver/usr/share/foomatic/* $(CURDIR)/foomatic-db/
+	rm -rf $(CURDIR)/debian/ptouch-driver/usr/share/foomatic
+	FOOMATICDB=$(CURDIR)/foomatic-db foomatic-compiledb -j 16 -t ppd -d $(CURDIR)/foomatic `ls -1 $(CURDIR)/foomatic-db/db/source/driver/*ptouch*.xml | perl -p -e 's:^.*db/source/driver/(\S*)\.xml\s*$$:\1\n:'`
+
+	# Compress the PPD files with Vitor Baptista's pyppd PPD
+	# archiving tool. This makes the space needed for PPDs at least
+	# 10 times smaller.
+	(cd debian/local/pyppd/ && \
+	  PYTHONPATH=. bin/pyppd $(CURDIR)/foomatic && \
+	  install -D -m 755 pyppd-ppdfile $(CURDIR)/debian/ptouch-driver/usr/lib/cups/driver/ptouch-driver && \
+	  rm -rf $(CURDIR)/foomatic && \
+	  rm -f pyppd-ppdfile && \
+	  rm -f */*.pyc \
+	)
+
 	install -D -m 644 debian/local/apport-hook.py $(CURDIR)/debian/ptouch-driver/usr/share/apport/package-hooks/source_ptouch-driver.py
 
 override_dh_auto_test:

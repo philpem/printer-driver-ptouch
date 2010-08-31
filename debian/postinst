@@ -33,7 +33,7 @@ case "$1" in
 	    which lpadmin > /dev/null 2>&1 && \
 	    LC_ALL=C lpstat -h /var/run/cups/cups.sock -r | grep -v not > /dev/null 2>&1; then
  	    # Update the PPD files of all already installed print queues
-	    driverregexp='^foomatic:.*-ptouch\.ppd\b'
+	    driverregexp='^ptouch-driver:'
 	    gennicknameregexp=''
 	    [ ! -z "$gennicknameregexp" ] && \
 		gennicknameregexp="; $gennicknameregexp"

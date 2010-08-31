@@ -1,0 +1,7 @@
+ISSUES
+======
+
+* Add unit tests
+* When testing if the PPD generated from the *Product line already exists in a
+  *1284DeviceID line, we do a case-sensitive test. I think it should be case-
+  insensitive.

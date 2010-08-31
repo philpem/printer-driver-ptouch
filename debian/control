@@ -4,12 +4,12 @@ XSBC-Original-Maintainer: Lars Wirzenius <liw@liw.fi>
 Section: text
 Priority: optional
 Standards-Version: 3.8.2
-Build-Depends: debhelper (>= 7.3.8), quilt, libcups2-dev, libcupsimage2-dev
+Build-Depends: debhelper (>= 7.3.8), quilt, libcups2-dev, libcupsimage2-dev, foomatic-db-engine, foomatic-db
 Homepage: http://www.diku.dk/hjemmesider/ansatte/panic/P-touch/
 
 Package: ptouch-driver
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, ghostscript, cups, cups-client
 Description: CUPS/Foomatic driver for Brother P-touch label printers
  A driver for CUPS/Foomatic for Brother P-touch label printers.
 
