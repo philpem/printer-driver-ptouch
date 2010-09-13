@@ -1,3 +1,11 @@
+ptouch-driver (1.3-0ubuntu5) maverick; urgency=low
+
+  * debian/patches/send-esc-i-A.patch: The code "ESC i A \001" needs to be sent
+    to the printer so that cutting happens. Thanks to Matthias Urlichs for the
+    patch (LP: #635249).
+
+ -- Till Kamppeter <till.kamppeter@gmail.com>  Mon, 13 Sep 2010 10:00:00 +0200
+
 ptouch-driver (1.3-0ubuntu4) maverick; urgency=low
 
   * debian/control: Added build and runtime dependencies for the compressed
