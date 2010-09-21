@@ -1,3 +1,13 @@
+ptouch-driver (1.3-0ubuntu6) maverick; urgency=low
+
+  * debian/local/pyppd/pyppd/pyppd-ppdfile.in: Suppress any kind of runtime
+    error tracebacks by putting a "try: ... except: pass" construct around the
+    main function call. This avoids Apport pop-ups when the execution of the
+    self-extracting compressed PPD file archives gets stopped by the calling
+    process (LP: #618017).
+
+ -- Till Kamppeter <till.kamppeter@gmail.com>  Tue, 21 Sep 2010 20:35:03 +0200
+
 ptouch-driver (1.3-0ubuntu5) maverick; urgency=low
 
   * debian/patches/send-esc-i-A.patch: The code "ESC i A \001" needs to be sent

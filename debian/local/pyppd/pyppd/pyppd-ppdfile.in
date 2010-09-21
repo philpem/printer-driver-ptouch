@@ -69,4 +69,7 @@ def main():
 ppds_compressed_b64 = "@ppds_compressed_b64@"
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except:
+        pass
