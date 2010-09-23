@@ -1,3 +1,11 @@
+ptouch-driver (1.3-0ubuntu7) maverick; urgency=low
+
+  * debian/local/pyppd/pyppd/: Updated to pyppd 0.4.9. Here we do not suppress
+    all runtime errors but only IOError and KeyboardInterrupt. This way we do
+    not suppress errors which are caused by an actual bug (LP: #618017).
+
+ -- Till Kamppeter <till.kamppeter@gmail.com>  Wed, 23 Sep 2010 16:07:03 +0200
+
 ptouch-driver (1.3-0ubuntu6) maverick; urgency=low
 
   * debian/local/pyppd/pyppd/pyppd-ppdfile.in: Suppress any kind of runtime

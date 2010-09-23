@@ -28,6 +28,8 @@ def ls():
 def cat(ppd):
     # Ignore driver's name, take only PPD's
     ppd = ppd.split(":")[-1]
+    # Remove also the index
+    ppd = "0/" + ppd[ppd.find("/")+1:]
 
     ppds = load()
     ppds['ARCHIVE'] = StringIO(decompress(ppds['ARCHIVE']))
@@ -41,7 +43,7 @@ def cat(ppd):
 def main():
     usage = "usage: %prog list\n" \
             "       %prog cat URI"
-    version = "%prog 0.4.3\n" \
+    version = "%prog 0.4.9\n" \
               "Copyright (c) 2010 Vitor Baptista.\n" \
               "This is free software; see the source for copying conditions.\n" \
               "There is NO warranty; not even for MERCHANTABILITY or\n" \
@@ -71,5 +73,7 @@ ppds_compressed_b64 = "@ppds_compressed_b64@"
 if __name__ == "__main__":
     try:
         main()
-    except:
+    except (IOError, KeyboardInterrupt):
+        # We don't want neither IOError nor KeyboardInterrupt throwing a
+        # traceback into stdout.
         pass

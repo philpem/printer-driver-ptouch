@@ -8,7 +8,7 @@ import archiver
 
 def parse_args():
     usage = "usage: %prog [options] ppds_directory"
-    version = "%prog 0.4.3\n" \
+    version = "%prog 0.4.9\n" \
               "Copyright (c) 2010 Vitor Baptista.\n" \
               "This is free software; see the source for copying conditions.\n" \
               "There is NO warranty; not even for MERCHANTABILITY or\n" \
@@ -58,7 +58,7 @@ def run():
     (options, args) = parse_args()
     configure_logging(options.verbosity)
     ppds_directory = args[0]
-    
+
     logging.info('Archiving folder "%s".' % ppds_directory)
     archive = archiver.archive(ppds_directory)
     if not archive:

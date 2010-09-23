@@ -14,12 +14,12 @@ class sdist(_sdist):
                 git2changes.run(f)
         except ImportError:
             pass
-        
+
         _sdist.run(self)
 
 setup(
     name='pyppd',
-    version='0.4.3',
+    version='0.4.9',
     author='Vitor Baptista',
     author_email='vitor@vitorbaptista.com',
     packages=['pyppd'],
@@ -28,7 +28,8 @@ setup(
     url='http://gitorious.org/vitorbaptista/pyppd/',
     license='GPLv3',
     description='A CUPS PostScript Printer Driver\'s compressor and generator',
-    long_description=open('README.txt').read(),
+    long_description=open('README.txt').read() + "\n" +
+                     open('ISSUES.txt').read(),
     cmdclass={'sdist': sdist},
     classifiers=[
         'Development Status :: 4 - Beta',

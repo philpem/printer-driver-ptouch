@@ -87,12 +87,14 @@ def parse(ppd_file, filename):
                       (language, manufacturer, nickname))
         ppds = []
         models = []
+        line = 0
         if deviceids:
-            ppds = [PPD(filename, language, manufacturer, nickname, deviceid.strip())
-                    for deviceid in deviceids]
             for deviceid in deviceids:
                 logging.debug('1284DeviceID: "%s".' % deviceid)
+                uri = "%d/%s" % (line, filename)
+                ppds += [PPD(uri, language, manufacturer, nickname, deviceid.strip())]
                 models += re.findall(".*(?:MODEL|MDL):(.*?);.*", deviceid, re.I)
+                line += 1
 
         for product in re.findall('\*Product:\s*"\((.+)\)"', ppd_file):
             product = str.strip(product)
@@ -105,7 +107,9 @@ def parse(ppd_file, filename):
 
             logging.debug('Product: "%s"' % product)
             deviceid = "MFG:%s;MDL:%s;" % (manufacturer, product)
-            ppds += [PPD(filename, language, manufacturer, nickname, deviceid)]
+            uri = "%d/%s" % (line, filename)
+            ppds += [PPD(uri, language, manufacturer, nickname, deviceid)]
+            line += 1
 
         return ppds
     except:
