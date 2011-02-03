@@ -82,6 +82,9 @@ USA
    <id>printer/Brother-PT-1960</id><!-- Brother P-touch PT-1960 -->
   </printer>
   <printer>
+   <id>printer/Brother-PT-2300</id><!-- Brother P-touch PT-2300 -->
+  </printer>
+  <printer>
    <id>printer/Brother-PT-2420PC</id><!-- Brother P-touch PT-2420PC -->
   </printer>
   <printer>
