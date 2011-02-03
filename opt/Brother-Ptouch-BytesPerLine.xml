@@ -102,7 +102,7 @@ USA
     <constraint sense='true'>
       <driver>ptouch</driver>
       <printer>printer/Brother-PT-2300</printer><!-- Brother P-touch PT-2300 -->
-      <arg_defval>14</arg_defval>
+      <arg_defval>16</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch</driver>
