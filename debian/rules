@@ -23,14 +23,10 @@ override_dh_auto_install:
 	# Compress the PPD files with Vitor Baptista's pyppd PPD
 	# archiving tool. This makes the space needed for PPDs at least
 	# 10 times smaller.
-	(cd debian/local/pyppd/ && \
-	  chmod 755 bin/pyppd && \
-	  touch pyppd/__init__.py && \
-	  PYTHONPATH=. bin/pyppd $(CURDIR)/foomatic && \
-	  install -D -m 755 pyppd-ppdfile $(CURDIR)/debian/ptouch-driver/usr/lib/cups/driver/ptouch-driver && \
-	  rm -rf $(CURDIR)/foomatic && \
-	  rm -f pyppd-ppdfile && \
-	  rm -f */*.pyc \
+	( mkdir $(CURDIR)/debian/ptouch-driver/usr/lib/cups/driver/ && \
+	  pyppd --output=$(CURDIR)/debian/ptouch-driver/usr/lib/cups/driver/ptouch-driver \
+		$(CURDIR)/foomatic && \
+	  rm -rf $(CURDIR)/foomatic \
 	)
 
 	install -D -m 644 debian/local/apport-hook.py $(CURDIR)/debian/ptouch-driver/usr/share/apport/package-hooks/source_ptouch-driver.py

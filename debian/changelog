@@ -1,3 +1,14 @@
+ptouch-driver (1.3-0ubuntu8) oneiric; urgency=low
+
+  * debian/patches/foomatic-data-fixes.patch: Added "-dNOINTERPOLATE" to the
+    Ghostscript command line. This makes the page rendering by Ghostscript
+    significantly faster.
+
+  * debian/rules, debian/control, debian/local/pyppd/: Use pyppd from
+    external package.
+
+ -- Till Kamppeter <till.kamppeter@gmail.com>  Sun, 24 Jul 2011 22:34:03 +0200
+
 ptouch-driver (1.3-0ubuntu7) maverick; urgency=low
 
   * debian/local/pyppd/pyppd/: Updated to pyppd 0.4.9. Here we do not suppress
