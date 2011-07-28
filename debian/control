@@ -4,7 +4,7 @@ XSBC-Original-Maintainer: Lars Wirzenius <liw@liw.fi>
 Section: text
 Priority: optional
 Standards-Version: 3.8.2
-Build-Depends: debhelper (>= 7.3.8), quilt, libcups2-dev, libcupsimage2-dev, foomatic-db-engine, foomatic-db, pyppd
+Build-Depends: debhelper (>= 7.3.8), quilt, libcups2-dev, libcupsimage2-dev, foomatic-db-engine, foomatic-db-xml, pyppd
 Homepage: http://www.diku.dk/hjemmesider/ansatte/panic/P-touch/
 
 Package: ptouch-driver
