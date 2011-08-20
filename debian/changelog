@@ -1,3 +1,16 @@
+ptouch-driver (1.3-0ubuntu11) oneiric; urgency=low
+
+  * debian/control: Versioned build dependency on foomatic-db to assure that
+    the Ubuntu build server installs the physical package foomatic-db and
+    not foomatic-db-compressed-ppds which only provides foomatic-db
+    (LP: #829446).
+  * debian/rules, debian/control: Compress PPD files with pyppd.
+  * debian/rules, debian/control, debian/postinst,
+    debian/ptouch-driver.ppd-updater: Let automatic update of the PPDs of
+    already existing print queues be done by CUPS.
+
+ -- Till Kamppeter <till.kamppeter@gmail.com>  Sat, 20 Aug 2011 00:37:23 +0200
+
 ptouch-driver (1.3-0ubuntu10) oneiric; urgency=low
 
   * debian/control: Changed build dependency on foomatic-db-xml back to
