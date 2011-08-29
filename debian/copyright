@@ -1,24 +1,40 @@
-Packaging by Lars Wirzenius, and probably should be reviewed before
-uploaded. I only made this for myself.
+Format: http://anonscm.debian.org/viewvc/dep/web/deps/dep5.mdwn?revision=174
+Upstream-Name: ptouch-driver
+Source: http://www.diku.dk/hjemmesider/ansatte/panic/P-touch/
 
-Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+Files: *
+Copyright: 2006 Arne John Glenstrup <panic@itu.dk>
+License: GPL-2+
 
-This file is part of ptouch-driver.
+Files: debian/*
+Copyright: 2009      Lars Wirzenius <liw@debian.org>
+Copyright: 2010-2011 Till Kamppeter <till.kamppeter@gmail.com>
+Copyright: 2011      Didier Raboud <odyx@debian.org>
+License: GPL-2+
 
-ptouch-driver is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or (at
-your option) any later version.
+Files: debian/local/apport-hook.py
+Copyright: 2009 Canonical Ltd.
+Author: Brian Murray <brian@ubuntu.com>
+License: GPL
 
-ptouch-driver is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with ptouch-driver; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
-USA
-
-On a Debian system, you can find a copy of the GPL version 2 in
-/usr/share/common-licenses/GPL-2.
+License: GPL-2+
+  This program is free software; you can redistribute it
+  and/or modify it under the terms of the GNU General Public
+  License as published by the Free Software Foundation; either
+  version 2 of the License, or (at your option) any later
+  version.
+  .
+  This program is distributed in the hope that it will be
+  useful, but WITHOUT ANY WARRANTY; without even the implied
+  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+  PURPOSE.  See the GNU General Public License for more
+  details.
+  .
+  You should have received a copy of the GNU General Public
+  License along with this package; if not, write to the Free
+  Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+  Boston, MA  02110-1301 USA
+  .
+  On Debian systems, the full text of the GNU General Public
+  License version 2 can be found in the file
+ `/usr/share/common-licenses/GPL-2'.

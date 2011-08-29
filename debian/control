@@ -1,15 +1,24 @@
 Source: ptouch-driver
-Maintainer: ubuntu-devel-discuss@lists.ubuntu.com
-XSBC-Original-Maintainer: Lars Wirzenius <liw@liw.fi>
+Maintainer: Debian Printing Team <debian-printing@lists.debian.org>
+Uploaders: Didier Raboud <odyx@debian.org>
 Section: text
 Priority: optional
-Standards-Version: 3.8.2
-Build-Depends: debhelper (>= 7.3.8), quilt, libcups2-dev, libcupsimage2-dev
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 7.3.8),
+               dh-autoreconf,
+               libcups2-dev,
+               libcupsimage2-dev,
+               foomatic-db-engine,
+               foomatic-db (>= 20000101),
+               pyppd (>= 0.4.9-5)
+Build-Conflicts: foomatic-db-compressed-ppds
+Vcs-Git: git://anonscm.debian.org/collab-maint/ptouch-driver.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/ptouch-driver.git
 Homepage: http://www.diku.dk/hjemmesider/ansatte/panic/P-touch/
 
 Package: ptouch-driver
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, ghostscript
 Description: CUPS/Foomatic driver for Brother P-touch label printers
- A driver for CUPS/Foomatic for Brother P-touch label printers.
-
+ The ptouch driver is an open source driver for the Brother P-touch label
+ printers, from the QL-* and PT-* series.

@@ -1,9 +1,15 @@
---- ptouch-driver-1.3.orig/driver/ptouch.xml	2010-02-16 15:43:14.000000000 +0100
-+++ ptouch-driver-1.3/driver/ptouch.xml	2010-02-16 15:43:59.000000000 +0100
-@@ -25,6 +25,15 @@
+Description: Fixes for foomatic "compliance". Also add -dNOINTERPOLATE to the
+ gs commandline, that makes it significantly faster.
+Author: Till Kamppeter <till.kamppeter@gmail.com>
+Last-Update: 2011-07-24
+--- a/driver/ptouch.xml
++++ b/driver/ptouch.xml
+@@ -24,7 +24,16 @@
+  <url></url>
   <execution>
    <filter />
-   <prototype>gs -q -dBATCH -dPARANOIDSAFER -dQUIET -dNOPAUSE -sDEVICE=cups %A%Z -sOutputFile=- - | rastertoptch dummyjob dummyuser dummytitle 1 '%B'</prototype>
+-  <prototype>gs -q -dBATCH -dPARANOIDSAFER -dQUIET -dNOPAUSE -sDEVICE=cups %A%Z -sOutputFile=- - | rastertoptch dummyjob dummyuser dummytitle 1 '%B'</prototype>
++  <prototype>gs -q -dBATCH -dPARANOIDSAFER -dQUIET -dNOPAUSE -dNOINTERPOLATE -sDEVICE=cups %A%Z -sOutputFile=- - | rastertoptch dummyjob dummyuser dummytitle 1 '%B'</prototype>
 +  <margins>
 +    <general>
 +      <unit>mm</unit>
@@ -16,8 +22,8 @@
   </execution>
   <comments>
    <en>
---- ptouch-driver-1.3.orig/printer/Brother-QL-550.xml	2010-02-16 15:46:11.000000000 +0100
-+++ ptouch-driver-1.3/printer/Brother-QL-550.xml	2010-02-16 15:48:18.675274267 +0100
+--- a/printer/Brother-QL-550.xml
++++ b/printer/Brother-QL-550.xml
 @@ -28,7 +28,7 @@
      <resolution>
        <dpi>

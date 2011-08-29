@@ -24,16 +24,7 @@ USA
  <url></url>
  <execution>
   <filter />
-  <prototype>gs -q -dBATCH -dPARANOIDSAFER -dQUIET -dNOPAUSE -dNOINTERPOLATE -sDEVICE=cups %A%Z -sOutputFile=- - | rastertoptch dummyjob dummyuser dummytitle 1 '%B'</prototype>
-  <margins>
-    <general>
-      <unit>mm</unit>
-      <left>0</left>
-      <right>0</right>
-      <top>0</top>
-      <bottom>0</bottom>
-    </general>
-  </margins>
+  <prototype>gs -q -dBATCH -dPARANOIDSAFER -dQUIET -dNOPAUSE -sDEVICE=cups %A%Z -sOutputFile=- - | rastertoptch dummyjob dummyuser dummytitle 1 '%B'</prototype>
  </execution>
  <comments>
   <en>
