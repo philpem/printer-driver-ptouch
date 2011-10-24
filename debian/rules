@@ -17,6 +17,7 @@ override_dh_auto_clean:
 	rm -rf foomatic-db
 
 override_dh_auto_install:
+ifneq (,$(filter printer-driver-ptouch, $(shell dh_listpackages)))
 	dh_auto_install --destdir=debian/printer-driver-ptouch/
 	rm -rf debian/printer-driver-ptouch/usr/share/foomatic/db/source/printer
 
@@ -32,4 +33,5 @@ override_dh_auto_install:
 ifeq ($(derives_from_ubuntu),yes)
         # Install Apport hook
 	install -D -m 644 debian/local/apport-hook.py $(CURDIR)/debian/ptouch-driver/usr/share/apport/package-hooks/source_ptouch-driver.py
+endif
 endif

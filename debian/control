@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 8.9.0~),
                libcupsimage2-dev,
                foomatic-db-engine,
                foomatic-db (>= 20000101),
-               pyppd (>= 0.4.9-5)
+               pyppd (>= 0.4.9-6~)
 Build-Conflicts: foomatic-db-compressed-ppds
 Vcs-Git: git://anonscm.debian.org/collab-maint/ptouch-driver.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/ptouch-driver.git
