@@ -17,22 +17,17 @@ override_dh_auto_clean:
 	rm -rf foomatic-db
 
 override_dh_auto_install:
-	dh_auto_install
-	rm -rf debian/ptouch-driver/usr/share/foomatic/db/source/printer
+	dh_auto_install --destdir=debian/printer-driver-ptouch/
+	rm -rf debian/printer-driver-ptouch/usr/share/foomatic/db/source/printer
 
 	# Pre-build PPD files
 	mkdir $(CURDIR)/foomatic-db
 	cp -r /usr/share/foomatic/* $(CURDIR)/foomatic-db
 	rm -f $(CURDIR)/foomatic-db/db/source/*/*ptouch*.xml
-	cp -r $(CURDIR)/debian/ptouch-driver/usr/share/foomatic/* $(CURDIR)/foomatic-db/
-	rm -rf $(CURDIR)/debian/ptouch-driver/usr/share/foomatic
-	mkdir -p $(CURDIR)/debian/ptouch-driver/usr/share/ppd
-	FOOMATICDB=$(CURDIR)/foomatic-db foomatic-compiledb -j $(NUMJOBS) -t ppd -d $(CURDIR)/debian/ptouch-driver/usr/share/ppd/ptouch-driver `ls -1 $(CURDIR)/foomatic-db/db/source/driver/*ptouch*.xml | perl -p -e 's:^.*db/source/driver/(\S*)\.xml\s*$$:\1\n:'`
-
-        # Install the ppd updater data file so that CUPS can update the
-        # PPDs of the already existing queues after each update of the 
-        # ptouch-driver package
-	install -D -m 644 debian/ptouch-driver.ppd-updater $(CURDIR)/debian/ptouch-driver/usr/share/cups/ppd-updaters/ptouch-driver
+	cp -r $(CURDIR)/debian/printer-driver-ptouch/usr/share/foomatic/* $(CURDIR)/foomatic-db/
+	rm -rf $(CURDIR)/debian/printer-driver-ptouch/usr/share/foomatic
+	mkdir -p $(CURDIR)/debian/printer-driver-ptouch/usr/share/ppd
+	FOOMATICDB=$(CURDIR)/foomatic-db foomatic-compiledb -j $(NUMJOBS) -t ppd -d $(CURDIR)/debian/printer-driver-ptouch/usr/share/ppd/ptouch-driver `ls -1 $(CURDIR)/foomatic-db/db/source/driver/*ptouch*.xml | perl -p -e 's:^.*db/source/driver/(\S*)\.xml\s*$$:\1\n:'`
 
 ifeq ($(derives_from_ubuntu),yes)
         # Install Apport hook

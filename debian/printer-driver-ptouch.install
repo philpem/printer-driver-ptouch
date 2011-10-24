@@ -1,0 +1,4 @@
+# Install the ppd updater data file so that CUPS can update the
+# PPDs of the already existing queues after each update of the 
+# ptouch-driver package
+debian/printer-driver-ptouch.ppd-updater usr/share/cups/ppd-updaters/

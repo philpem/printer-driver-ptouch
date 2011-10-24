@@ -1,0 +1,2 @@
+DRIVER_REGEXP='^printer-driver-ptouch:'
+GENNICKNAME_REGEXP=''

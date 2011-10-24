@@ -4,7 +4,7 @@ Uploaders: Didier Raboud <odyx@debian.org>
 Section: text
 Priority: optional
 Standards-Version: 3.9.2
-Build-Depends: debhelper (>= 7.3.8),
+Build-Depends: debhelper (>= 8.9.0~),
                dh-autoreconf,
                libcups2-dev,
                libcupsimage2-dev,
@@ -16,9 +16,20 @@ Vcs-Git: git://anonscm.debian.org/collab-maint/ptouch-driver.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/ptouch-driver.git
 Homepage: http://www.diku.dk/hjemmesider/ansatte/panic/P-touch/
 
-Package: ptouch-driver
+Package: printer-driver-ptouch
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, ghostscript
-Description: CUPS/Foomatic driver for Brother P-touch label printers
+Replaces: ptouch-driver (<< 1.3-2~)
+Breaks: ptouch-driver (<< 1.3-2~)
+Description: printer driver Brother P-touch label printers
  The ptouch driver is an open source driver for the Brother P-touch label
  printers, from the QL-* and PT-* series.
+
+Package: ptouch-driver
+Depends: printer-driver-ptouch, ${misc:Depends}
+Architecture: all
+Section: oldlibs
+Priority: extra
+Description: transitional dummy package for ptouch printer driver
+ This is a transitional dummy package to transition to uniformly named
+ printer-driver-ptouch.
