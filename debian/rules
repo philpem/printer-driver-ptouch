@@ -16,6 +16,9 @@ override_dh_auto_clean:
 	dh_auto_clean
 	rm -rf foomatic-db
 
+override_dh_auto_configure:
+	dh_auto_configure -- --libdir=/usr/lib
+
 override_dh_auto_install:
 ifneq (,$(filter printer-driver-ptouch, $(shell dh_listpackages)))
 	dh_auto_install --destdir=debian/printer-driver-ptouch/

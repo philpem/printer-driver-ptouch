@@ -1,3 +1,11 @@
+ptouch-driver (1.3-4) unstable; urgency=low
+
+  [ Till Kamppeter ]
+  * Don't install the cups filter in multiarch directories.
+    (Closes: #681495, LP: #990638)
+
+ -- Didier Raboud <odyx@debian.org>  Sat, 14 Jul 2012 02:33:13 +0200
+
 ptouch-driver (1.3-3) unstable; urgency=low
 
   * Update the PPD-updater regexp to cope with latest changes in dh_pyppd;
