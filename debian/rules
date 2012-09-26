@@ -22,13 +22,11 @@ override_dh_auto_configure:
 override_dh_auto_install:
 ifneq (,$(filter printer-driver-ptouch, $(shell dh_listpackages)))
 	dh_auto_install --destdir=debian/printer-driver-ptouch/
-	rm -rf debian/printer-driver-ptouch/usr/share/foomatic/db/source/printer
 
 	# Pre-build PPD files
 	mkdir $(CURDIR)/foomatic-db
-	cp -r /usr/share/foomatic/* $(CURDIR)/foomatic-db
-	rm -f $(CURDIR)/foomatic-db/db/source/*/*ptouch*.xml
 	cp -r $(CURDIR)/debian/printer-driver-ptouch/usr/share/foomatic/* $(CURDIR)/foomatic-db/
+	echo '#' > $(CURDIR)/foomatic-db/db/oldprinterids
 	rm -rf $(CURDIR)/debian/printer-driver-ptouch/usr/share/foomatic
 	mkdir -p $(CURDIR)/debian/printer-driver-ptouch/usr/share/ppd
 	FOOMATICDB=$(CURDIR)/foomatic-db foomatic-compiledb -j $(NUMJOBS) -t ppd -d $(CURDIR)/debian/printer-driver-ptouch/usr/share/ppd/ptouch-driver `ls -1 $(CURDIR)/foomatic-db/db/source/driver/*ptouch*.xml | perl -p -e 's:^.*db/source/driver/(\S*)\.xml\s*$$:\1\n:'`
