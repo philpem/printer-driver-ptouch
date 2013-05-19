@@ -3,15 +3,13 @@ Maintainer: Debian Printing Team <debian-printing@lists.debian.org>
 Uploaders: Didier Raboud <odyx@debian.org>
 Section: text
 Priority: optional
-Standards-Version: 3.9.2
+Standards-Version: 3.9.4
 Build-Depends: debhelper (>= 8.9.0~),
                dh-autoreconf,
                libcups2-dev,
                libcupsimage2-dev,
                foomatic-db-engine,
-               foomatic-db (>= 20000101),
                pyppd (>= 0.4.9-6~)
-Build-Conflicts: foomatic-db-compressed-ppds
 Vcs-Git: git://anonscm.debian.org/collab-maint/ptouch-driver.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/ptouch-driver.git
 Homepage: http://www.diku.dk/hjemmesider/ansatte/panic/P-touch/

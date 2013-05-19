@@ -1,3 +1,19 @@
+ptouch-driver (1.3-6) unstable; urgency=low
+
+  * Upload to unstable.
+
+ -- Didier Raboud <odyx@debian.org>  Sun, 19 May 2013 14:45:20 +0200
+
+ptouch-driver (1.3-5) experimental; urgency=low
+
+  [ Till Kamppeter ]
+  * Removed unneeded build dependency on foomatic-db.
+
+  [ Didier Raboud ]
+  * Bump Standards-Version to 3.9.4 without changes needed.
+
+ -- Didier Raboud <odyx@debian.org>  Wed, 26 Sep 2012 14:34:28 +0200
+
 ptouch-driver (1.3-4) unstable; urgency=low
 
   [ Till Kamppeter ]
