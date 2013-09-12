@@ -9,7 +9,7 @@ Build-Depends: debhelper (>= 8.9.0~),
                libcups2-dev,
                libcupsimage2-dev,
                foomatic-db-engine,
-               pyppd (>= 0.4.9-6~)
+               pyppd (>= 1.0.1)
 Vcs-Git: git://anonscm.debian.org/collab-maint/ptouch-driver.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/ptouch-driver.git
 Homepage: http://www.diku.dk/hjemmesider/ansatte/panic/P-touch/
