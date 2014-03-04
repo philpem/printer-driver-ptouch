@@ -685,8 +685,7 @@ emit_job_cmds (job_options_t* job_options) {
 inline void
 emit_feed_cut_mirror (bool do_feed, unsigned feed,
                       bool do_cut,
-                      bool do_mirror,
-                      xfer_t xfer_mode) {
+                      bool do_mirror) {
   /* Determine feed nibble */
   unsigned feed_nibble;
   if (do_feed) {
@@ -699,14 +698,7 @@ emit_feed_cut_mirror (bool do_feed, unsigned feed,
   /* Determine mirror print bit*/
   unsigned char mirror_bit = do_mirror ? 0x80 : 0x00;
   /* Combine & emit printer command code */
-  if (xfer_mode == ULP) {
-    /* ESC i A is Enable Cutter -- used for QL-560 only, according to
-     * <http://www.undocprint.org/formats/page_description_languages/brother_p-touch>
-     * The QL-560 (actually the whole QL series) uses ULP mode, so we check for that.
-     * The PT2450DX uses RLE and throw an INTERFACE ERROR if it sees this command.
-     */
-    putchar (ESC); putchar ('i'); putchar ('A'); putchar ((char) (do_cut ? 0x01 : 0x00));
-  }
+  putchar (ESC); putchar ('i'); putchar ('A'); putchar ((char) (do_cut ? 0x01 : 0x00));
   putchar (ESC); putchar ('i'); putchar ('M');
   putchar ((char) (feed & 0x1f) | auto_cut_bit | mirror_bit);
 }
@@ -815,8 +807,7 @@ emit_page_cmds (job_options_t* job_options,
     /* We only know how to feed after each page */
     emit_feed_cut_mirror (perform_feed == CUPS_ADVANCE_PAGE, feed,
                           cut_media == CUPS_CUT_PAGE,
-                          mirror == CUPS_TRUE,
-                          job_options->pixel_xfer == ULP);
+                          mirror == CUPS_TRUE);
   /* Set media and quality if label preamble is requested */
   unsigned page_size_y = new_page_options->page_size [1];
   unsigned image_height_px = lrint (page_size_y * vres / 72.0);
@@ -1536,8 +1527,7 @@ process_rasterdata (int fd, job_options_t* job_options) {
            perform_feed == CUPS_ADVANCE_JOB,
            new_page_options->feed,
            cut_media == CUPS_CUT_PAGE || cut_media == CUPS_CUT_JOB,
-           new_page_options->mirror == CUPS_TRUE,
-           job_options->pixel_xfer);
+           new_page_options->mirror == CUPS_TRUE);
         /* Emit eject marker */
         putchar (PTC_EJECT);
       }

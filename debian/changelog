@@ -1,3 +1,11 @@
+ptouch-driver (1.3-7ubuntu1) trusty; urgency=low
+
+  * Add send-esc-i-A-for-QL-only.patch which prevents rastertoptch from
+    sending the "ESC i A" command to printers which do not support it
+    (Closes: #740789, LP: #1287971).
+
+ -- Philip Pemberton <philpem@philpem.me.uk>  Tue, 04 Mar 2014 23:04:13 +0000
+
 ptouch-driver (1.3-7) unstable; urgency=low
 
   * Rebuild against pyppd >= 1.0.1
