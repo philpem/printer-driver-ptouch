@@ -1,3 +1,15 @@
+ptouch-driver (1.3-8) unstable; urgency=medium
+
+  [ Philip Pemberton ]
+  * Rewrite the patch to send the 'ESC i A' command to only let rastertoptch
+    send it to printers that do support it (Closes: #740789, LP: #1287971)
+
+  [ Didier Raboud ]
+  * Move the repository from collab-maint to printing; update the VCS-* fields
+    accordingly
+
+ -- Didier Raboud <odyx@debian.org>  Thu, 06 Mar 2014 16:23:54 +0100
+
 ptouch-driver (1.3-7) unstable; urgency=low
 
   * Rebuild against pyppd >= 1.0.1
