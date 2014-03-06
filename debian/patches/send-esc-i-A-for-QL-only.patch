@@ -1,7 +1,14 @@
-Index: ptouch-driver/rastertoptch.c
-===================================================================
---- ptouch-driver.orig/rastertoptch.c	2014-03-04 22:51:59.000000000 +0000
-+++ ptouch-driver/rastertoptch.c	2014-03-04 22:59:53.000000000 +0000
+Description: The QL-specific command (ESC i A "Enable Cutter") needs to
+ be sent to the printer so that cutting happens, but it only needs to be
+ sent to QL-series device.
+Bugs-Ubuntu: LP: #635249.
+Bugs-Ubuntu: https://bugs.launchpad.net/bugs/1287971
+Bugs-Debian: https://bugs.debian.org/740789
+Author: Till Kamppeter <till.kamppeter@gmail.com>
+Author: Philip Pemberton <philpem@philpem.me.uk>
+Last-Update: 2014-03-05
+--- a/rastertoptch.c
++++ b/rastertoptch.c
 @@ -685,7 +685,8 @@
  inline void
  emit_feed_cut_mirror (bool do_feed, unsigned feed,
@@ -12,11 +19,10 @@ Index: ptouch-driver/rastertoptch.c
    /* Determine feed nibble */
    unsigned feed_nibble;
    if (do_feed) {
-@@ -698,7 +699,14 @@
+@@ -698,6 +699,14 @@
    /* Determine mirror print bit*/
    unsigned char mirror_bit = do_mirror ? 0x80 : 0x00;
    /* Combine & emit printer command code */
--  putchar (ESC); putchar ('i'); putchar ('A'); putchar ((char) (do_cut ? 0x01 : 0x00));
 +  if (xfer_mode == ULP) {
 +    /* ESC i A is Enable Cutter -- used for QL-560 only, according to
 +     * <http://www.undocprint.org/formats/page_description_languages/brother_p-touch>
@@ -28,7 +34,7 @@ Index: ptouch-driver/rastertoptch.c
    putchar (ESC); putchar ('i'); putchar ('M');
    putchar ((char) (feed & 0x1f) | auto_cut_bit | mirror_bit);
  }
-@@ -807,7 +815,8 @@
+@@ -806,7 +815,8 @@
      /* We only know how to feed after each page */
      emit_feed_cut_mirror (perform_feed == CUPS_ADVANCE_PAGE, feed,
                            cut_media == CUPS_CUT_PAGE,
@@ -38,7 +44,7 @@ Index: ptouch-driver/rastertoptch.c
    /* Set media and quality if label preamble is requested */
    unsigned page_size_y = new_page_options->page_size [1];
    unsigned image_height_px = lrint (page_size_y * vres / 72.0);
-@@ -1527,7 +1536,8 @@
+@@ -1526,7 +1536,8 @@
             perform_feed == CUPS_ADVANCE_JOB,
             new_page_options->feed,
             cut_media == CUPS_CUT_PAGE || cut_media == CUPS_CUT_JOB,

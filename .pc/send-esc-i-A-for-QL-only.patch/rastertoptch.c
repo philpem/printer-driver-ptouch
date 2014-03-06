@@ -698,7 +698,6 @@ emit_feed_cut_mirror (bool do_feed, unsigned feed,
   /* Determine mirror print bit*/
   unsigned char mirror_bit = do_mirror ? 0x80 : 0x00;
   /* Combine & emit printer command code */
-  putchar (ESC); putchar ('i'); putchar ('A'); putchar ((char) (do_cut ? 0x01 : 0x00));
   putchar (ESC); putchar ('i'); putchar ('M');
   putchar ((char) (feed & 0x1f) | auto_cut_bit | mirror_bit);
 }
