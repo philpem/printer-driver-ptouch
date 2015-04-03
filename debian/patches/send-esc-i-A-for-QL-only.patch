@@ -40,7 +40,7 @@ Last-Update: 2014-03-05
                            cut_media == CUPS_CUT_PAGE,
 -                          mirror == CUPS_TRUE);
 +                          mirror == CUPS_TRUE,
-+                          job_options->pixel_xfer == ULP);
++                          job_options->pixel_xfer);
    /* Set media and quality if label preamble is requested */
    unsigned page_size_y = new_page_options->page_size [1];
    unsigned image_height_px = lrint (page_size_y * vres / 72.0);
