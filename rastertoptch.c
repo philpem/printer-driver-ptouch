@@ -432,6 +432,7 @@ typedef struct {
   int label_preamble;   /**< emit ESC i z ...                     */
   bool concat_pages;    /**< remove interlabel margins            */
   unsigned long rle_alloc_max; /**< max bytes used for rle_buffer */
+  bool roll_fed_media;     /**< continuous (not labels) roll media */
 } job_options_t;
 
 /**
@@ -440,7 +441,6 @@ typedef struct {
 typedef struct {
   cups_cut_t cut_media;    /**< cut media mode                     */
   cups_bool_t mirror;      /**< mirror printing                    */
-  bool roll_fed_media;     /**< continuous (not labels) roll media */
   unsigned resolution [2]; /**< horiz & vertical resolution in DPI */
   unsigned page_size [2];  /**< width & height of page in points   */
   unsigned image_height;   /**< height of page image in pixels     */
@@ -469,12 +469,40 @@ parse_options (int argc, const char* argv []) {
     LABEL_PREAMBLE_DEFAULT,
     CONCAT_PAGES_DEFAULT,
     RLE_ALLOC_MAX_DEFAULT,
+    ROLL_FED_MEDIA_DEFAULT,
   };
   if (argc < 6) return options;
   int num_options = 0;
   cups_option_t* cups_options = NULL;
+  ppd_file_t		*ppd;		/* PPD file */
   num_options
     = cupsParseOptions (argv [5], num_options, &cups_options);
+
+  // Load job options from the PPD file
+  ppd = ppdOpenFile(getenv("PPD"));
+  if (!ppd) {
+    ppd_status_t	status;		/* PPD error */
+    int			linenum;	/* Line number */
+
+    fprintf(stderr, "ERROR: The PPD file could not be opened.");
+
+    status = ppdLastError(&linenum);
+
+    fprintf(stderr, "DEBUG: %s on line %d.\n", ppdErrorString(status), linenum);
+
+    exit(EXIT_FAILURE);
+  }
+  ppdMarkDefaults(ppd);
+  cupsMarkOptions(ppd, num_options, cups_options);
+
+  // Use PPD API to decode RollFedMedia choice
+    ppd_choice_t *choice = ppdFindMarkedChoice(ppd, "RollFedMedia");
+    fprintf(stderr, "DEBUG: Markedchoice for roll fed media is '%s', text '%s'\n", choice->choice, choice->text);
+    options.roll_fed_media /* Default is continuous roll */
+      = (strcasecmp ("Labels", choice->choice) != 0);
+
+
+  // FIXME use PPD API
   const char* cups_option
     = cupsGetOption ("PixelXfer", num_options, cups_options);
   if (cups_option) {
@@ -526,8 +554,12 @@ parse_options (int argc, const char* argv []) {
   OBTAIN_INT_OPTION ("TransferMode", xfer_mode, 0, 255);
   OBTAIN_BOOL_OPTION ("SoftwareMirror", software_mirror);
   OBTAIN_BOOL_OPTION ("LabelPreamble", label_preamble);
-  /* Release memory allocated for CUPS options struct */
+
+  /* Close the PPD file and
+   * Release memory allocated for CUPS options struct */
+  ppdClose(ppd);
   cupsFreeOptions (num_options, cups_options);
+
   return options;
 }
 
@@ -559,13 +591,11 @@ open_input_file (int argc, const char* argv []) {
  * @param page_options  page options to be updated
  */
 void
-update_page_options (cups_page_header_t* header,
+update_page_options (cups_page_header2_t* header,
                      page_options_t* page_options) {
   page_options->cut_media = header->CutMedia;
   page_options->mirror = header->MirrorPrint;
   const char* media_type = header->MediaType;
-  page_options->roll_fed_media /* Default is continuous roll */
-    = (strcasecmp ("Labels", media_type) != 0);
   page_options->resolution [0] = header->HWResolution [0];
   page_options->resolution [1] = header->HWResolution [1];
   page_options->page_size [0] = header->PageSize [0];
@@ -723,7 +753,7 @@ emit_quality_rollfed_size (job_options_t* job_options,
                            page_options_t* page_options,
                            unsigned page_size_y,
                            unsigned image_height_px) {
-  bool roll_fed_media = page_options->roll_fed_media;
+  bool roll_fed_media = job_options->roll_fed_media;
   /* Determine print quality bit */
   unsigned char print_quality_bit
     = (job_options->print_quality_high == CUPS_TRUE) ? 0x40 : 0x00;
@@ -816,14 +846,12 @@ emit_page_cmds (job_options_t* job_options,
     emit_feed_cut_mirror (perform_feed == CUPS_ADVANCE_PAGE, feed,
                           cut_media == CUPS_CUT_PAGE,
                           mirror == CUPS_TRUE,
-                          job_options->pixel_xfer);
+                          job_options->pixel_xfer == ULP);
   /* Set media and quality if label preamble is requested */
   unsigned page_size_y = new_page_options->page_size [1];
   unsigned image_height_px = lrint (page_size_y * vres / 72.0);
   if (job_options->label_preamble && !job_options->concat_pages
       && (force
-          || (new_page_options->roll_fed_media
-              != old_page_options->roll_fed_media)
           || new_page_size_x != old_page_size_x
           || page_size_y != old_page_options->page_size [1]))
     emit_quality_rollfed_size (job_options, new_page_options,
@@ -917,7 +945,7 @@ generate_emit_line (unsigned char* in_buffer,
 #ifdef DEBUG
   if (debug)
     fprintf (stderr, "DEBUG: generate_emit_line "
-             "(in_buffer=%0x, out_buffer=%0x, "
+             "(in_buffer=%p, out_buffer=%p, "
              "buflen=%d, bytes_per_line=%d, right_padding_bytes=%d, "
              "shift=%d, do_mirror=%d, xormask=%0x)\n",
              in_buffer, out_buffer, buflen, bytes_per_line,
@@ -1078,7 +1106,7 @@ ensure_rle_buf_space (job_options_t* job_options,
 #ifdef DEBUG
   if (debug)
     fprintf (stderr, "DEBUG: ensure_rle_buf_space (bytes=%d): "
-             "increasing rle_buffer from %d to %d\n",
+             "increasing rle_buffer from %zu to %zu\n",
              bytes,
              rle_alloced * sizeof (char),
              new_alloced * sizeof (char));
@@ -1301,7 +1329,7 @@ emit_raster_lines (int page,
                    job_options_t* job_options,
                    page_options_t* page_options,
                    cups_raster_t* ras,
-                   cups_page_header_t* header) {
+                   cups_page_header2_t* header) {
   unsigned char xormask = (header->NegativePrint ? ~0 : 0);
   /* Determine whether we need to mirror the pixel data */
   int do_mirror = job_options->software_mirror && page_options->mirror;
@@ -1433,14 +1461,13 @@ int
 process_rasterdata (int fd, job_options_t* job_options) {
   int page = 1;                    /* Page number                   */
   cups_raster_t* ras;              /* Raster stream for printing    */
-  cups_page_header_t header;       /* Current page header           */
+  cups_page_header2_t header;       /* Current page header           */
   int first_page = true;           /* Is this the first page?       */
   int more_pages;                  /* Are there more pages left?    */
   int bytes_per_line = job_options->bytes_per_line;
   page_options_t page_options [2] = {{
     CUT_MEDIA_DEFAULT,
     MIRROR_DEFAULT,
-    ROLL_FED_MEDIA_DEFAULT,
     RESOLUTION_DEFAULT,
     PAGE_SIZE_DEFAULT,
     IMAGE_HEIGHT_DEFAULT,
@@ -1453,7 +1480,7 @@ process_rasterdata (int fd, job_options_t* job_options) {
     = page_options + 1;            /* Options for preceding page    */
   page_options_t* tmp_page_options;/* Temp variable for swapping    */
   ras = cupsRasterOpen (fd, CUPS_RASTER_READ);
-  for (more_pages = cupsRasterReadHeader (ras, &header);
+  for (more_pages = cupsRasterReadHeader2 (ras, &header);
        more_pages;
        tmp_page_options = old_page_options,
          old_page_options = new_page_options,
@@ -1462,6 +1489,7 @@ process_rasterdata (int fd, job_options_t* job_options) {
     update_page_options (&header, new_page_options);
 #ifdef DEBUG
     if (debug) {
+      fprintf (stderr, "DEBUG: MediaType = %s\n", header.MediaType);
       fprintf (stderr, "DEBUG: pixel_xfer = %d\n", job_options->pixel_xfer);
       fprintf (stderr, "DEBUG: print_quality_high = %d\n", job_options->print_quality_high);
       fprintf (stderr, "DEBUG: half_cut = %d\n", job_options->half_cut);
@@ -1474,7 +1502,7 @@ process_rasterdata (int fd, job_options_t* job_options) {
       fprintf (stderr, "DEBUG: concat_pages = %d\n", job_options->concat_pages);
       fprintf (stderr, "DEBUG: cut_media = %d\n", new_page_options->cut_media);
       fprintf (stderr, "DEBUG: mirror = %d\n", new_page_options->mirror);
-      fprintf (stderr, "DEBUG: roll_fed_media = %d\n", new_page_options->roll_fed_media);
+      fprintf (stderr, "DEBUG: roll_fed_media = %d\n", job_options->roll_fed_media);
       fprintf (stderr, "DEBUG: resolution = %d x %d\n", new_page_options->resolution [0], new_page_options->resolution [1]);
       fprintf (stderr, "DEBUG: page_size = %d x %d\n", new_page_options->page_size [0], new_page_options->page_size [1]);
       fprintf (stderr, "DEBUG: image_height = %d\n", new_page_options->image_height);
@@ -1496,7 +1524,7 @@ process_rasterdata (int fd, job_options_t* job_options) {
     emit_raster_lines (page, job_options, new_page_options, ras, &header);
     unsigned char xormask = (header.NegativePrint ? ~0 : 0);
     /* Determine whether this is the last page (fetch next)    */
-    more_pages = cupsRasterReadHeader (ras, &header);
+    more_pages = cupsRasterReadHeader2 (ras, &header);
     /* Do feeding or ejecting at the end of each page. */
     cups_adv_t perform_feed = new_page_options->perform_feed;
     if (more_pages) {
