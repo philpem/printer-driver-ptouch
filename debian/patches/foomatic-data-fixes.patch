@@ -22,14 +22,3 @@ Last-Update: 2011-07-24
   </execution>
   <comments>
    <en>
---- a/printer/Brother-QL-550.xml
-+++ b/printer/Brother-QL-550.xml
-@@ -28,7 +28,7 @@
-     <resolution>
-       <dpi>
-         <x>300</x>
--        <y>300</y>
-+        <y>275</y>
-       </dpi>
-     </resolution>
-     <consumables>
