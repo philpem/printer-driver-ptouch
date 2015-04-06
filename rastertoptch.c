@@ -879,6 +879,7 @@ emit_page_cmds (job_options_t* job_options,
   /* Set media and quality if label preamble is requested */
   unsigned page_size_y = new_page_options->page_size [1];
   unsigned image_height_px = lrint (page_size_y * vres / 72.0);
+
   if (job_options->label_preamble && !job_options->concat_pages
       && (force
           || new_page_size_x != old_page_size_x
@@ -1580,7 +1581,6 @@ process_rasterdata (int fd, job_options_t* job_options) {
           (job_options, page_options, empty_lines, xormask);
         empty_lines = 0;
         flush_rle_buffer (job_options, page_options);
-        putchar (PTC_FORMFEED);
       } else {
         double scale_pt2ypixels = header.HWResolution [1] / 72.0;
         unsigned bot_empty_lines
@@ -1594,16 +1594,10 @@ process_rasterdata (int fd, job_options_t* job_options) {
 
       /* If special feed or cut at job end, emit commands to that effect */
       cups_cut_t cut_media = new_page_options->cut_media;
-      if (perform_feed == CUPS_ADVANCE_JOB || cut_media == CUPS_CUT_JOB) {
-        emit_feed_cut_mirror
-          (perform_feed == CUPS_ADVANCE_PAGE ||
-           perform_feed == CUPS_ADVANCE_JOB,
-           new_page_options->feed,
-           cut_media == CUPS_CUT_PAGE || cut_media == CUPS_CUT_JOB,
-           new_page_options->mirror == CUPS_TRUE,
-           job_options->pixel_xfer);
-        /* Emit eject marker */
+      if (perform_feed == CUPS_ADVANCE_JOB || cut_media == CUPS_CUT_JOB || perform_feed == CUPS_ADVANCE_PAGE) {
         putchar (PTC_EJECT);
+      } else {
+        putchar (PTC_FORMFEED);
       }
     }
     page_end ();
