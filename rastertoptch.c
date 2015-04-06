@@ -795,6 +795,16 @@ emit_quality_rollfed_size (job_options_t* job_options,
   putchar ((image_height_px >> 24) & 0xff);
   putchar (0x00);   // n9 -- FIXME: 0 for first page, 1 for other pages
   putchar (0x00);   // n10, always 0
+
+  /* Send a SET MARGIN command */
+  putchar(ESC); putchar('i'); putchar('d');
+  if (roll_fed_media) {
+    /* Continuous tape, specify 35 dots (3mm) */
+    putchar(35); putchar(0);
+  } else {
+    /* Die-cut labels, specify no margin */
+    putchar(0); putchar(0);
+  }
 }
 /**
  * Emit printer command codes at start of page for options that have
