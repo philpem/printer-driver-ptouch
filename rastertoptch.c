@@ -875,7 +875,7 @@ emit_page_cmds (job_options_t* job_options,
     emit_feed_cut_mirror (perform_feed == CUPS_ADVANCE_PAGE, feed,
                           cut_media == CUPS_CUT_PAGE,
                           mirror == CUPS_TRUE,
-                          job_options->pixel_xfer == ULP);
+                          job_options->pixel_xfer);
 
   unsigned page_size_y = new_page_options->page_size [1];
   unsigned image_height_px = lrint (page_size_y * vres / 72.0);
