@@ -603,6 +603,15 @@ update_page_options (cups_page_header2_t* header,
   page_options->image_height = header->cupsHeight;
   page_options->feed = header->AdvanceDistance;
   page_options->perform_feed = header->AdvanceMedia;
+
+  fprintf(stderr, "DEBUG: ==== PAGE OPTIONS ====\n");
+  fprintf(stderr, "DEBUG: Cut Media = %d\n", header->CutMedia);
+  fprintf(stderr, "DEBUG: Media Type = [%s]\n", header->MediaType);
+  fprintf(stderr, "DEBUG: Resolution = [%d %d]\n", header->HWResolution[0], header->HWResolution[1]);
+  fprintf(stderr, "DEBUG: PageSize = [%d %d]\n", header->PageSize[0], header->PageSize[1]);
+  fprintf(stderr, "DEBUG: ImageHeight (header->cupsHeight) = %d\n", header->cupsHeight);
+  fprintf(stderr, "DEBUG: Advance Distance = %d\n", header->AdvanceDistance);
+  fprintf(stderr, "DEBUG: Advance Media = %d\n", header->AdvanceMedia);
 }
 
 void cancel_job (int signal);
@@ -1420,8 +1429,10 @@ emit_raster_lines (int page,
     unsigned top_distance_pt
       = page_size_y - header->ImagingBoundingBox [3];
     if (top_distance_pt != 0) {
+      fprintf(stderr, "DEBUG: philpem -- Top distance pt nonzero, %d\n", top_distance_pt);
       top_empty_lines = lrint (top_distance_pt * scale_pt2ypixels);
-      empty_lines += top_empty_lines;
+      fprintf(stderr, "DEBUG: philpem -- Top empty lines %d\n", top_empty_lines);
+      //empty_lines += top_empty_lines;
     }
   }
   /* Generate and store actual page data */
@@ -1462,6 +1473,11 @@ emit_raster_lines (int page,
     bot_empty_lines = image_height_px - top_empty_lines - y;
   else
     bot_empty_lines = 0;
+
+
+  fprintf(stderr, "DEBUG: philpem -- Bottom empty lines %d\n", bot_empty_lines);
+  bot_empty_lines = 0;
+
   if (bot_empty_lines != 0 && !job_options->concat_pages)
     empty_lines += bot_empty_lines;
   fprintf (stderr,
