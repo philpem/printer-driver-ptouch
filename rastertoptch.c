@@ -876,18 +876,9 @@ emit_page_cmds (job_options_t* job_options,
                           cut_media == CUPS_CUT_PAGE,
                           mirror == CUPS_TRUE,
                           job_options->pixel_xfer == ULP);
-  /* Set media and quality if label preamble is requested */
+
   unsigned page_size_y = new_page_options->page_size [1];
   unsigned image_height_px = lrint (page_size_y * vres / 72.0);
-
-  if (job_options->label_preamble && !job_options->concat_pages
-      && (force
-          || new_page_size_x != old_page_size_x
-          || page_size_y != old_page_options->page_size [1]))
-    emit_quality_rollfed_size (job_options, new_page_options,
-                               page_size_y, image_height_px);
-
-  /* WHY DON'T WE SET MARGIN (ESC i d ...)? */
 
   /* Set pixel data transfer compression */
   if (force) {
