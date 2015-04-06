@@ -756,7 +756,7 @@ emit_quality_rollfed_size (job_options_t* job_options,
   putchar ((image_height_px >> 8) & 0xff);
   putchar ((image_height_px >> 16) & 0xff);
   putchar ((image_height_px >> 24) & 0xff);
-  putchar (0x00);   // n9 -- FIXME: 0 for first page, 1 for other pages
+  putchar (job_options->page != 1);   // n9: 0 for first page, 1 for other pages
   putchar (0x00);   // n10, always 0
 }
 /**
