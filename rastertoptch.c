@@ -753,11 +753,16 @@ emit_quality_rollfed_size (job_options_t* job_options,
                            page_options_t* page_options,
                            unsigned page_size_y,
                            unsigned image_height_px) {
+
+  const unsigned char PI_KIND = 0x02;   // Paper type (roll fed media bit) is valid
+  const unsigned char PI_WIDTH = 0x04;  // Paper width is valid
+  const unsigned char PI_LENGTH = 0x08; // Paper length is valid
+
   bool roll_fed_media = job_options->roll_fed_media;
   /* Determine print quality bit */
   unsigned char print_quality_bit
     = (job_options->print_quality_high == CUPS_TRUE) ? 0x40 : 0x00;
-  unsigned char roll_fed_media_bit = roll_fed_media ? 0x00 : 0x01;
+  unsigned char paper_type_id = roll_fed_media ? 0x0A : 0x0B;
   /* Get tape width in mm */
   int tape_width_mm = lrint (page_options->page_size [0] * MM_PER_PT);
   if (tape_width_mm > 0xff) {
@@ -780,11 +785,16 @@ emit_quality_rollfed_size (job_options_t* job_options,
   }
   /* Combine & emit printer command code */
   putchar (ESC); putchar ('i'); putchar ('z');
-  putchar (print_quality_bit); putchar (roll_fed_media_bit);
-  putchar (tape_width_mm & 0xff); putchar (tape_height_mm & 0xff);
+  putchar (print_quality_bit | PI_KIND | PI_WIDTH | PI_LENGTH);
+  putchar (paper_type_id);
+  putchar (tape_width_mm & 0xff);
+  putchar (tape_height_mm & 0xff);
   putchar (image_height_px & 0xff);
   putchar ((image_height_px >> 8) & 0xff);
-  putchar (0x00); putchar (0x00); putchar (0x00); putchar (0x00);
+  putchar ((image_height_px >> 16) & 0xff);
+  putchar ((image_height_px >> 24) & 0xff);
+  putchar (0x00);   // n9 -- FIXME: 0 for first page, 1 for other pages
+  putchar (0x00);   // n10, always 0
 }
 /**
  * Emit printer command codes at start of page for options that have
