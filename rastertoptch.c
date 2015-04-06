@@ -693,6 +693,13 @@ cancel_job (int signal) {
  */
 void
 emit_job_cmds (job_options_t* job_options) {
+  /* Send 350 bytes of NULL to clear print buffer in case an error occurred
+   * previously. The printer ignores 0x00 bytes if it's waiting for a command.
+   */
+  int i;
+  for (i=0; i<350; i++) {
+    putchar(0x00);
+  }
   /* Initialise printer */
   putchar (ESC); putchar ('@');
   /* Emit print density selection command if required */
