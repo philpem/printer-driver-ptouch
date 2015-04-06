@@ -31,6 +31,15 @@ USA
         <y>300</y>
       </dpi>
     </resolution>
+    <margins>
+      <general>
+        <unit>mm</unit>
+        <top>3</top>
+        <bottom>3</bottom>
+        <left>1.5</left>
+        <right>1.5</right>
+      </general>
+    </margins>
     <consumables>
       <comments>
         <en>
