@@ -763,6 +763,9 @@ emit_quality_rollfed_size (job_options_t* job_options,
                            unsigned page_size_y,
                            unsigned image_height_px) {
 
+  static bool first_page = true;  // True if this is the first page
+                                  // (this function is only called once per page)
+
   const unsigned char PI_KIND = 0x02;   // Paper type (roll fed media bit) is valid
   const unsigned char PI_WIDTH = 0x04;  // Paper width is valid
   const unsigned char PI_LENGTH = 0x08; // Paper length is valid
@@ -802,8 +805,10 @@ emit_quality_rollfed_size (job_options_t* job_options,
   putchar ((image_height_px >> 8) & 0xff);
   putchar ((image_height_px >> 16) & 0xff);
   putchar ((image_height_px >> 24) & 0xff);
-  putchar (0x00);   // n9 -- FIXME: 0 for first page, 1 for other pages
+  putchar (first_page ? 0x00 : 0x01);   // n9: 0 for first page, 1 for other pages
   putchar (0x00);   // n10, always 0
+
+  first_page = false;
 
   /* Send a SET MARGIN command */
   putchar(ESC); putchar('i'); putchar('d');
