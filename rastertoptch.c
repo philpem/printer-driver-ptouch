@@ -297,8 +297,6 @@
 #define IMAGE_HEIGHT_DEFAULT       0
 /** Feed amount default */
 #define FEED_DEFAULT               0
-/** When to perform feed default */
-#define PERFORM_FEED_DEFAULT       CUPS_ADVANCE_NONE
 
 #include <config.h>
 #include <stdio.h>
@@ -445,7 +443,6 @@ typedef struct {
   unsigned page_size [2];  /**< width & height of page in points   */
   unsigned image_height;   /**< height of page image in pixels     */
   unsigned feed;           /**< feed size in points                */
-  cups_adv_t perform_feed; /**< When to feed                       */
 } page_options_t;
 
 /**
@@ -602,7 +599,6 @@ update_page_options (cups_page_header2_t* header,
   page_options->page_size [1] = header->PageSize [1];
   page_options->image_height = header->cupsHeight;
   page_options->feed = header->AdvanceDistance;
-  page_options->perform_feed = header->AdvanceMedia;
 
   fprintf(stderr, "DEBUG: ==== PAGE OPTIONS ====\n");
   fprintf(stderr, "DEBUG: Cut Media = %d\n", header->CutMedia);
@@ -875,16 +871,14 @@ emit_page_cmds (job_options_t* job_options,
 
   /* Set feed, auto cut and mirror print */
   unsigned feed = new_page_options->feed;
-  cups_adv_t perform_feed = new_page_options->perform_feed;
   cups_cut_t cut_media = new_page_options->cut_media;
   cups_bool_t mirror = new_page_options->mirror;
   if (force
       || feed != old_page_options->feed
-      || perform_feed != old_page_options->perform_feed
       || cut_media != old_page_options->cut_media
       || mirror != old_page_options->mirror)
     /* We only know how to feed after each page */
-    emit_feed_cut_mirror (perform_feed == CUPS_ADVANCE_PAGE, feed,
+    emit_feed_cut_mirror (false, feed,
                           cut_media == CUPS_CUT_PAGE,
                           mirror == CUPS_TRUE,
                           job_options->pixel_xfer);
@@ -1511,8 +1505,7 @@ process_rasterdata (int fd, job_options_t* job_options) {
     RESOLUTION_DEFAULT,
     PAGE_SIZE_DEFAULT,
     IMAGE_HEIGHT_DEFAULT,
-    FEED_DEFAULT,
-    PERFORM_FEED_DEFAULT,}
+    FEED_DEFAULT,}
   };                               /* Current & preceding page opts */
   page_options_t* new_page_options
     = page_options + 0;            /* Options for current page      */
@@ -1547,7 +1540,6 @@ process_rasterdata (int fd, job_options_t* job_options) {
       fprintf (stderr, "DEBUG: page_size = %d x %d\n", new_page_options->page_size [0], new_page_options->page_size [1]);
       fprintf (stderr, "DEBUG: image_height = %d\n", new_page_options->image_height);
       fprintf (stderr, "DEBUG: feed = %d\n", new_page_options->feed);
-      fprintf (stderr, "DEBUG: perform_feed = %d\n", new_page_options->perform_feed);
       fprintf (stderr, "DEBUG: header->ImagingBoundingBox = [%u, %u, %u, %u]\n",
                header.ImagingBoundingBox [0], header.ImagingBoundingBox [1],
                header.ImagingBoundingBox [2], header.ImagingBoundingBox [3]);
@@ -1566,17 +1558,13 @@ process_rasterdata (int fd, job_options_t* job_options) {
     /* Determine whether this is the last page (fetch next)    */
     more_pages = cupsRasterReadHeader2 (ras, &header);
     /* Do feeding or ejecting at the end of each page. */
-    cups_adv_t perform_feed = new_page_options->perform_feed;
     if (more_pages) {
       if (!job_options->concat_pages) {
         RLE_store_empty_lines
           (job_options, page_options, empty_lines, xormask);
         empty_lines = 0;
         flush_rle_buffer (job_options, page_options);
-        if (perform_feed == CUPS_ADVANCE_PAGE)
-          putchar (PTC_EJECT);    /* Emit eject marker to force feed   */
-        else
-          putchar (PTC_FORMFEED); /* Emit page end marker without feed */
+        putchar (PTC_FORMFEED); /* Emit page end marker without feed */
       }
     } else {
       if (!job_options->concat_pages) {
@@ -1595,13 +1583,8 @@ process_rasterdata (int fd, job_options_t* job_options) {
         flush_rle_buffer (job_options, page_options);
       }
 
-      /* If special feed or cut at job end, emit commands to that effect */
-      cups_cut_t cut_media = new_page_options->cut_media;
-      if (perform_feed == CUPS_ADVANCE_JOB || cut_media == CUPS_CUT_JOB || perform_feed == CUPS_ADVANCE_PAGE) {
-        putchar (PTC_EJECT);
-      } else {
-        putchar (PTC_FORMFEED);
-      }
+      /* End of last page, send Eject command */
+      putchar (PTC_EJECT);
     }
     page_end ();
     /* Emit page count according to CUPS requirements */
