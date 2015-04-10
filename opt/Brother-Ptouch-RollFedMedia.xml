@@ -41,19 +41,6 @@ USA
     </constraint>
   </constraints>
   <enum_vals>
-   <enum_val id="ev/Auto">
-    <ev_longname>
-     <en>Automatically determined by page size</en>
-    </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
-    <ev_shortname>
-     <en>Auto</en>
-     <!-- Until someone tells me how to learn the user locale in 
-          backends, the shortname must be monolingual in <en>! -->
-    </ev_shortname>
-    <ev_driverval></ev_driverval>
-   </enum_val>
    <enum_val id="ev/Roll">
     <ev_longname>
      <en>Continuous roll</en>
