@@ -5,6 +5,9 @@
 This is ptouch-driver, a printer driver based on CUPS and foomatic,
 for the Brother P-touch label printer family.
 
+ptouch-driver was originally developed by Arne John Glenstrup. Maintenance
+has (as of September 2015) been taken over by Phil Pemberton.
+
 See the file `INSTALL' for directions on how to install this software.
 
 After installing, you will probably have to reload or restart CUPS.
@@ -23,6 +26,7 @@ Brother Industries, Ltd.
 
 -----
 
+Copyright (c) 2015-2016 Philip Pemberton <philpem@philpem.me.uk>
 Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
 
 This file is part of ptouch-driver.
