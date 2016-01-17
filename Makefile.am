@@ -26,6 +26,7 @@ DRIVERS				= driver/ptouch-pt.xml \
 				  driver/ptouch-ql.xml
 PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-QL-550.xml \
+				  printer/Brother-QL-570.xml \
 				  printer/Brother-QL-650TD.xml \
 				  printer/Brother-PT-PC.xml \
 				  printer/Brother-PT-18R.xml \
