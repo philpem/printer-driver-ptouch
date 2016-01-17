@@ -1,2 +1,0 @@
-# This is needed for "auto-buildflags"
-package-needs-versioned-debhelper-build-depends 9
