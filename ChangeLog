@@ -1,3 +1,15 @@
+2016-01-17  Phil Pemberton  <philpem@philpem.me.uk>
+
+	* Removed Debian packaging files from main source tarball. These are now
+	  on the debian_package branch in case they're needed in future.
+
+	* Merge in changes (Foomatic data fixes) from Ubuntu/Debian Printing Teams
+
+	* Merge in "ESC i A" (enable cutter) patch
+
+	* Tagged as V1.4
+
+
 2009-02-04  Arne John Glenstrup  <panic@arnesthinkpad>
 
 	* rastertoptch.c:
