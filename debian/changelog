@@ -1,3 +1,10 @@
+ptouch-driver (1.4) unstable; urgency=medium
+
+  * Merge everything into mainline and remove the patches as they're no longer
+    needed.
+
+ -- Philip Pemberton <philpem@philpem.me.uk>  Sun, 17 Jan 2016 10:19:12 +0000
+
 ptouch-driver (1.3-8ubuntu1) unstable; urgency=medium
 
   * Fix the "ESC i A" (enable cutter) command patch to correctly send only on
