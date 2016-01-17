@@ -1,0 +1,44 @@
+New in 1.1:
+* Added checks for cups headers in the configuration stuff
+New in 1.0:
+* Added ConcatPages option
+New in 0.13:
+* Bug fixes should make PT-* series printers work better
+New in 0.12:
+* Bug fixes
+New in 0.11:
+* Moved rastertoptch to /usr/bin
+New in 0.10:
+* Bug fixes
+New in 0.9:
+* History:
+  - This is the initial version.
+  - It was written from scratch by Arne John Glenstrup, inspired from
+    work done by Renaud Bompuis (http://etc.nkadesign.com/) on
+    analysing the printer command codes for Brother P-touch QL-550,
+    and work done by Geoffrey Teale on a printer driver for Brother
+    P-touch 2420PC.
+* Missing features:
+  - Probably numerous, but mainly support for PT-PC and any other
+    (probaly old) printers that use bit image printing.
+
+-----
+
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA

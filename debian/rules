@@ -1,0 +1,38 @@
+#!/usr/bin/make -f
+
+derives_from_ubuntu := $(shell (dpkg-vendor --derives-from Ubuntu && echo "yes") || echo "no")
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+else
+	# Faster when testing on modern desktops, 1 task takes less than a full CPU
+	NUMJOBS = 4
+endif
+
+%:
+	dh $@ --with autoreconf --with pyppd --parallel
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf foomatic-db
+
+override_dh_auto_configure:
+	dh_auto_configure -- --libdir=/usr/lib
+
+override_dh_auto_install:
+ifneq (,$(filter printer-driver-ptouch, $(shell dh_listpackages)))
+	dh_auto_install --destdir=debian/printer-driver-ptouch/
+
+	# Pre-build PPD files
+	mkdir $(CURDIR)/foomatic-db
+	cp -r $(CURDIR)/debian/printer-driver-ptouch/usr/share/foomatic/* $(CURDIR)/foomatic-db/
+	echo '#' > $(CURDIR)/foomatic-db/db/oldprinterids
+	rm -rf $(CURDIR)/debian/printer-driver-ptouch/usr/share/foomatic
+	mkdir -p $(CURDIR)/debian/printer-driver-ptouch/usr/share/ppd
+	FOOMATICDB=$(CURDIR)/foomatic-db foomatic-compiledb -j $(NUMJOBS) -t ppd -d $(CURDIR)/debian/printer-driver-ptouch/usr/share/ppd/ptouch-driver `ls -1 $(CURDIR)/foomatic-db/db/source/driver/*ptouch*.xml | perl -p -e 's:^.*db/source/driver/(\S*)\.xml\s*$$:\1\n:'`
+
+ifeq ($(derives_from_ubuntu),yes)
+        # Install Apport hook
+	install -D -m 644 debian/local/apport-hook.py $(CURDIR)/debian/ptouch-driver/usr/share/apport/package-hooks/source_ptouch-driver.py
+endif
+endif

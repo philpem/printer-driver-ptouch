@@ -1,0 +1,119 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<driver id="driver/ptouch">
+ <name>ptouch</name>
+ <pcdriver>PT</pcdriver>
+ <url></url>
+ <execution>
+  <filter />
+  <prototype>gs -q -dBATCH -dPARANOIDSAFER -dQUIET -dNOPAUSE -sDEVICE=cups %A%Z -sOutputFile=- - | rastertoptch dummyjob dummyuser dummytitle 1 '%B'</prototype>
+ </execution>
+ <comments>
+  <en>
+  </en>
+ </comments>
+ <printers>
+  <printer>
+   <id>printer/Brother-QL-500</id><!-- Brother P-touch QL-500 -->
+  </printer>
+  <printer>
+   <id>printer/Brother-QL-550</id><!-- Brother P-touch QL-550 -->
+  </printer>
+  <printer>
+   <id>printer/Brother-QL-650TD</id><!-- Brother P-touch QL-650TD -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-PC</id><!-- Brother P-touch PT-PC -->
+   <margins>
+     <general>
+       <unit>mm</unit>
+     </general>
+     <exception PageSize='6x100mm'>
+       <left>1.3067</left><right>1.3067</right>
+     </exception>
+     <exception PageSize='9x100mm'>
+       <left>2.8067</left><right>2.8067</right>
+     </exception>
+     <exception PageSize='12x100mm'>
+       <left>4.3067</left><right>4.3067</right>
+     </exception>
+     <exception PageSize='18x100mm'>
+       <left>7.3067</left><right>7.3067</right>
+     </exception>
+     <exception PageSize='24x100mm'>
+       <left>10.3067</left><right>10.3067</right>
+     </exception>
+   </margins>
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-18R</id><!-- Brother P-touch PT-18R -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-550A</id><!-- Brother P-touch PT-550A -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-1500PC</id><!-- Brother P-touch PT-1500PC -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-1950VP</id><!-- Brother P-touch PT-1950VP -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-1950</id><!-- Brother P-touch PT-1950 -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-1960</id><!-- Brother P-touch PT-1960 -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-2420PC</id><!-- Brother P-touch PT-2420PC -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-2450DX</id><!-- Brother P-touch PT-2450DX -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-2500PC</id><!-- Brother P-touch PT-2500PC -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-2600</id><!-- Brother P-touch PT-2600 -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-2610</id><!-- Brother P-touch PT-2610 -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-3600</id><!-- Brother P-touch PT-3600 -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-9200DX</id><!-- Brother P-touch PT-9200DX -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-9200PC</id><!-- Brother P-touch PT-9200PC -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-9400</id><!-- Brother P-touch PT-9400 -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-9500PC</id><!-- Brother P-touch PT-9500PC -->
+  </printer>
+  <printer>
+   <id>printer/Brother-PT-9600</id><!-- Brother P-touch PT-9600 -->
+  </printer>
+ </printers>
+</driver>
+
