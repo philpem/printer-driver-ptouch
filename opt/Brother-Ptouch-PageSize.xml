@@ -47,6 +47,11 @@ USA
      </constraint>
      <constraint sense='true'>
       <driver>ptouch</driver>
+      <printer>printer/Brother-QL-570</printer><!-- Brother P-touch QL-570 -->
+      <arg_defval>ev/Ptouch-PageSize-62x50mm</arg_defval>
+     </constraint>
+     <constraint sense='true'>
+      <driver>ptouch</driver>
       <printer>printer/Brother-QL-650TD</printer><!-- Brother P-touch QL-650TD -->
       <arg_defval>ev/Ptouch-PageSize-62x50mm</arg_defval>
      </constraint>
@@ -1822,6 +1827,11 @@ USA
      </constraint>
      <constraint sense='false'>
        <driver>ptouch</driver>
+       <printer>printer/Brother-QL-570</printer><!-- Brother P-touch QL-570 -->
+       <arg_defval>na</arg_defval>
+     </constraint>
+     <constraint sense='false'>
+       <driver>ptouch</driver>
        <printer>printer/Brother-QL-650TD</printer><!-- Brother P-touch QL-650TD -->
        <arg_defval>na</arg_defval>
      </constraint>
@@ -1848,6 +1858,11 @@ USA
      <constraint sense='false'>
        <driver>ptouch</driver>
        <printer>printer/Brother-QL-550</printer><!-- Brother P-touch QL-550 -->
+       <arg_defval>na</arg_defval>
+     </constraint>
+     <constraint sense='false'>
+       <driver>ptouch</driver>
+       <printer>printer/Brother-QL-570</printer><!-- Brother P-touch QL-570 -->
        <arg_defval>na</arg_defval>
      </constraint>
      <constraint sense='false'>
@@ -1882,6 +1897,11 @@ USA
      </constraint>
      <constraint sense='false'>
        <driver>ptouch</driver>
+       <printer>printer/Brother-QL-570</printer><!-- Brother P-touch QL-570 -->
+       <arg_defval>na</arg_defval>
+     </constraint>
+     <constraint sense='false'>
+       <driver>ptouch</driver>
        <printer>printer/Brother-QL-650TD</printer><!-- Brother P-touch QL-650TD -->
        <arg_defval>na</arg_defval>
      </constraint>
@@ -1912,6 +1932,11 @@ USA
      </constraint>
      <constraint sense='false'>
        <driver>ptouch</driver>
+       <printer>printer/Brother-QL-570</printer><!-- Brother P-touch QL-570 -->
+       <arg_defval>na</arg_defval>
+     </constraint>
+     <constraint sense='false'>
+       <driver>ptouch</driver>
        <printer>printer/Brother-QL-650TD</printer><!-- Brother P-touch QL-650TD -->
        <arg_defval>na</arg_defval>
      </constraint>
@@ -1938,6 +1963,11 @@ USA
      <constraint sense='false'>
        <driver>ptouch</driver>
        <printer>printer/Brother-QL-550</printer><!-- Brother P-touch QL-550 -->
+       <arg_defval>na</arg_defval>
+     </constraint>
+     <constraint sense='false'>
+       <driver>ptouch</driver>
+       <printer>printer/Brother-QL-570</printer><!-- Brother P-touch QL-570 -->
        <arg_defval>na</arg_defval>
      </constraint>
      <constraint sense='false'>
@@ -1988,6 +2018,11 @@ USA
      <constraint sense='false'>
        <driver>ptouch</driver>
        <printer>printer/Brother-QL-550</printer><!-- Brother P-touch QL-550 -->
+       <arg_defval>na</arg_defval>
+     </constraint>
+     <constraint sense='false'>
+       <driver>ptouch</driver>
+       <printer>printer/Brother-QL-570</printer><!-- Brother P-touch QL-570 -->
        <arg_defval>na</arg_defval>
      </constraint>
      <constraint sense='false'>

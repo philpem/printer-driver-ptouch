@@ -47,6 +47,9 @@ USA
    <id>printer/Brother-QL-550</id><!-- Brother P-touch QL-550 -->
   </printer>
   <printer>
+   <id>printer/Brother-QL-570</id><!-- Brother P-touch QL-570 -->
+  </printer>
+  <printer>
    <id>printer/Brother-QL-650TD</id><!-- Brother P-touch QL-650TD -->
   </printer>
   <printer>

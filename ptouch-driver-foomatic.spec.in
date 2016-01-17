@@ -74,6 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/foomatic/db/source/printer/Brother-PT-PC.xml
 /usr/share/foomatic/db/source/printer/Brother-QL-500.xml
 /usr/share/foomatic/db/source/printer/Brother-QL-550.xml
+/usr/share/foomatic/db/source/printer/Brother-QL-570.xml
 /usr/share/foomatic/db/source/printer/Brother-QL-650TD.xml
 /usr/share/foomatic/db/source/opt/Brother-Ptouch-AdvanceDistance.xml
 /usr/share/foomatic/db/source/opt/Brother-Ptouch-Align.xml

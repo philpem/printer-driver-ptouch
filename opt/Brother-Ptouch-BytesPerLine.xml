@@ -61,6 +61,11 @@ USA
     </constraint>
     <constraint sense='true'>
       <driver>ptouch</driver>
+      <printer>printer/Brother-QL-570</printer><!-- Brother P-touch QL-550 -->
+      <arg_defval>90</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
       <printer>printer/Brother-QL-650TD</printer><!-- Brother P-touch QL-650TD -->
       <arg_defval>90</arg_defval>
     </constraint>

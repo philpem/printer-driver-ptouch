@@ -209,6 +209,7 @@
  * <tr><th>Model    <th>Cutter  <th>Xfer<th>DPI<th>Pixels<th>Bytes<th>Tape
  * <tr><td>QL-500   <td>manual   <td>ULP<td>300<td>720<td>90<td>DK12-62mm
  * <tr><td>QL-550   <td>auto     <td>ULP<td>300<td>720<td>90<td>DK12-62mm
+ * <tr><td>QL-570   <td>auto     <td>ULP<td>300<td>720<td>90<td>DK12-62mm
  * <tr><td>QL-650TD <td>auto     <td>ULP<td>300<td>720<td>90<td>DK12-62mm
  * <tr><td>PT-PC    <td>auto     <td>BIP<td>180<td>128<td> 3<td>TZ6-24mm
  * <tr><td>PT-18R   <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ6-18mm
