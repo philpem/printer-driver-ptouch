@@ -1330,7 +1330,7 @@ RLE_store_empty_lines (job_options_t* job_options,
       *(rle_buffer_next++) = 0x02;
       *(rle_buffer_next++) = 0x00;
       int rep_len;
-      for (; bytes_per_line > 0; bytes_per_line -= rep_len) {
+      for (bytes_per_line = job_options->bytes_per_line; bytes_per_line > 0; bytes_per_line -= rep_len) {
         rep_len = bytes_per_line;
         if (rep_len > 128) rep_len = 128;
         *(rle_buffer_next++) = (signed char) (1 - rep_len);
