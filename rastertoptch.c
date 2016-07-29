@@ -1,7 +1,8 @@
 /* rastertoptch is a filter to convert CUPS raster data into a Brother
  * P-touch label printer command byte stream.
  *
- * Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+ * Copyright (c) 2006-2013 Arne John Glenstrup <panic@itu.dk>
+ * Copyright (c) 2015- Phil Pemberton <philpem@philpem.me.uk>
  *
  * This file is part of ptouch-driver
  *
@@ -32,7 +33,7 @@
  * of the Brother P-touch family.
  *
  * @version 1.2
- * @author  Arne John Glenstrup <panic@itu.dk>
+ * @author  Arne John Glenstrup <panic@itu.dk> and Phil Pemberton <philpem@philpem.me.uk>
  * @date    2006
 
  * <h2>Invocation</h2>
@@ -720,14 +721,18 @@ emit_job_cmds (job_options_t* job_options) {
 
 /**
  * Emit feed, cut and mirror command codes.
- * @param do_feed    Emit codes to actually feed
- * @param feed       Feed size
- * @param do_cut     Emit codes to actually cut
- * @param do_mirror  Emit codes to mirror print
+ * @param job_options  Job options
+ * @param do_feed      Emit codes to actually feed
+ * @param feed         Feed size
+ * @param cut_page     Cut at end of every page
+ * @param cut_job      Cut at end of job
+ * @param do_mirror    Emit codes to mirror print
  */
 inline void
-emit_feed_cut_mirror (bool do_feed, unsigned feed,
-                      bool do_cut,
+emit_feed_cut_mirror (job_options_t* job_options,
+                      bool do_feed, unsigned feed,
+                      bool cut_page,
+                      bool cut_job,
                       bool do_mirror,
                       xfer_t xfer_mode) {
   /* Determine feed nibble */
@@ -735,23 +740,101 @@ emit_feed_cut_mirror (bool do_feed, unsigned feed,
   if (do_feed) {
     feed_nibble = lrint (feed / 2.6 + 2.4); /* one suggested conversion */
     if (feed_nibble > 31) feed_nibble = 31;
-  } else
+  } else {
     feed_nibble = 0;
-  /* Determine auto cut bit - we only handle after each page */
-  unsigned char auto_cut_bit = do_cut ? 0x40 : 0x00;
-  /* Determine mirror print bit*/
-  unsigned char mirror_bit = do_mirror ? 0x80 : 0x00;
-  /* Combine & emit printer command code */
-  if (xfer_mode == ULP) {
-    /* ESC i A is Enable Cutter -- used for QL-560 only, according to
-     * <http://www.undocprint.org/formats/page_description_languages/brother_p-touch>
-     * The QL-560 (actually the whole QL series) uses ULP mode, so we check for that.
-     * The PT2450DX uses RLE and throw an INTERFACE ERROR if it sees this command.
-     */
-    putchar (ESC); putchar ('i'); putchar ('A'); putchar ((char) (do_cut ? 0x01 : 0x00));
   }
+
+  /**** QL AND PT SERIES COMMAND CODES (sent to both PT and QL series) ****/
+
+  /*
+   * ESC i M is "Set each mode"
+   * 
+   * Per Brother QL Command Reference:
+   *   All QL series
+   *   PT-E550W/P750W
+   *   (Also PT series)
+   *
+   * Used to set:
+   *   0x00..0x1F: Feed length? (PT-series only)
+   *                 Not used on PT-E550W/P750W, PT-9500PC or QL series
+   *   0x40 bit:   Auto cutter enable (PT- and QL-series)
+   *   0x80 bit:   Hardware mirroring (some PT-series?)
+   *                 Not used on QL series
+   *                 Used on PT-E550W/P750W, PT-9500PC
+   */
+
+  /* Determine auto cutter enable bit */
+  unsigned char escim_auto_cut_bit = (cut_page || cut_job) ? 0x40 : 0x00;
+  /* Determine mirror print bit*/
+  unsigned char escim_mirror_bit = do_mirror ? 0x80 : 0x00;
+
   putchar (ESC); putchar ('i'); putchar ('M');
-  putchar ((char) (feed & 0x1f) | auto_cut_bit | mirror_bit);
+  putchar ((char) ((feed & 0x1f) | escim_auto_cut_bit | escim_mirror_bit));
+
+  if (xfer_mode == ULP) {
+
+    /**** QL-SPECIFIC COMMAND CODES (sent only to QL series) ****/
+
+    /*
+     * ESC i A is "Specify page number in 'cut every' labels"
+     *
+     * Per Brother QL command reference:
+     *   For QL-560/570/580N/700/1050/1060N
+     *
+     * The QL-560 (actually the whole QL series) uses ULP mode, so we check for that
+     * to determine if we're talking to a P-touch QL Series printer.
+     *
+     * QL-500 series printers without a cutter (e.g. QL-500) generally ignore this
+     * command, as long as "cut mode" is set to "don't cut" (and maybe even if it
+     * isn't).
+     *
+     * The PT2450DX (probably the whole P-Touch series) uses RLE mode and will throw
+     * an INTERFACE ERROR if it sees this command. The PT-9500PC doesn't support this
+     * either (or at least it's not listed in the command spec).
+     *
+     * The PT-E550W and PT-P750W *DO* support Cut Every 'n' Labels: if we want to
+     * support that feature (maybe someone wants to print labels in e.g. pairs?) then
+     * we'll need to pass yet another parameter in from the PPD to identify those
+     * printers.
+     */
+    putchar (ESC); putchar ('i'); putchar ('A'); putchar ((char) (cut_page ? 0x01 : 0x00));
+  }
+
+  /*
+   * ESC i K is Set Expanded Mode.
+   * 
+   * Per Brother QL command reference:
+   *   For QL-560/570/580N/650TD/700/1050/1060N
+   *
+   * This is used to set: 
+   *
+   *   0x04: Half-Cut (only applicable to high-end PT-series printers)
+   *           Per Brother: e.g. PT-E550W/PT-P750W
+   *
+   *   0x08: Cut At End (not applicable to early QL-650TD firmware)
+   *           1 = Cut at end of job, 0 = don't cut last label.
+   *           PT-series calls this "Chain Printing", but it has the same effect.
+   *             (Set to 0 for Chain Printing = no feed at end)
+   *
+   *   0x10: Special Tape (No Cutting) -- high-end P-touch PT series only
+   *           Per Brother: e.g. PT-E550W/PT-P750W
+   *
+   *   0x40: High Resolution mode
+   *           Per Brother: QL-series (600dpi in paper length direction)
+   *                        PT-E550W/PT-P750W
+   *
+   * We don't support Hi-Res mode in this driver.
+   *
+   * We cut the labels at the end of the job if the cut mode is either
+   * "Cut Every Page" or "Cut at End of Job". The QL printer is smart
+   * enough not to cut twice at the end if we have 'Cut Every n=1' and
+   * 'Cut At End' set.
+   */
+
+   unsigned char escik_half_cut_bit = (job_options->half_cut);
+   unsigned char escik_auto_cut_bit = (cut_page || cut_job) ? 0x08 : 0x00;
+
+   putchar(ESC); putchar('i'); putchar('K'); putchar((char)(escik_half_cut_bit | escik_auto_cut_bit));
 }
 
 /**
@@ -879,8 +962,9 @@ emit_page_cmds (job_options_t* job_options,
       || cut_media != old_page_options->cut_media
       || mirror != old_page_options->mirror)
     /* We only know how to feed after each page */
-    emit_feed_cut_mirror (false, feed,
+    emit_feed_cut_mirror (job_options, false, feed,
                           cut_media == CUPS_CUT_PAGE,
+                          cut_media == CUPS_CUT_JOB,
                           mirror == CUPS_TRUE,
                           job_options->pixel_xfer);
 
