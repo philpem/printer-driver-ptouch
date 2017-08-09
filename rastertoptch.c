@@ -310,6 +310,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <math.h>
+#include <cups/ppd.h>
 #include <cups/raster.h>
 #include <cups/cups.h>
 
