@@ -34,10 +34,10 @@ USA
     <margins>
       <general>
         <unit>mm</unit>
-        <top>3</top>
-        <bottom>3</bottom>
-        <left>1.5</left>
-        <right>1.5</right>
+        <top>0</top>
+        <bottom>0.03333</bottom>
+        <left>0</left>
+        <right>0</right>
       </general>
     </margins>
     <consumables>
