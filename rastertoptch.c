@@ -976,8 +976,7 @@ flush_rle_buffer (job_options_t* job_options,
     int bytes_per_line = job_options->bytes_per_line;
     switch (pixel_xfer) {
     case RLE: {
-      size_t dummy
-        = fwrite (rle_buffer, sizeof (char), rle_buffer_next - rle_buffer, stdout);
+      fwrite (rle_buffer, sizeof (char), rle_buffer_next - rle_buffer, stdout);
       break;
     }
     case ULP:
@@ -1001,7 +1000,7 @@ flush_rle_buffer (job_options_t* job_options,
               emitted -= l; emitted++;
               for (; l <= 0; l++) putchar (data);
             } else { /* emit the l + 1 following bytes of data */
-              size_t dummy = fwrite (p, sizeof (char), l + 1, stdout);
+              fwrite (p, sizeof (char), l + 1, stdout);
               p += l; p++;
               linelen -= l; linelen--;
               emitted += l; emitted++;
