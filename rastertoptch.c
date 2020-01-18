@@ -1293,11 +1293,10 @@ emit_raster_lines (job_options_t* job_options,
   /* ImagingBoundingBox doesn't touch the PageSize box              */
   double scale_pt2xpixels = header->HWResolution [0] / 72.0;
   unsigned right_spacing_px = 0;
-  if (header->ImagingBoundingBox [2] != 0) {
-    unsigned right_distance_pt
-      = header->PageSize [0] - header->ImagingBoundingBox [2];
-    if (right_distance_pt != 0)
-      right_spacing_px = right_distance_pt * scale_pt2xpixels;
+  if (header->ImagingBoundingBox[2] < header->PageSize[0]) {
+    right_spacing_px =
+      (header->PageSize[0] - header->ImagingBoundingBox[2]) *
+      scale_pt2xpixels;
   }
   /* Calculate right_padding_bytes and shift */
   int right_padding_bits;
