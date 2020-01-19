@@ -50,26 +50,6 @@ USA
   </printer>
   <printer>
    <id>printer/Brother-PT-PC</id><!-- Brother P-touch PT-PC -->
-   <margins>
-     <general>
-       <unit>mm</unit>
-     </general>
-     <exception PageSize='6x100mm'>
-       <left>1.3067</left><right>1.3067</right>
-     </exception>
-     <exception PageSize='9x100mm'>
-       <left>2.8067</left><right>2.8067</right>
-     </exception>
-     <exception PageSize='12x100mm'>
-       <left>4.3067</left><right>4.3067</right>
-     </exception>
-     <exception PageSize='18x100mm'>
-       <left>7.3067</left><right>7.3067</right>
-     </exception>
-     <exception PageSize='24x100mm'>
-       <left>10.3067</left><right>10.3067</right>
-     </exception>
-   </margins>
   </printer>
   <printer>
    <id>printer/Brother-PT-18R</id><!-- Brother P-touch PT-18R -->
