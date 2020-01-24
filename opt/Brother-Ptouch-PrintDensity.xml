@@ -1,0 +1,123 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<option type="enum" id="opt/Brother-Ptouch-PrintDensity">
+  <!-- A multilingual <comments> block can appear here, too;
+       it should be treated as documentation for the user. -->
+  <arg_longname>
+   <en>Print Density</en>
+  </arg_longname>
+  <arg_shortname>
+   <en>PrintDensity</en><!-- backends only know <en> shortnames! -->
+  </arg_shortname>
+  <arg_execution>
+   <arg_group>General</arg_group>
+   <arg_order>110</arg_order>
+   <arg_spot>B</arg_spot>
+   <arg_substitution />
+   <arg_proto> PrintDensity=%s </arg_proto>
+  </arg_execution>
+  <constraints>
+     <constraint sense='true'>
+      <driver>ptouch</driver>
+      <arg_defval>ev/PrinterDefault</arg_defval>
+     </constraint>
+  </constraints>
+  <enum_vals>
+   <enum_val id="ev/PrinterDefault">
+    <ev_longname>
+     <en>Use printer default</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>0PrinterDefault</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>0</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/VeryLight">
+    <ev_longname>
+     <en>Very light</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>1VeryLight</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>1</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/Light">
+    <ev_longname>
+     <en>Light</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>2Light</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>2</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/Medium">
+    <ev_longname>
+     <en>Medium</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>3Medium</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>3</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/Dark">
+    <ev_longname>
+     <en>Dark</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>4Dark</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>4</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/VeryDark">
+    <ev_longname>
+     <en>Very dark</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>5VeryDark</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>5</ev_driverval>
+   </enum_val>
+  </enum_vals>
+</option>

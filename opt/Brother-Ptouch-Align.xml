@@ -1,0 +1,186 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<option type='enum' id='Brother-Ptouch-Align'>
+  <comments>
+    <en>Horizontal alignment of pixel data sent to the printer when
+    pixel data is more narrow than the maximum print width.
+    This is usually fixed for any one printer, based on how the tape
+    is mounted in the printer.
+    </en> 
+  </comments>
+  <arg_longname>
+    <en>Align</en>
+  </arg_longname>
+  <arg_shortname>
+    <en>Align</en><!-- backends only know <en> shortnames! -->
+  </arg_shortname>
+  <arg_execution>
+    <arg_group>PrinterSpecifics</arg_group>
+    <arg_order>100</arg_order>
+    <arg_spot>B</arg_spot>
+    <arg_substitution />
+    <arg_proto> Align=%s </arg_proto>
+  </arg_execution>
+  <constraints>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <arg_defval>ev/Right</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-QL-500</printer><!-- Brother P-touch QL-500 -->
+      <arg_defval>ev/Right</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-QL-550</printer><!-- Brother P-touch QL-550 -->
+      <arg_defval>ev/Right</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-QL-650TD</printer><!-- Brother P-touch QL-650TD -->
+      <arg_defval>ev/Right</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-PC</printer><!-- Brother P-touch PT-PC -->
+      <arg_defval>ev/Right</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-18R</printer><!-- Brother P-touch PT-18R -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-550A</printer><!-- Brother P-touch PT-550A -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-1500PC</printer><!-- Brother P-touch PT-1500PC -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-1950</printer><!-- Brother P-touch PT-1950 -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-1950VP</printer><!-- Brother P-touch PT-1950VP -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-1960</printer><!-- Brother P-touch PT-1960 -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2300</printer><!-- Brother P-touch PT-2300 -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2420PC</printer><!-- Brother P-touch PT-2420PC -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2450DX</printer><!-- Brother P-touch PT-2450DX -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2500PC</printer><!-- Brother P-touch PT-2500PC -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2600</printer><!-- Brother P-touch PT-2600 -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-2610</printer><!-- Brother P-touch PT-2610 -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-3600</printer><!-- Brother P-touch PT-3600 -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-9200DX</printer><!-- Brother P-touch PT-9200DX -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-9200PC</printer><!-- Brother P-touch PT-9200PC -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-9400</printer><!-- Brother P-touch PT-9400 -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-9500PC</printer><!-- Brother P-touch PT-9500PC -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <printer>printer/Brother-PT-9600</printer><!-- Brother P-touch PT-9600 -->
+      <arg_defval>ev/Center</arg_defval>
+    </constraint>
+  </constraints>
+  <enum_vals>
+   <enum_val id="ev/Right">
+    <ev_longname>
+     <en>Right aligned</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>Right</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>Right</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/Center">
+    <ev_longname>
+     <en>Center aligned</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>Center</en>
+     <!-- Until someone tells me how to learn the user locale in 
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>Center</ev_driverval>
+   </enum_val>
+  </enum_vals>
+</option>

@@ -1,0 +1,83 @@
+## -*- RPM-spec -*- file for the ptouch-driver package
+## Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+##
+## This file is part of ptouch-driver.
+##
+## ptouch-driver is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or (at
+## your option) any later version.
+##
+## ptouch-driver is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with ptouch-driver; if not, write to the Free Software
+## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+## USA
+Name: ptouch-driver
+Version: @VERSION@
+Release: 1
+Summary: CUPS/foomatic driver for Brother P-touch label printers
+
+Group: System Environment/Libraries
+License: GPL
+URL: http://ptouch-driver.sourceforge.net/
+Source0: %{name}-%{version}.tar.gz
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires: cups-devel doxygen
+Requires: cups
+
+%description
+The ptouch-driver consists of a CUPS raster filter for driving the
+family of Brother P-touch label printers.
+
+For foomatic database XML entries, see the ptouch-driver-foomatic package.
+
+%prep
+%setup -q
+
+%build
+%configure
+make
+doxygen
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install-exec DESTDIR=$RPM_BUILD_ROOT
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%files
+%defattr(-,root,root,-)
+%doc AUTHORS ChangeLog COPYING NEWS README
+%doc doc/html/annotated.html
+%doc doc/html/doxygen.css
+%doc doc/html/doxygen.png
+%doc doc/html/files.html
+%doc doc/html/functions.html
+%doc doc/html/functions_vars.html
+%doc doc/html/globals_eval.html
+%doc doc/html/globals_func.html
+%doc doc/html/globals.html
+%doc doc/html/globals_vars.html
+%doc doc/html/index.html
+%doc doc/html/rastertoptch_8c.html
+%doc doc/html/structjob__options__t.html
+%doc doc/html/structpage__options__t.html
+%doc doc/html/tab_b.gif
+%doc doc/html/tab_l.gif
+%doc doc/html/tab_r.gif
+%doc doc/html/tabs.css
+/usr/lib/cups/filter/rastertoptch
+
+
+%changelog
+* Mon Jan 30 2006 Arne John Glenstrup <panic@itu.dk> - 0.9-1
+- Initial build.
+

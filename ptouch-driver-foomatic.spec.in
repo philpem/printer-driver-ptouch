@@ -1,0 +1,102 @@
+## -*- RPM-spec -*- file for the ptouch-driver package
+## Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+##
+## This file is part of ptouch-driver.
+##
+## ptouch-driver is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or (at
+## your option) any later version.
+##
+## ptouch-driver is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with ptouch-driver; if not, write to the Free Software
+## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+## USA
+Name: ptouch-driver-foomatic
+Version: @VERSION@
+Release: 1
+Summary: Foomatic database data for Brother P-touch label printers
+
+Group: System Environment/Libraries
+License: GPL
+URL: http://ptouch-driver.sourceforge.net/
+Source0: ptouch-driver-%{version}.tar.gz
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Requires: foomatic ptouch-driver
+
+%description
+The ptouch-driver consists of a CUPS raster filter and foomatic
+database XML documents for driving the family of Brother P-touch label
+printers.
+
+%prep
+%setup -q -n ptouch-driver-%{version}
+
+%build
+%configure
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install-data DESTDIR=$RPM_BUILD_ROOT
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%files
+%defattr(-,root,root,-)
+%doc AUTHORS ChangeLog COPYING NEWS README
+/usr/share/foomatic/db/source/driver/ptouch.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-1500PC.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-18R.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-1950VP.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-1950.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-1960.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-2300.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-2420PC.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-2450DX.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-2500PC.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-2600.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-2610.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-3600.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-550A.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-9200DX.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-9200PC.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-9400.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-9500PC.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-9600.xml
+/usr/share/foomatic/db/source/printer/Brother-PT-PC.xml
+/usr/share/foomatic/db/source/printer/Brother-QL-500.xml
+/usr/share/foomatic/db/source/printer/Brother-QL-550.xml
+/usr/share/foomatic/db/source/printer/Brother-QL-650TD.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-AdvanceDistance.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-AdvanceMedia.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-Align.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-BytesPerLine.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-ConcatPages.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-CutMark.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-CutMedia.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-HalfCut.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-LabelPreamble.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-MirrorPrint.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-NegativePrint.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-PageSize.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-PixelTransfer.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-PrintDensity.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-PrintQuality.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-Resolution.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-RollFedMedia.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-SoftwareMirror.xml
+/usr/share/foomatic/db/source/opt/Brother-Ptouch-TransferMode.xml
+
+
+%changelog
+* Mon Jan 30 2006 Arne John Glenstrup <panic@itu.dk> - 0.9-1
+- Initial build.
+

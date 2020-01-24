@@ -1,0 +1,84 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<option type='enum' id='Brother-Ptouch-AdvanceMedia'>
+  <!-- A multilingual <comments> block can appear here, too;
+       it should be treated as documentation for the user. -->
+  <arg_longname>
+    <en>Advance Media</en>
+  </arg_longname>
+  <arg_shortname>
+    <en>AdvanceMedia</en><!-- backends only know <en> shortnames! -->
+  </arg_shortname>
+  <arg_execution>
+    <arg_group>Finishing</arg_group>
+    <arg_order>110</arg_order>
+    <arg_spot>A</arg_spot>
+    <arg_postscript />
+    <arg_proto>&lt;&lt;/AdvanceMedia %s&gt;&gt;setpagedevice</arg_proto>
+  </arg_execution>
+  <constraints>
+    <constraint sense='true'>
+      <driver>ptouch</driver>
+      <arg_defval>ev/Off</arg_defval>
+    </constraint>
+  </constraints>
+  <enum_vals>
+   <enum_val id="ev/Off">
+    <ev_longname>
+     <en>Do not advance the tape</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>Off</en>
+     <!-- Until someone tells me how to learn the user locale in
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>0</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/LabelEnd">
+    <ev_longname>
+     <en>Advance the tape after each label</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>LabelEnd</en>
+     <!-- Until someone tells me how to learn the user locale in
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>4</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/JobEnd">
+    <ev_longname>
+     <en>Advance the tape at the end of the job</en>
+    </ev_longname>
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+    <ev_shortname>
+     <en>JobEnd</en>
+     <!-- Until someone tells me how to learn the user locale in
+          backends, the shortname must be monolingual in <en>! -->
+    </ev_shortname>
+    <ev_driverval>2</ev_driverval>
+   </enum_val>
+  </enum_vals>
+</option>
