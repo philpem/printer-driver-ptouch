@@ -3,7 +3,7 @@
 
 AC_PREREQ(2.59)
 AC_INIT(ptouch-driver, 1.3, panic@itu.dk)
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wall -Wno-portability])
 AC_CONFIG_SRCDIR([rastertoptch.c])
 AC_CONFIG_HEADER([config.h])
 

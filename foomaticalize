@@ -1,0 +1,228 @@
+#! /usr/bin/perl
+
+# Turn <select> declarations inside <printer> definitions into the equivalent
+# <constraint> declarations in <option> definitions.
+#
+# In addition, printers not listed in the corresponding driver are added there.
+#
+# <select> declarations define which options a printer supports (or doesn't
+# support).  In addition, for each option, a default value may be defined.  For
+# options of type enum, the enumeration values the printer supports (or doesn'
+# support) can be specified.  The syntax is as follows:
+#
+#   <select driver="name">
+#     <option id="opt/id" sense="false">
+#       <arg_defval>value</arg_defval>
+#       <enum_val id="ev/id" sense="false" />
+#     </option>
+#   </select>
+#
+# The driver attribute is optional and defaults to the value of the <driver>
+# tag.  The id attributes of the <option> and <enum_val> tags define the
+# identifiers of the top-level <option> element and of the <enum_val> element
+# within that option that the declaration refers to.
+#
+# The sense attributes are optional and default to "true".  When set to
+# "false", the <option> or <enum_val> definition specifies that the printer
+# doesn't support an option or enumeration value.  This can be useful for
+# options or enumeration values that are declared to be supported by all
+# printers of a particular driver by default.
+#
+# (There can be multiple <select> tags per <printer> tag.)
+
+use strict;
+use warnings;
+use Getopt::Long qw(GetOptions);
+use XML::LibXML;
+use File::Basename;
+use File::Path qw(make_path);
+
+sub find_or_create_node($$) {
+    my ($obj, $type) = @_;
+
+    my $nodes = $obj->{node}->findnodes("./$type");
+    return $nodes->[0]
+	if ($nodes);
+    my $node = $obj->{dom}->createElement($type);
+    $obj->{node}->appendChild($node);
+    return $node;
+}
+
+sub new_constraint($$$$$) {
+    my ($where, $obj, $sense, $driver_name, $printer_id) = @_;
+
+    my $constraints = find_or_create_node($obj, 'constraints');
+
+    my $constraint = $obj->{dom}->createElement('constraint');
+    $constraints->appendChild($constraint);
+    $constraint->{sense} = $sense;
+    my $driver = $obj->{dom}->createElement('driver');
+    $driver->appendText($driver_name);
+    $constraint->appendChild($driver);
+    my $printer = $obj->{dom}->createElement('printer');
+    $printer->appendText($printer_id);
+    $constraint->appendChild($printer);
+    return $constraint;
+}
+
+sub nodes_by_id($$) {
+    my ($doms, $xpath_expression) = @_;
+
+    my $nodes = {};
+    foreach my $filename (keys %$doms) {
+	my $dom = $doms->{$filename};
+	foreach my $node ($dom->findnodes($xpath_expression)) {
+	    my $id = $node->getAttribute('id');
+	    die "$filename: Duplicate id $id\n"
+		if exists $nodes->{$id};
+	    $nodes->{$id} = {
+		filename => $filename,
+		node => $node,
+		dom => $dom
+	    };
+	}
+    }
+    return $nodes;
+}
+
+sub nodes_by_name($$) {
+    my ($doms, $xpath_expression) = @_;
+
+    my $nodes = {};
+    foreach my $filename (keys %$doms) {
+	my $dom = $doms->{$filename};
+	foreach my $node ($dom->findnodes($xpath_expression)) {
+	    my $name = $node->findvalue('./name');
+	    die "$filename: Duplicate name $name\n"
+		if exists $nodes->{$name};
+	    $nodes->{$name} = {
+		filename => $filename,
+		node => $node,
+		dom => $dom
+	    };
+	}
+    }
+    return $nodes;
+}
+
+sub add_select_option ($$$) {
+	my ($pri, $select_option, $opt) = @_;
+
+	my $filename = $pri->{filename};
+	my $opt_id = $select_option->getAttribute('id');
+	my $select = $select_option->parentNode;
+	my $printer = $select->parentNode;
+	my $printer_id = $printer->getAttribute('id');
+
+	my $driver_name = $select->getAttribute('driver');
+	if (!defined $driver_name) {
+	    $driver_name = $printer->findvalue('./driver')
+		or die "$filename: No <driver> tag found\n";
+	}
+
+	my $sense = $select_option->getAttribute('sense') // 'true';
+	my $constraint = new_constraint(
+		"$filename: option '$opt_id'",
+		$opt, $sense, $driver_name, $printer_id);
+
+	my $arg_defvals = $select_option->findnodes('./arg_defval');
+	if (@$arg_defvals) {
+	    die "$filename: More than one <arg_defval> in option '$opt_id'\n"
+		unless @$arg_defvals == 1;
+	    my $arg_defval = $arg_defvals->[0];
+	    # There should only be one <arg_defval>!
+	    my $v = $opt->{dom}->createElement('arg_defval');
+	    $v->appendText($arg_defval->firstChild);
+	    $constraint->appendChild($v);
+	}
+
+	foreach my $select_ev ($select_option->findnodes('./enum_val')) {
+	    my $ev_id = $select_ev->getAttribute('id');
+	    my $sense = $select_ev->getAttribute('sense') // 'true';
+
+	    my $evs = $opt->{node}->
+		    findnodes("./enum_vals/enum_val[\@id='$ev_id']")
+		or die "$filename: enumeration value '$ev_id' " .
+		       "not found in option '$opt_id'\n";
+	    foreach my $ev (@$evs) {
+		my $obj = {
+		    filename => $opt->{filename},
+		    node => $ev,
+		    dom => $opt->{dom}
+		};
+		new_constraint(
+			"$filename: option '$opt_id', enum_val '$ev_id'",
+			$obj, $sense, $driver_name, $printer_id);
+	    }
+	}
+}
+
+sub transform($) {
+    my ($doms) = @_;
+
+    my $drivers = nodes_by_name($doms, '/driver');
+    my $options = nodes_by_id($doms, '/option');
+
+    foreach my $filename (keys %$doms) {
+	my $dom = $doms->{$filename};
+	foreach my $printer ($dom->findnodes('/printer')) {
+	    my $pri = {
+		filename => $filename,
+		node => $printer,
+		dom => $dom
+	    };
+	    my $printer_id = $printer->getAttribute('id');
+	    foreach my $select ($printer->findnodes('./select')) {
+		foreach my $select_option ($select->findnodes('./option')) {
+		    my $opt_id = $select_option->getAttribute('id');
+		    my $opt = $options->{$opt_id}
+			or die "$filename: '$opt_id' not defined\n";
+		    add_select_option($pri, $select_option, $opt);
+		}
+		$printer->removeChild($select);
+	    }
+
+	    # If this printer isn't listed in its driver already, add it there.
+	    my $driver_name = $printer->findvalue('./driver')
+		or die "$filename: No <driver> tag found\n";
+	    my $driver = $drivers->{$driver_name}
+		or die "$filename: Driver $driver_name not found\n";
+	    my $printers = find_or_create_node($driver, 'printers');
+
+	    if (!$printers->findnodes("./printer[id='$printer_id']")) {
+		my $printer = $driver->{dom}->createElement('printer');
+		$printers->appendChild($printer);
+		my $id = $driver->{dom}->createElement('id');
+		$id->appendText($printer_id);
+		$printer->appendChild($id);
+	    }
+	}
+    }
+}
+
+my $out;
+if (!GetOptions('out=s' => \$out) || !defined $out) {
+    die "Usage: $0 --out=DIR file.xml ...\n";
+}
+
+my $doms = {};
+
+foreach my $filename (@ARGV) {
+    my $dom = XML::LibXML->load_xml(location => $filename, { no_blanks => 1 });
+    $doms->{$filename} = $dom;
+}
+
+transform($doms);
+
+foreach my $filename (keys %$doms) {
+    my $string = $doms->{$filename}->toString(1);
+    $string =~ s/^<\?.*\?>\s*/<!-- Generated by $ENV{PACKAGE_STRING} -->\n/;
+
+    my $new_filename = "$out/$filename";
+    my $directory = dirname($new_filename);
+    make_path($directory);
+
+    open(my $fh, '>', $new_filename);
+    print $fh $string;
+    close $fh;
+}

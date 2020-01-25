@@ -22,10 +22,9 @@ execfilterdir			= $(libdir)/cups/filter
 execfilter_PROGRAMS		= rastertoptch
 rastertoptch_CPPFLAGS		= -D_GNU_SOURCE
 
-foomaticdbdir			= $(datadir)/foomatic/db/source
-nobase_dist_foomaticdb_DATA	= driver/ptouch-pt.xml \
-				  driver/ptouch-ql.xml \
-				  printer/Brother-QL-500.xml \
+DRIVERS				= driver/ptouch-pt.xml \
+				  driver/ptouch-ql.xml
+PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-QL-550.xml \
 				  printer/Brother-QL-650TD.xml \
 				  printer/Brother-PT-PC.xml \
@@ -46,8 +45,8 @@ nobase_dist_foomaticdb_DATA	= driver/ptouch-pt.xml \
 				  printer/Brother-PT-9200PC.xml \
 				  printer/Brother-PT-9400.xml \
 				  printer/Brother-PT-9500PC.xml \
-				  printer/Brother-PT-9600.xml \
-				  opt/Brother-PTQL-AdvanceDistance.xml \
+				  printer/Brother-PT-9600.xml
+OPTIONS				= opt/Brother-PTQL-AdvanceDistance.xml \
 				  opt/Brother-PTQL-AdvanceMedia.xml \
 				  opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PTQL-BytesPerLine.xml \
@@ -68,8 +67,18 @@ nobase_dist_foomaticdb_DATA	= driver/ptouch-pt.xml \
 				  opt/Brother-QL-PrintQuality.xml \
 				  opt/Brother-QL-RollFedMedia.xml
 
+foomaticdbdir			= $(datadir)/foomatic/db/source
+driversdir			= $(foomaticdbdir)/driver
+drivers_DATA			= $(addprefix generated/,$(DRIVERS))
+printersdir			= $(foomaticdbdir)/printer
+printers_DATA			= $(addprefix generated/,$(PRINTERS))
+optionsdir			= $(foomaticdbdir)/opt
+options_DATA			= $(addprefix generated/,$(OPTIONS))
+
 EXTRA_DIST			= Doxyfile $(PACKAGE).spec.in \
-				  $(PACKAGE)-foomatic.spec.in
+				  $(PACKAGE)-foomatic.spec.in \
+				  $(DRIVERS) $(PRINTERS) $(OPTIONS) \
+				  foomaticalize
 
 RPMBUILD			= rpmbuild -ba
 RPMSOURCESDIR			= $(HOME)/src/SOURCES
@@ -92,20 +101,32 @@ $(RPMSOURCESDIR)/$(distdir).tar.gz: $(distdir).tar.gz
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
 
+export PACKAGE_STRING
+$(addprefix generated/,$(DRIVERS)): generated/stamp-h1
+$(addprefix generated/,$(PRINTERS)): generated/stamp-h1
+$(addprefix generated/,$(OPTIONS)): generated/stamp-h1
+generated/stamp-h1: $(DRIVERS) $(PRINTERS) $(OPTIONS) foomaticalize
+	./foomaticalize --out=generated $(DRIVERS) $(PRINTERS) $(OPTIONS)
+	@touch $@
+
+clean-local:
+	-rm -rf generated
+
 XMLSCHEMA = /usr/share/foomatic/xmlschema
-xmlschema-driver: $(filter driver/%,$(nobase_dist_foomaticdb_DATA))
+xmlschema-driver: $(DRIVERS)
 	@xmllint --noout --schema $(XMLSCHEMA)/driver.xsd $+
-xmlschema-printer: $(filter printer/%,$(nobase_dist_foomaticdb_DATA))
+xmlschema-printer: $(PRINTERS)
 	@for xml in $+; do \
 	    echo -n "$$xml "; \
 	    xmlstarlet ed \
 		-d '/printer/unverified' \
+		-d '/printer/select' \
 		"$$xml" \
 	    | xmllint --noout --schema $(XMLSCHEMA)/printer.xsd -; \
 	done
-xmlschema-option: $(filter opt/%,$(nobase_dist_foomaticdb_DATA))
+xmlschema-option: $(OPTIONS)
 	@xmllint --noout --schema $(XMLSCHEMA)/option.xsd $+
 
 xmlschema: xmlschema-driver xmlschema-printer xmlschema-option
 xmllint:
-	@xmllint --noout $(nobase_dist_foomaticdb_DATA)
+	@xmllint --noout $(DRIVERS) $(PRINTERS) $(OPTIONS)
