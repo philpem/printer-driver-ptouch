@@ -45,14 +45,6 @@ USA
       <driver>ptouch-ql</driver>
       <printer>printer/Brother-QL-500</printer>
     </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-1500PC</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2420PC</printer>
-    </constraint>
   </constraints>
   <enum_vals>
    <enum_val id="ev/Off">

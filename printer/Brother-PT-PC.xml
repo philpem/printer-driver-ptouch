@@ -57,4 +57,24 @@ USA
       text-to-PT-PC driver.
     </en>
   </comments>
+  <select>
+    <option id="opt/Brother-PTQL-Resolution">
+      <enum_val id="ev/180dpi" />
+    </option>
+    <option id="opt/Brother-PTQL-BytesPerLine">
+      <enum_val id="ev/3" />
+    </option>
+    <option id="opt/Brother-PT-PageSize">
+      <arg_defval>ev/24x100mm</arg_defval>
+      <enum_val id="ev/36x100mm" sense="false" />
+    </option>
+    <option id="opt/Brother-PTQL-PixelTransfer">
+      <enum_val id="ev/RLE" sense="false" />
+      <enum_val id="ev/BIP" />
+    </option>
+    <option id="opt/Brother-PTQL-Align">
+      <enum_val id="ev/Right" />
+      <enum_val id="ev/Center" sense="false" />
+    </option>
+  </select>
 </printer>
