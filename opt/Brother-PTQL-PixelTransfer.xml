@@ -71,10 +71,6 @@ USA
       <driver>ptouch-pt</driver>
      </constraint>
      <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-PC</printer>
-     </constraint>
-     <constraint sense='false'>
       <driver>ptouch-ql</driver>
      </constraint>
     </constraints>
@@ -91,10 +87,6 @@ USA
       <constraint sense='false'>
         <driver>ptouch-pt</driver>
       </constraint>
-     <constraint sense='true'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-PC</printer>
-     </constraint>
       <constraint sense='false'>
         <driver>ptouch-ql</driver>
       </constraint>

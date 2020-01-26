@@ -54,4 +54,15 @@ USA
     Prints 10mm per second.
     </en>
   </comments>
+  <select>
+    <option id="opt/Brother-PTQL-Resolution">
+      <enum_val id="ev/180dpi" />
+    </option>
+    <option id="opt/Brother-PTQL-BytesPerLine">
+      <enum_val id="ev/16" />
+    </option>
+    <option id="opt/Brother-PT-PageSize">
+      <arg_defval>ev/36x100mm</arg_defval>
+    </option>
+  </select>
 </printer>

@@ -36,61 +36,9 @@ USA
     <arg_proto> HalfCut </arg_proto>
   </arg_execution>
   <constraints>
-    <constraint sense='true'>
+    <constraint sense='false'>
       <driver>ptouch-pt</driver>
       <arg_defval>0</arg_defval>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-PC</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-18R</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-550A</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-1500PC</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-1950</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-1950VP</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-1960</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2300</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2420PC</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2450DX</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2500PC</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2600</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2610</printer>
     </constraint>
   </constraints>
 </option>
