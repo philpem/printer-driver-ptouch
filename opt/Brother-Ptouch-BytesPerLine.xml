@@ -1,5 +1,6 @@
 <!--
 Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+Copyright (c) 2020  Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
 
 This file is part of ptouch-driver.
 
@@ -18,7 +19,7 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<option type='int' id='Brother-Ptouch-BytesPerLine'>
+<option type='enum' id='Brother-Ptouch-BytesPerLine'>
   <comments>
     <en>Number of bytes of pixel data required by the printer to print
     one line.  This is usually one, fixed number for any one printer,
@@ -35,8 +36,6 @@ USA
   <arg_shortname>
     <en>BytesPerLine</en><!-- backends only know <en> shortnames! -->
   </arg_shortname>
-  <arg_min>1</arg_min>
-  <arg_max>255</arg_max>
   <arg_execution>
     <arg_group>PrinterSpecifics</arg_group>
     <arg_order>100</arg_order>
@@ -47,117 +46,180 @@ USA
   <constraints>
     <constraint sense='true'>
       <driver>ptouch</driver>
-      <arg_defval>90</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-QL-500</printer><!-- Brother P-touch QL-500 -->
-      <arg_defval>90</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-QL-550</printer><!-- Brother P-touch QL-550 -->
-      <arg_defval>90</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-QL-650TD</printer><!-- Brother P-touch QL-650TD -->
-      <arg_defval>90</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-PC</printer><!-- Brother P-touch PT-PC -->
-      <arg_defval>3</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-18R</printer><!-- Brother P-touch PT-18R -->
-      <arg_defval>16</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-550A</printer><!-- Brother P-touch PT-550A -->
-      <arg_defval>16</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-1500PC</printer><!-- Brother P-touch PT-1500PC -->
-      <arg_defval>14</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-1950</printer><!-- Brother P-touch PT-1950 -->
-      <arg_defval>16</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-1950VP</printer><!-- Brother P-touch PT-1950VP -->
-      <arg_defval>14</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-1960</printer><!-- Brother P-touch PT-1960 -->
-      <arg_defval>12</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-2300</printer><!-- Brother P-touch PT-2300 -->
-      <arg_defval>16</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-2420PC</printer><!-- Brother P-touch PT-2420PC -->
-      <arg_defval>16</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-2450DX</printer><!-- Brother P-touch PT-2450DX -->
-      <arg_defval>16</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-2500PC</printer><!-- Brother P-touch PT-2500PC -->
-      <arg_defval>16</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-2600</printer><!-- Brother P-touch PT-2600 -->
-      <arg_defval>16</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-2610</printer><!-- Brother P-touch PT-2610 -->
-      <arg_defval>16</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-3600</printer><!-- Brother P-touch PT-3600 -->
-      <arg_defval>48</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-9200DX</printer><!-- Brother P-touch PT-9200DX -->
-      <arg_defval>48</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-9200PC</printer><!-- Brother P-touch PT-9200PC -->
-      <arg_defval>48</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-9400</printer><!-- Brother P-touch PT-9400 -->
-      <arg_defval>48</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-9500PC</printer><!-- Brother P-touch PT-9500PC -->
-      <arg_defval>48</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch</driver>
-      <printer>printer/Brother-PT-9600</printer><!-- Brother P-touch PT-9600 -->
-      <arg_defval>48</arg_defval>
     </constraint>
   </constraints>
+  <enum_vals>
+   <enum_val id="ev/3">
+    <ev_longname>
+     <en>3</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>3</en>
+    </ev_shortname>
+    <ev_driverval>3</ev_driverval>
+    <constraints>
+      <constraint sense='false'>
+        <driver>ptouch</driver>
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-PC</printer><!-- Brother P-touch PT-PC -->
+      </constraint>
+    </constraints>
+   </enum_val>
+   <enum_val id="ev/12">
+    <ev_longname>
+     <en>12</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>12</en>
+    </ev_shortname>
+    <ev_driverval>12</ev_driverval>
+    <constraints>
+      <constraint sense='false'>
+        <driver>ptouch</driver>
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-1960</printer><!-- Brother P-touch PT-1960 -->
+      </constraint>
+    </constraints>
+   </enum_val>
+   <enum_val id="ev/14">
+    <ev_longname>
+     <en>14</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>14</en>
+    </ev_shortname>
+    <ev_driverval>14</ev_driverval>
+    <constraints>
+      <constraint sense='false'>
+        <driver>ptouch</driver>
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-1500PC</printer><!-- Brother P-touch PT-1500PC -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-1950VP</printer><!-- Brother P-touch PT-1950VP -->
+      </constraint>
+    </constraints>
+   </enum_val>
+   <enum_val id="ev/16">
+    <ev_longname>
+     <en>16</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>16</en>
+    </ev_shortname>
+    <ev_driverval>16</ev_driverval>
+    <constraints>
+      <constraint sense='false'>
+        <driver>ptouch</driver>
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-18R</printer><!-- Brother P-touch PT-18R -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-550A</printer><!-- Brother P-touch PT-550A -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-1950</printer><!-- Brother P-touch PT-1950 -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-2300</printer><!-- Brother P-touch PT-2300 -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-2420PC</printer><!-- Brother P-touch PT-2420PC -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-2450DX</printer><!-- Brother P-touch PT-2450DX -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-2500PC</printer><!-- Brother P-touch PT-2500PC -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-2600</printer><!-- Brother P-touch PT-2600 -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-PT-2610</printer><!-- Brother P-touch PT-2610 -->
+      </constraint>
+    </constraints>
+   </enum_val>
+   <enum_val id="ev/48">
+    <ev_longname>
+     <en>48</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>48</en>
+    </ev_shortname>
+    <ev_driverval>48</ev_driverval>
+    <constraints>
+      <constraint sense='false'>
+        <driver>ptouch</driver>
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+        <printer>printer/Brother-PT-3600</printer><!-- Brother P-touch PT-3600 -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+        <printer>printer/Brother-PT-9200DX</printer><!-- Brother P-touch PT-9200DX -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+        <printer>printer/Brother-PT-9200PC</printer><!-- Brother P-touch PT-9200PC -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+        <printer>printer/Brother-PT-9400</printer><!-- Brother P-touch PT-9400 -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+        <printer>printer/Brother-PT-9500PC</printer><!-- Brother P-touch PT-9500PC -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+        <printer>printer/Brother-PT-9600</printer><!-- Brother P-touch PT-9600 -->
+      </constraint>
+    </constraints>
+   </enum_val>
+   <enum_val id="ev/90">
+    <ev_longname>
+     <en>90</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>90</en>
+    </ev_shortname>
+    <ev_driverval>90</ev_driverval>
+    <constraints>
+      <constraint sense='false'>
+        <driver>ptouch</driver>
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-QL-500</printer><!-- Brother P-touch QL-500 -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-QL-550</printer><!-- Brother P-touch QL-550 -->
+      </constraint>
+      <constraint sense='true'>
+        <driver>ptouch</driver>
+	<printer>printer/Brother-QL-650TD</printer><!-- Brother P-touch QL-650TD -->
+      </constraint>
+    </constraints>
+   </enum_val>
+  </enum_vals>
 </option>
