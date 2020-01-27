@@ -214,6 +214,7 @@
  * <tr><td>PT-PC    <td>auto     <td>BIP<td>180<td>128<td> 3<td>TZ6-24mm
  * <tr><td>PT-18R   <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ6-18mm
  * <tr><td>PT-550A  <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ6-36mm
+ * <tr><td>PT-P700  <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ4-24mm
  * <tr><td>PT-1500PC<td>manual   <td>RLE<td>180<td>112<td>14<td>TZ6-24mm
  * <tr><td>PT-1950  <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ6-18mm
  * <tr><td>PT-1950VP<td>auto     <td>RLE<td>180<td>112<td>14<td>TZ6-18mm
