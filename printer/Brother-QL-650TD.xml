@@ -95,7 +95,7 @@ USA
     </general>
   </autodetect>
   <functionality>B</functionality>
-  <driver>ptouch</driver>
+  <driver>ptouch-ql</driver>
   <unverified />
   <!--no "contrib_url"-->
   <comments>

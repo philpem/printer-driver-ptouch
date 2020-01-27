@@ -18,8 +18,8 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<driver id="driver/ptouch">
- <name>ptouch</name>
+<driver id="driver/ptouch-pt">
+ <name>ptouch-pt</name>
  <pcdriver>PT</pcdriver>
  <url></url>
  <execution>
@@ -39,15 +39,6 @@ USA
   </en>
  </comments>
  <printers>
-  <printer>
-   <id>printer/Brother-QL-500</id><!-- Brother P-touch QL-500 -->
-  </printer>
-  <printer>
-   <id>printer/Brother-QL-550</id><!-- Brother P-touch QL-550 -->
-  </printer>
-  <printer>
-   <id>printer/Brother-QL-650TD</id><!-- Brother P-touch QL-650TD -->
-  </printer>
   <printer>
    <id>printer/Brother-PT-PC</id><!-- Brother P-touch PT-PC -->
   </printer>
