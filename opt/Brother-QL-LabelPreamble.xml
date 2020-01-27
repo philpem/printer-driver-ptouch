@@ -1,0 +1,50 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<option type='bool' id='Brother-QL-LabelPreamble'>
+  <comments>
+    <en>
+      Decide whether to emit a preamble selecting print quality,
+      roll/label media type, tape width, label height and pixel lines.
+    </en>
+  </comments>
+  <arg_longname>
+    <en>Label Preamble</en>
+  </arg_longname>
+  <arg_shortname>
+    <en>LabelPreamble</en>
+  </arg_shortname>
+  <arg_shortname_false>
+    <en>noLabelPreamble</en>
+  </arg_shortname_false>
+  <arg_execution>
+    <arg_group>PrinterSpecifics</arg_group>
+    <arg_order>110</arg_order>
+    <arg_spot>B</arg_spot>
+    <arg_substitution />
+    <arg_proto> LabelPreamble </arg_proto>
+  </arg_execution>
+  <constraints>
+    <constraint sense='true'>
+      <driver>ptouch-ql</driver>
+      <arg_defval>1</arg_defval>
+    </constraint>
+  </constraints>
+</option>

@@ -23,7 +23,8 @@ execfilter_PROGRAMS		= rastertoptch
 rastertoptch_CPPFLAGS		= -D_GNU_SOURCE
 
 foomaticdbdir			= $(datadir)/foomatic/db/source
-nobase_dist_foomaticdb_DATA	= driver/ptouch.xml \
+nobase_dist_foomaticdb_DATA	= driver/ptouch-pt.xml \
+				  driver/ptouch-ql.xml \
 				  printer/Brother-QL-500.xml \
 				  printer/Brother-QL-550.xml \
 				  printer/Brother-QL-650TD.xml \
@@ -46,25 +47,26 @@ nobase_dist_foomaticdb_DATA	= driver/ptouch.xml \
 				  printer/Brother-PT-9400.xml \
 				  printer/Brother-PT-9500PC.xml \
 				  printer/Brother-PT-9600.xml \
-				  opt/Brother-Ptouch-AdvanceDistance.xml \
-				  opt/Brother-Ptouch-AdvanceMedia.xml \
-				  opt/Brother-Ptouch-Align.xml \
-				  opt/Brother-Ptouch-BytesPerLine.xml \
-				  opt/Brother-Ptouch-ConcatPages.xml \
-				  opt/Brother-Ptouch-CutMark.xml \
-				  opt/Brother-Ptouch-CutMedia.xml \
-				  opt/Brother-Ptouch-HalfCut.xml \
-				  opt/Brother-Ptouch-SoftwareMirror.xml \
-				  opt/Brother-Ptouch-LabelPreamble.xml \
-				  opt/Brother-Ptouch-MirrorPrint.xml \
-				  opt/Brother-Ptouch-NegativePrint.xml \
-				  opt/Brother-Ptouch-PageSize.xml \
-				  opt/Brother-Ptouch-PixelTransfer.xml \
-				  opt/Brother-Ptouch-PrintDensity.xml \
-				  opt/Brother-Ptouch-PrintQuality.xml \
-				  opt/Brother-Ptouch-Resolution.xml \
-				  opt/Brother-Ptouch-RollFedMedia.xml \
-				  opt/Brother-Ptouch-TransferMode.xml
+				  opt/Brother-PTQL-AdvanceDistance.xml \
+				  opt/Brother-PTQL-AdvanceMedia.xml \
+				  opt/Brother-PTQL-Align.xml \
+				  opt/Brother-PTQL-BytesPerLine.xml \
+				  opt/Brother-PTQL-ConcatPages.xml \
+				  opt/Brother-PTQL-CutMedia.xml \
+				  opt/Brother-PTQL-MirrorPrint.xml \
+				  opt/Brother-PTQL-NegativePrint.xml \
+				  opt/Brother-PTQL-PixelTransfer.xml \
+				  opt/Brother-PTQL-Resolution.xml \
+				  opt/Brother-PTQL-SoftwareMirror.xml \
+				  opt/Brother-PT-HalfCut.xml \
+				  opt/Brother-PT-PageSize.xml \
+				  opt/Brother-PT-TransferMode.xml \
+				  opt/Brother-QL-CutMark.xml \
+				  opt/Brother-QL-LabelPreamble.xml \
+				  opt/Brother-QL-PageSize.xml \
+				  opt/Brother-QL-PrintDensity.xml \
+				  opt/Brother-QL-PrintQuality.xml \
+				  opt/Brother-QL-RollFedMedia.xml
 
 EXTRA_DIST			= Doxyfile $(PACKAGE).spec.in \
 				  $(PACKAGE)-foomatic.spec.in

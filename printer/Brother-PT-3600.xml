@@ -69,7 +69,7 @@ USA
     </general>
   </autodetect>
   <functionality>D</functionality>
-  <driver>ptouch</driver>
+  <driver>ptouch-pt</driver>
   <unverified/>
   <!--no "contrib_url"-->
   <comments>

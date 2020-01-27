@@ -1,0 +1,53 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<driver id="driver/ptouch-ql">
+ <name>ptouch-ql</name>
+ <pcdriver>QL</pcdriver>
+ <url></url>
+ <execution>
+  <filter />
+  <prototype>gs -q -dBATCH -dPARANOIDSAFER -dQUIET -dNOPAUSE -sDEVICE=cups %A%Z -sOutputFile=- - | rastertoptch dummyjob dummyuser dummytitle 1 '%B'</prototype>
+  <margins>
+    <general>
+      <left>0</left>
+      <top>0</top>
+      <right>0</right>
+      <bottom>0</bottom>
+    </general>
+  </margins>
+ </execution>
+ <comments>
+  <en>
+  </en>
+ </comments>
+ <printers>
+  <printer>
+   <id>printer/Brother-QL-500</id><!-- Brother P-touch QL-500 -->
+  </printer>
+  <printer>
+   <id>printer/Brother-QL-550</id><!-- Brother P-touch QL-550 -->
+  </printer>
+  <printer>
+   <id>printer/Brother-QL-650TD</id><!-- Brother P-touch QL-650TD -->
+  </printer>
+ </printers>
+</driver>
+

@@ -18,7 +18,7 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<option type='bool' id='Brother-Ptouch-MirrorPrint'>
+<option type='bool' id='Brother-PTQL-MirrorPrint'>
   <arg_longname>
     <en>Mirror Print</en>
   </arg_longname>
@@ -37,7 +37,11 @@ USA
   </arg_execution>
   <constraints>
     <constraint sense='true'>
-      <driver>ptouch</driver>
+      <driver>ptouch-pt</driver>
+      <arg_defval>0</arg_defval>
+    </constraint>
+    <constraint sense='true'>
+      <driver>ptouch-ql</driver>
       <arg_defval>0</arg_defval>
     </constraint>
   </constraints>
