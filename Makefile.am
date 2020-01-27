@@ -30,6 +30,8 @@ PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-QL-650TD.xml \
 				  printer/Brother-PT-PC.xml \
 				  printer/Brother-PT-18R.xml \
+				  printer/Brother-PT-550A.xml \
+				  printer/Brother-PT-P700.xml \
 				  printer/Brother-PT-1500PC.xml \
 				  printer/Brother-PT-1950VP.xml \
 				  printer/Brother-PT-1950.xml \
@@ -41,7 +43,6 @@ PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-PT-2600.xml \
 				  printer/Brother-PT-2610.xml \
 				  printer/Brother-PT-3600.xml \
-				  printer/Brother-PT-550A.xml \
 				  printer/Brother-PT-9200DX.xml \
 				  printer/Brother-PT-9200PC.xml \
 				  printer/Brother-PT-9400.xml \
