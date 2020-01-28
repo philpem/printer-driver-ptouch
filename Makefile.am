@@ -89,3 +89,22 @@ $(RPMSOURCESDIR)/$(distdir).tar.gz: $(distdir).tar.gz
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
+
+XMLSCHEMA = /usr/share/foomatic/xmlschema
+xmlschema-driver: $(filter driver/%,$(nobase_dist_foomaticdb_DATA))
+	@xmllint --noout --schema $(XMLSCHEMA)/driver.xsd $+
+xmlschema-printer: $(filter printer/%,$(nobase_dist_foomaticdb_DATA))
+	@for xml in $+; do \
+	    echo -n "$$xml "; \
+	    xmlstarlet ed \
+		-d '/printer/unverified' \
+		-d '/printer/mechanism/consumables' \
+		"$$xml" \
+	    | xmllint --noout --schema $(XMLSCHEMA)/printer.xsd -; \
+	done
+xmlschema-option: $(filter opt/%,$(nobase_dist_foomaticdb_DATA))
+	@xmllint --noout --schema $(XMLSCHEMA)/option.xsd $+
+
+xmlschema: xmlschema-driver xmlschema-printer xmlschema-option
+xmllint:
+	@xmllint --noout $(nobase_dist_foomaticdb_DATA)
