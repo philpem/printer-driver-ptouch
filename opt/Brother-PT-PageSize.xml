@@ -32,7 +32,7 @@ USA
    <arg_order>100</arg_order>
    <arg_spot>A</arg_spot>
    <arg_postscript />
-   <arg_proto>%s</arg_proto>
+   <arg_proto>&lt;&lt;/PageSize[%s]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</arg_proto>
   </arg_execution>
   <constraints>
     <constraint sense='true'>
@@ -146,7 +146,7 @@ USA
      <!-- Until someone tells me how to learn the user locale in
           backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[17 283]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>17 283</ev_driverval>
    </enum_val>
    <enum_val id="ev/Ptouch-PageSize-9x100mm">
     <ev_longname>
@@ -159,7 +159,7 @@ USA
      <!-- Until someone tells me how to learn the user locale in
           backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[26 283]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>26 283</ev_driverval>
    </enum_val>
    <enum_val id="ev/Ptouch-PageSize-12x100mm">
     <ev_longname>
@@ -172,7 +172,7 @@ USA
      <!-- Until someone tells me how to learn the user locale in
           backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[34 283]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>34 283</ev_driverval>
    </enum_val>
    <enum_val id="ev/Ptouch-PageSize-18x100mm">
     <ev_longname>
@@ -185,7 +185,7 @@ USA
      <!-- Until someone tells me how to learn the user locale in
           backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[51 283]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>51 283</ev_driverval>
    </enum_val>
    <enum_val id="ev/Ptouch-PageSize-24x100mm">
     <ev_longname>
@@ -198,7 +198,7 @@ USA
      <!-- Until someone tells me how to learn the user locale in
           backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[68 283]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>68 283</ev_driverval>
     <constraints>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
@@ -233,7 +233,7 @@ USA
      <!-- Until someone tells me how to learn the user locale in
           backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[102 283]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>102 283</ev_driverval>
     <constraints>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
