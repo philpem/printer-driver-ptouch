@@ -683,7 +683,7 @@ emit_job_cmds (job_options_t* job_options) {
  * @param do_cut     Emit codes to actually cut
  * @param do_mirror  Emit codes to mirror print
  */
-inline void
+static inline void
 emit_feed_cut_mirror (bool do_feed, unsigned feed,
                       bool do_cut,
                       bool do_mirror) {
@@ -896,7 +896,7 @@ const unsigned char mirror [0x100] = {
  * @return                    0 if entire line is empty (zeros)
  *                            nonzero if line contains nonzero pixels
  */
-inline int
+static inline int
 generate_emit_line (unsigned char* in_buffer,
                     unsigned char* out_buffer,
                     int buflen,
@@ -972,7 +972,7 @@ generate_emit_line (unsigned char* in_buffer,
  * @param job_options   Job options
  * @param page_options  Page options
  */
-inline void
+static inline void
 flush_rle_buffer (job_options_t* job_options,
                   page_options_t* page_options) {
 #ifdef DEBUG
@@ -1058,7 +1058,7 @@ flush_rle_buffer (job_options_t* job_options,
  * @param page_options  Page options
  * @param bytes         Number of bytes required.
  */
-inline void
+static inline void
 ensure_rle_buf_space (job_options_t* job_options,
                       page_options_t* page_options,
                       unsigned bytes) {
@@ -1129,7 +1129,7 @@ ensure_rle_buf_space (job_options_t* job_options,
  * can cause the RLE representation to be longer (by 1 byte) than the
  * corresponding input sequence in buf.
  */
-inline void
+static inline void
 RLE_store_line (job_options_t* job_options,
                 page_options_t* page_options,
                 const unsigned char* buf, unsigned buf_len) {
@@ -1243,7 +1243,7 @@ RLE_store_line (job_options_t* job_options,
  * @param empty_lines     Number of empty lines to store
  * @param xormask         The XOR mask for negative printing
  */
-inline void
+static inline void
 RLE_store_empty_lines (job_options_t* job_options,
                        page_options_t* page_options,
                        int empty_lines,
