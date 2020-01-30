@@ -18,7 +18,7 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<option type='bool' id='Brother-QL-LabelPreamble'>
+<option type='bool' id='opt/Brother-QL-LabelPreamble'>
   <comments>
     <en>
       Decide whether to emit a preamble selecting print quality,

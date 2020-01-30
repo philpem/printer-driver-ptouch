@@ -19,7 +19,7 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<option type='enum' id='Brother-PTQL-BytesPerLine'>
+<option type='enum' id='opt/Brother-PTQL-BytesPerLine'>
   <comments>
     <en>Number of bytes of pixel data required by the printer to print
     one line.  This is usually one, fixed number for any one printer,
