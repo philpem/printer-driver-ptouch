@@ -18,7 +18,7 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<option type='enum' id='Brother-PTQL-Align'>
+<option type='enum' id='opt/Brother-PTQL-Align'>
   <comments>
     <en>Horizontal alignment of pixel data sent to the printer when
     pixel data is more narrow than the maximum print width.

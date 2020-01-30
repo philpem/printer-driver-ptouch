@@ -18,7 +18,7 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<option type='bool' id='Brother-PTQL-ConcatPages'>
+<option type='bool' id='opt/Brother-PTQL-ConcatPages'>
   <comments>
     <en>Remove interpage margins and trailing vertical space on the
     final page, printing everything in one page.

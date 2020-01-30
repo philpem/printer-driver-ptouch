@@ -18,7 +18,7 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<option type='enum' id='Brother-PTQL-AdvanceMedia'>
+<option type='enum' id='opt/Brother-PTQL-AdvanceMedia'>
   <arg_longname>
     <en>Advance Media</en>
   </arg_longname>
