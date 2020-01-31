@@ -21,7 +21,7 @@ USA
 <option type='enum' id='opt/Brother-PTQL-AdvanceDistance'>
   <comments>
     <en>The extra distance, in points (72nds of an inch), by which to
-    advance the tape as indicated by AdvanceMedia
+    advance the tape as indicated by AdvanceDistance
     </en>
   </comments>
   <arg_longname>
