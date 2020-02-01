@@ -66,7 +66,6 @@
  *                               roll/label type, tape width, label height,
  *                               and pixel lines [noLabelPreamble]
  * @param Debug                  Emit diagnostic output to stderr [noDebug]
- *                               (only if compiled with DEBUG set)
  *
  * Information about media type, resolution, mirror print, negative
  * print, cut media, advance distance (feed) is extracted from the
@@ -401,6 +400,7 @@ typedef struct {
   int xfer_mode;        /**< transfer mode ???                    */
   bool label_preamble;  /**< emit ESC i z ...                     */
   bool concat_pages;    /**< remove interlabel margins            */
+  bool debug;		/**< emit debug information               */
   unsigned int page;    /**< The current page number              */
 } job_options_t;
 
@@ -437,6 +437,7 @@ parse_job_options (const char* str) {
     TRANSFER_MODE_DEFAULT,
     LABEL_PREAMBLE_DEFAULT,
     CONCAT_PAGES_DEFAULT,
+    /* debug */ false,
   };
 
   struct int_option {
@@ -461,6 +462,7 @@ parse_job_options (const char* str) {
     { "ConcatPages", &options.concat_pages },
     { "SoftwareMirror", &options.software_mirror },
     { "LabelPreamble", &options.label_preamble },
+    { "Debug", &options.debug },
     { }
   };
 
@@ -1455,33 +1457,44 @@ process_rasterdata (job_options_t* job_options) {
       header.HWResolution [0] / 72.0,
       header.HWResolution [1] / 72.0
     };
-#ifdef DEBUG
-    if (debug) {
-      fprintf (stderr, "DEBUG: pixel_xfer = %d\n", job_options->pixel_xfer);
-      fprintf (stderr, "DEBUG: print_quality_high = %d\n", job_options->print_quality_high);
-      fprintf (stderr, "DEBUG: half_cut = %d\n", job_options->half_cut);
-      fprintf (stderr, "DEBUG: bytes_per_line = %d\n", job_options->bytes_per_line);
-      fprintf (stderr, "DEBUG: align = %d\n", job_options->align);
-      fprintf (stderr, "DEBUG: software_mirror = %d\n", job_options->software_mirror);
-      fprintf (stderr, "DEBUG: label_preamble = %d\n", job_options->label_preamble);
-      fprintf (stderr, "DEBUG: print_density = %d\n", job_options->print_density);
-      fprintf (stderr, "DEBUG: xfer_mode = %d\n", job_options->xfer_mode);
-      fprintf (stderr, "DEBUG: concat_pages = %d\n", job_options->concat_pages);
-      fprintf (stderr, "DEBUG: cut_media = %d\n", new_page_options->cut_media);
-      fprintf (stderr, "DEBUG: mirror = %d\n", new_page_options->mirror);
-      fprintf (stderr, "DEBUG: roll_fed_media = %d\n", new_page_options->roll_fed_media);
-      fprintf (stderr, "DEBUG: resolution = %d x %d\n", new_page_options->resolution [0], new_page_options->resolution [1]);
-      fprintf (stderr, "DEBUG: page_size = %f x %f\n", new_page_options->page_size [0], new_page_options->page_size [1]);
-      fprintf (stderr, "DEBUG: image_height = %d\n", new_page_options->image_height);
-      fprintf (stderr, "DEBUG: feed = %d\n", new_page_options->feed);
-      fprintf (stderr, "DEBUG: perform_feed = %d\n", new_page_options->perform_feed);
-      fprintf (stderr, "DEBUG: header->cupsImagingBBox = [%f, %f, %f, %f]\n",
-               header.cupsImagingBBox [0], header.cupsImagingBBox [1],
-               header.cupsImagingBBox [2], header.cupsImagingBBox [3]);
-      fprintf (stderr, "DEBUG: header.Margins = [%u, %u]\n",
-               header.Margins [0], header.Margins [1]);
+    if (job_options->debug) {
+      fprintf (stderr, "DEBUG: %s: PageSize: %.2fx%.2f pt / %.2fx%.2f mm / %.2fx%.2f px\n",
+	       progname,
+	       header.cupsPageSize [0], header.cupsPageSize [1],
+	       header.cupsPageSize [0] * MM_PER_PT, header.cupsPageSize [1] * MM_PER_PT,
+	       header.cupsPageSize [0] * pt2px [0], header.cupsPageSize [1] * pt2px [1]);
+      float *bbox = header.cupsImagingBBox;
+      fprintf (stderr, "DEBUG: %s: ImagingBoundingBox: %.2f %.2f %.2f %.2f pt / "
+	       "%.2f %.2f %.2f %.2f mm /"
+	       "%.2f %.2f %.2f %.2f px\n",
+	       progname,
+	       bbox [0], bbox [1], bbox [2], bbox [3],
+	       bbox [0] * MM_PER_PT, bbox [1] * MM_PER_PT,
+	       bbox [2] * MM_PER_PT, bbox [3] * MM_PER_PT,
+	       bbox [0] * pt2px [0], bbox [1] * pt2px [1],
+	       bbox [2] * pt2px [0], bbox [3] * pt2px [1]);
+      fprintf (stderr, "DEBUG: %s: HWResolution: %dx%ddpi\n",
+	       progname,
+	       header.HWResolution [0], header.HWResolution [1]);
+      fprintf (stderr, "DEBUG: %s: Width Height: %u %u\n",
+	       progname,
+	       header.cupsWidth, header.cupsHeight);
+      fprintf (stderr, "DEBUG: %s: Margins: %u %u\n",
+	       progname,
+	       header.Margins [0], header.Margins [1]);
+      fprintf (stderr, "DEBUG: %s: CutMedia: %d\n",
+	       progname, header.CutMedia);
+      fprintf (stderr, "DEBUG: %s: MirrorPrint: %d\n",
+	       progname, header.MirrorPrint);
+      fprintf (stderr, "DEBUG: %s: NegativePrint: %d\n",
+	       progname, header.NegativePrint);
+      fprintf (stderr, "DEBUG: %s: MediaType: %s\n",
+	       progname, header.MediaType);
+      fprintf (stderr, "DEBUG: %s: AdvanceDistance: %u\n",
+	       progname, header.AdvanceDistance);
+      fprintf (stderr, "DEBUG: %s: AdvanceMedia: %u\n",
+	       progname, header.AdvanceMedia);
     }
-#endif
     page_prepare (header.cupsBytesPerLine, bytes_per_line);
     if (job_options->page == 1) {
       emit_job_cmds (job_options);
@@ -1618,6 +1631,9 @@ main (int argc, char* argv []) {
   }
 
   job_options_t job_options = parse_job_options (argv [optind]);
+
+  if (job_options.debug)
+    fprintf(stderr, "DEBUG: %s: job options: %s\n", progname, argv [optind]);
 
   if (input_filename) {
     int fd = open (input_filename, O_RDONLY);

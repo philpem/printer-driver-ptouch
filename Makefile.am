@@ -61,6 +61,7 @@ PRINTERS			= printer/Brother-QL-500.xml \
 OPTIONS				= opt/Brother-PTQL-AdvanceDistance.xml \
 				  opt/Brother-PTQL-AdvanceMedia.xml \
 				  opt/Brother-PTQL-Align.xml \
+				  opt/Brother-PTQL-Debug.xml \
 				  opt/Brother-PTQL-BytesPerLine.xml \
 				  opt/Brother-PTQL-ConcatPages.xml \
 				  opt/Brother-PTQL-CutMedia.xml \
