@@ -38,22 +38,16 @@
  * <h2>Invocation</h2>
  * The filter is invoked thus:
  *
- *         rastertoptch job user title copies options [filename]
+ *         rastertoptch [options] {job-options}
  *
- * @param printer  The name of the printer queue (ignored)
- * @param job      The numeric job ID (ignored)
- * @param user     The string from the originating-user-name (ignored)
- * @param title    The string from the job-name attribute (ignored)
- * @param copies   The number of copies to be printed (ignored)
- * @param options  String representations of the job template
- *                 parameters, separated by spaces. Boolean attributes
- *                 are provided as "name" for true values and "noname"
- *                 for false values. All other attributes are provided
- *                 as "name=value" for single-valued attributes and
- *                 "name=value1,value2,...,valueN" for set attributes
- * @param filename The request file (if omitted, read from stdin)
+ * @param options      See "rastertoptch --help".
+ * @param job-options  String representations of the job template
+ *                     parameters, separated by spaces. Boolean attributes
+ *                     are provided as "name" for true values and "noname"
+ *                     for false values. All other attributes are provided
+ *                     as "name=value".
  *
- * Available options (default values in [brackets]):
+ * Available job-options (default values in [brackets]):
  *
  * @param PixelXfer=ULP|RLE|BIP  Use uncompressed line printing (ULP),
  *                               run-length encoding (RLE) or bit
@@ -313,6 +307,9 @@
 #include <cups/cups.h>
 #include <limits.h>
 #include <stdbool.h>
+#include <getopt.h>
+
+static const char* progname;
 
 #ifdef DEBUG
 #include <sys/times.h>
@@ -425,14 +422,13 @@ typedef struct {
 } page_options_t;
 
 /**
- * Parse options given in command line argument 5.
- * @param argc  number of command line arguments plus one
- * @param argv  command line arguments
- * @return      options, where each option set to its default value if
- *              not specified in argv [5]
+ * Parse command-line cups options
+ * @param cups_options  cups option string
+ * @param options       default options to use
+ * @return              parsed options
  */
 job_options_t
-parse_options (int argc, const char* argv []) {
+parse_job_options (const char* str) {
   job_options_t options = {
     PIXEL_XFER_DEFAULT,
     PRINT_QUALITY_HIGH_DEFAULT,
@@ -445,11 +441,11 @@ parse_options (int argc, const char* argv []) {
     LABEL_PREAMBLE_DEFAULT,
     CONCAT_PAGES_DEFAULT,
   };
-  if (argc < 6) return options;
+
   int num_options = 0;
   cups_option_t* cups_options = NULL;
   num_options
-    = cupsParseOptions (argv [5], num_options, &cups_options);
+    = cupsParseOptions (str, num_options, &cups_options);
   const char* cups_option
     = cupsGetOption ("PixelXfer", num_options, cups_options);
   if (cups_option) {
@@ -503,28 +499,6 @@ parse_options (int argc, const char* argv []) {
   /* Release memory allocated for CUPS options struct */
   cupsFreeOptions (num_options, cups_options);
   return options;
-}
-
-/**
- * Determine input stream and open it.  If there are 6 command line
- * arguments, argv[6] is taken to be the input file name
- * otherwise stdin is used.  This funtion exits the program on error.
- * @param argc  number of command line arguments plus one
- * @param argv  command line arguments
- * @return      file descriptor for the opened input stream
- */
-int
-open_input_file (int argc, const char* argv []) {
-  int fd;
-  if (argc == 7) {
-    if ((fd = open (argv[6], O_RDONLY)) < 0) {
-      perror ("ERROR: Unable to open raster file - ");
-      sleep (1);
-      exit (1);
-    }
-  } else
-    fd = 0;
-  return fd;
 }
 
 /**
@@ -1505,6 +1479,21 @@ process_rasterdata (int fd, job_options_t* job_options) {
   }
   return 0;
 }
+
+static void help (void) {
+  printf ("Usage: %s [options] {job-options}\n"
+	  "\n"
+	  "Options:\n"
+	  "  -i, --input=NAME  read from NAME instead of standard input\n"
+	  "  -h, --help        display this help and exit\n",
+	  progname);
+}
+
+static void fail_bad_options () {
+  fprintf (stderr, "Try '%s --help' for more information\n", progname);
+  exit (2);
+}
+
 /**
  * Main entry function.
  * @param argc  number of command line arguments plus one
@@ -1512,14 +1501,9 @@ process_rasterdata (int fd, job_options_t* job_options) {
  * @return      0 if success, nonzero otherwise
  */
 int
-main (int argc, const char* argv []) {
-  error_occurred = 0;
+main (int argc, char* argv []) {
 #ifdef DEBUG
   int i;
-  if (argc > 5)
-    if (strcasestr (argv [5], "debug") == argv [5]
-        || strcasestr (argv [5], " debug") != NULL)
-      debug = true;
   struct tms time_start, time_end;
   if (debug) {
     fprintf (stderr, "DEBUG: args = ");
@@ -1532,9 +1516,50 @@ main (int argc, const char* argv []) {
   }
 #endif
 
-  job_options_t job_options = parse_options (argc, argv);
+  progname = basename (argv[0]);
+  const char *input_filename = NULL;
+  error_occurred = 0;
 
-  int fd = open_input_file (argc, argv);
+  for (;;) {
+    static struct option long_options[] = {
+      { "input",  1, NULL, 'i' },
+      { "help",   0, NULL, 'h' },
+      { }
+    };
+
+    int c = getopt_long (argc, argv, "hi:", long_options, NULL);
+    if (c == -1)
+      break;
+
+    switch (c) {
+    case 'h':  /* --help */
+      help();
+      exit(0);
+
+    case 'i':  /* --input=NAME */
+      input_filename = optarg;
+      break;
+
+    case '?':  /* unknown option or missing argument */
+      fail_bad_options ();
+    }
+  }
+
+  if (optind >= argc) {
+    fprintf (stderr, "%s: {job-options} argument missing\n", progname);
+    fail_bad_options ();
+  }
+
+  job_options_t job_options = parse_job_options (argv [optind]);
+
+  int fd = 0;
+  if (input_filename) {
+    fd = open (input_filename, O_RDONLY);
+    if (fd < 0) {
+      fprintf (stderr, "%s: %s: %s\n", progname, input_filename, strerror(errno));
+      exit (1);
+    }
+  }
 
   int rv = process_rasterdata (fd, &job_options);
 
