@@ -55,6 +55,7 @@ USA
     </en>
   </comments>
   <select>
+    <option id="opt/Brother-PT-LegacyTransferMode" />
     <option id="opt/Brother-PTQL-Resolution">
       <arg_defval>ev/360dpi</arg_defval>
       <enum_val id="ev/360dpi" />
