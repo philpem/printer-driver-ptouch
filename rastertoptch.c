@@ -360,6 +360,33 @@ unsigned lines_waiting = 0;
 /** Threshold for flushing waiting lines to printer.     */
 unsigned max_lines_waiting = INT_MAX;
 
+struct progress {
+  unsigned int page;
+  unsigned int height;
+  unsigned int completed;
+} progress;
+
+void report_progress (int signal) {
+  static struct progress old;
+  char buffer[64];
+  int len;
+
+  if ((old.page == progress.page &&
+       old.completed == progress.completed) ||
+      progress.height == 0)
+    return;
+  old = progress;
+
+  len = snprintf (buffer, sizeof (buffer),
+		  "INFO: printing page %u, %u%% done\n",
+		  progress.page,
+		  progress.completed * 100 / progress.height);
+  if (len > 0) {
+    if (write (2, buffer, len) != len)
+      /* ignore*/ ;
+  }
+}
+
 /**
  * Struct type for holding all the job options.
  */
@@ -1339,8 +1366,6 @@ emit_raster_lines (job_options_t* job_options,
     /* Truncate buffer to fit device width */
     buflen = bytes_per_line - right_padding_bytes - shift_positive;
   }
-  /* Percentage of page emitted */
-  int completed = -1;
   /* Generate and store empty lines if the top of cupsImagingBBox */
   /* doesn't touch the cupsPageSize box                           */
   unsigned top_empty_lines = 0;
@@ -1352,20 +1377,15 @@ emit_raster_lines (job_options_t* job_options,
     top_empty_lines = lrint (top_distance_pt * pt2px [1]);
     empty_lines += top_empty_lines;
   }
+
+  progress.page = job_options->page;
+  progress.height = cupsHeight;
+
   /* Generate and store actual page data */
   int y;
   for (y = 0; y < cupsHeight; y++) {
     /* Feedback to the user */
-    if ((y & 0x1f) == 0) {
-      int now_completed = 100 * y / cupsHeight;
-      if (now_completed > completed) {
-        completed = now_completed;
-        fprintf (stderr,
-                 "INFO: Printing page %d, %d%% complete...\n",
-                 job_options->page, completed);
-        fflush (stderr);
-      }
-    }
+    progress.completed = y;
     /* Read one line of pixels */
     if (cupsRasterReadPixels (ras, buffer, cupsBytesPerLine) < 1)
       break;  /* Escape if no pixels read */
@@ -1383,6 +1403,8 @@ emit_raster_lines (job_options_t* job_options,
     } else
       empty_lines++;
   }
+  progress.completed = cupsHeight;
+  report_progress (0);
 
   unsigned image_height_px = lrint (page_size_y * pt2px [1]);
   unsigned bot_empty_lines;
@@ -1392,10 +1414,6 @@ emit_raster_lines (job_options_t* job_options,
     bot_empty_lines = 0;
   if (bot_empty_lines != 0 && !job_options->concat_pages)
     empty_lines += bot_empty_lines;
-  fprintf (stderr,
-           "INFO: Printing page %d, 100%% complete.\n",
-           job_options->page);
-  fflush (stderr);
   return 0;
 }
 /**
@@ -1620,6 +1638,12 @@ main (int argc, char* argv []) {
     dup2 (fd, 1);
     close (fd);
   }
+
+  signal (SIGALRM, report_progress);
+  struct itimerval it = { };
+  it.it_value.tv_sec = 1;
+  it.it_interval.tv_sec = 1;
+  setitimer (ITIMER_REAL, &it, NULL);
 
   process_rasterdata (&job_options);
 
