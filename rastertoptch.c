@@ -1296,18 +1296,21 @@ emit_raster_lines (job_options_t* job_options,
   if (buflen >= bytes_per_line) buflen = bytes_per_line;
   /* Calculate extra horizontal spacing pixels if the right side of */
   /* cupsImagingBBox doesn't touch the cupsPageSize box             */
-  float scale_pt2xpixels = header->HWResolution [0] / 72.0;
+  float pt2px[] = {
+    header->HWResolution [0] / 72.0,
+    header->HWResolution [1] / 72.0
+  };
   unsigned right_spacing_px = 0;
   if (header->cupsImagingBBox[2] < header->cupsPageSize[0]) {
     right_spacing_px =
       (header->cupsPageSize[0] - header->cupsImagingBBox[2]) *
-      scale_pt2xpixels;
+      pt2px [0];
   }
   /* Calculate right_padding_bytes and shift */
   int right_padding_bits;
   if (job_options->align == CENTER) {
     unsigned left_spacing_px =
-      header->cupsImagingBBox[0] * scale_pt2xpixels;
+      header->cupsImagingBBox[0] * pt2px [0];
     right_padding_bits
       = (bytes_per_line * 8
          - (left_spacing_px + cupsWidth + right_spacing_px)) / 2
@@ -1340,14 +1343,13 @@ emit_raster_lines (job_options_t* job_options,
   int completed = -1;
   /* Generate and store empty lines if the top of cupsImagingBBox */
   /* doesn't touch the cupsPageSize box                           */
-  float scale_pt2ypixels = header->HWResolution [1] / 72.0;
   unsigned top_empty_lines = 0;
   float page_size_y = header->cupsPageSize [1];
   if (header->cupsImagingBBox [3] != 0
       && (!job_options->concat_pages || job_options->page == 1)) {
     float top_distance_pt
       = page_size_y - header->cupsImagingBBox [3];
-    top_empty_lines = lrint (top_distance_pt * scale_pt2ypixels);
+    top_empty_lines = lrint (top_distance_pt * pt2px [1]);
     empty_lines += top_empty_lines;
   }
   /* Generate and store actual page data */
@@ -1382,7 +1384,7 @@ emit_raster_lines (job_options_t* job_options,
       empty_lines++;
   }
 
-  unsigned image_height_px = lrint (page_size_y * scale_pt2ypixels);
+  unsigned image_height_px = lrint (page_size_y * pt2px [1]);
   unsigned bot_empty_lines;
   if (image_height_px >= top_empty_lines + y)
     bot_empty_lines = image_height_px - top_empty_lines - y;
@@ -1431,6 +1433,10 @@ process_rasterdata (job_options_t* job_options) {
          new_page_options = tmp_page_options,
 	 job_options->page++) {
     update_page_options (&header, new_page_options);
+    float pt2px[] = {
+      header.HWResolution [0] / 72.0,
+      header.HWResolution [1] / 72.0
+    };
 #ifdef DEBUG
     if (debug) {
       fprintf (stderr, "DEBUG: pixel_xfer = %d\n", job_options->pixel_xfer);
@@ -1489,9 +1495,8 @@ process_rasterdata (job_options_t* job_options) {
         flush_rle_buffer (job_options, page_options);
         putchar (PTC_FORMFEED);
       } else {
-        float scale_pt2ypixels = header.HWResolution [1] / 72.0;
         unsigned bot_empty_lines
-          = lrint (header.cupsImagingBBox [1] * scale_pt2ypixels);
+          = lrint (header.cupsImagingBBox [1] * pt2px [1]);
         empty_lines = bot_empty_lines;
         RLE_store_empty_lines
           (job_options, page_options, empty_lines, xormask);
