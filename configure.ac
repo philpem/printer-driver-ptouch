@@ -36,18 +36,14 @@ AC_SUBST([LIBCUPSIMAGE])
 AC_SUBST([LIBPNG])
 
 # Checks for header files.
-AC_HEADER_STDC
-AC_CHECK_HEADERS([cups/cups.h cups/raster.h fcntl.h stdlib.h string.h unistd.h])
+AC_CHECK_HEADERS([cups/cups.h cups/raster.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
-AC_HEADER_STDBOOL
 AC_C_INLINE
 
 # Checks for library functions.
-AC_FUNC_MALLOC
-AC_TYPE_SIGNAL
-AC_CHECK_FUNCS([memset strcasecmp strstr strtol])
+AC_CHECK_FUNCS([strcasecmp strtol])
 
 AC_CONFIG_FILES([Makefile
                  ptouch-driver.spec
