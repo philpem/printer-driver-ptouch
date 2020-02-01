@@ -66,7 +66,6 @@
  * @param Align=Right|Center     Pixel data alignment on tape [Right]
  * @param PrintDensity=1|...|5   Print density level: 1=light, 5=dark
  * @param ConcatPages            Output all pages in one page [noConcatPages]
- * @param RLEMemMax              Maximum memory used for RLE buffer [1000000]
  * @param SoftwareMirror         Make the filter mirror pixel data
  *                               if MirrorPrint is requested [noSoftwareMirror]
  * @param LabelPreamble          Emit preamble containing print quality,
@@ -281,8 +280,6 @@
 #define LABEL_PREAMBLE_DEFAULT     false
 /** Interlabel margin removal default */
 #define CONCAT_PAGES_DEFAULT       false
-/** RLE buffer maximum memory usage */
-#define RLE_ALLOC_MAX_DEFAULT      1000000
 /** Mirror printing default */
 #define MIRROR_DEFAULT             false
 /** Negative printing default */
@@ -410,7 +407,6 @@ typedef struct {
   int xfer_mode;        /**< transfer mode ???                    */
   int label_preamble;   /**< emit ESC i z ...                     */
   bool concat_pages;    /**< remove interlabel margins            */
-  unsigned long rle_alloc_max; /**< max bytes used for rle_buffer */
   unsigned int page;    /**< The current page number              */
 } job_options_t;
 
@@ -448,7 +444,6 @@ parse_options (int argc, const char* argv []) {
     TRANSFER_MODE_DEFAULT,
     LABEL_PREAMBLE_DEFAULT,
     CONCAT_PAGES_DEFAULT,
-    RLE_ALLOC_MAX_DEFAULT,
   };
   if (argc < 6) return options;
   int num_options = 0;
@@ -502,7 +497,6 @@ parse_options (int argc, const char* argv []) {
   OBTAIN_INT_OPTION ("PrintDensity", print_density,
                      0, PRINT_DENSITY_MAX);
   OBTAIN_BOOL_OPTION ("ConcatPages", concat_pages);
-  OBTAIN_INT_OPTION ("RLEMemMax", rle_alloc_max, 0, LONG_MAX);
   OBTAIN_INT_OPTION ("TransferMode", xfer_mode, 0, 255);
   OBTAIN_BOOL_OPTION ("SoftwareMirror", software_mirror);
   OBTAIN_BOOL_OPTION ("LabelPreamble", label_preamble);
@@ -1060,12 +1054,8 @@ ensure_rle_buf_space (job_options_t* job_options,
              new_alloced * sizeof (char));
 #endif
     void* p = NULL;
-    if (new_alloced <= job_options->rle_alloc_max) {
-      if (rle_buffer)
-        p = (unsigned char*) realloc (rle_buffer, new_alloced * sizeof (char));
-      else
-        p = (unsigned char*) malloc (new_alloced * sizeof (char));
-    }
+    if (new_alloced <= 1000000)
+      p = realloc (rle_buffer, new_alloced * sizeof (char));
     if (p) {
       rle_buffer = p;
       rle_buffer_next = rle_buffer + nextpos;
