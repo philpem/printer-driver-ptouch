@@ -343,9 +343,6 @@ typedef enum {
  */
 typedef enum {RIGHT, CENTER} align_t;
 
-/** Flag signalling whether any errors were encountered. */
-int error_occurred;
-
 /** CUPS Raster line buffer.                             */
 unsigned char* buffer;
 /** Buffer holding line data to emit to the printer.     */
@@ -363,33 +360,6 @@ unsigned lines_waiting = 0;
 /** Threshold for flushing waiting lines to printer.     */
 unsigned max_lines_waiting = INT_MAX;
 
-/** Macro for obtaining integer option values. */
-#define OBTAIN_INT_OPTION(name, var, min, max)                  \
-  cups_option                                                   \
-    = cupsGetOption (name, num_options, cups_options);          \
-  if (cups_option) {                                            \
-    errno = 0;                                                  \
-    char* rest;                                                 \
-    long int var = strtol (cups_option, &rest, 0);              \
-    if (errno || *rest != '\0' || rest == cups_option           \
-        || var < min || var > max) {                            \
-      fprintf (stderr, "ERROR: " name " '%s', "                 \
-               "must be an integer N, where %ld <= N <= %ld\n", \
-               cups_option, (long) min, (long) max);            \
-      error_occurred = 1;                                       \
-    } else                                                      \
-      options.var = var;                                        \
-  }
-
-/** Macro for obtaining boolean option values. */
-#define OBTAIN_BOOL_OPTION(name, var)                      \
-  cups_option                                              \
-    = cupsGetOption (name, num_options, cups_options);     \
-  if (cups_option) options.var = true;                     \
-  cups_option                                              \
-    = cupsGetOption ("no"name, num_options, cups_options); \
-  if (cups_option) options.var = false;                    \
-
 /**
  * Struct type for holding all the job options.
  */
@@ -399,10 +369,10 @@ typedef struct {
   bool half_cut;        /**< half cut                             */
   int bytes_per_line;   /**< bytes per line (print head width)    */
   align_t align;        /**< pixel data alignment                 */
-  int software_mirror;  /**< mirror pixel data if mirror printing */
+  bool software_mirror; /**< mirror pixel data if mirror printing */
   int print_density;    /**< printing density (0=don't change)    */
   int xfer_mode;        /**< transfer mode ???                    */
-  int label_preamble;   /**< emit ESC i z ...                     */
+  bool label_preamble;  /**< emit ESC i z ...                     */
   bool concat_pages;    /**< remove interlabel margins            */
   unsigned int page;    /**< The current page number              */
 } job_options_t;
@@ -442,60 +412,127 @@ parse_job_options (const char* str) {
     CONCAT_PAGES_DEFAULT,
   };
 
-  int num_options = 0;
-  cups_option_t* cups_options = NULL;
-  num_options
-    = cupsParseOptions (str, num_options, &cups_options);
-  const char* cups_option
-    = cupsGetOption ("PixelXfer", num_options, cups_options);
-  if (cups_option) {
-    if (strcasecmp (cups_option, "ULP") == 0)
-      options.pixel_xfer = ULP;
-    else if (strcasecmp (cups_option, "RLE") == 0)
-      options.pixel_xfer = RLE;
-    else if (strcasecmp (cups_option, "BIP") == 0)
-      options.pixel_xfer = BIP;
-    else {
-      fprintf (stderr, "ERROR: Unknown PicelXfer '%s', "
-               "must be RLE, BIP or ULP\n", cups_option);
-      error_occurred = 1;
+  struct int_option {
+    const char *name;
+    int *value;
+    int min;
+    int max;
+  };
+  struct int_option int_options [] = {
+    { "BytesPerLine", &options.bytes_per_line, 1, BYTES_PER_LINE_MAX },
+    { "PrintDensity", &options.print_density, 0, PRINT_DENSITY_MAX },
+    { "TransferMode", &options.xfer_mode, 0, 255 },
+    { }
+  };
+
+  struct bool_option {
+    const char *name;
+    bool *value;
+  };
+  struct bool_option bool_options [] = {
+    { "HalfCut", &options.half_cut },
+    { "ConcatPages", &options.concat_pages },
+    { "SoftwareMirror", &options.software_mirror },
+    { "LabelPreamble", &options.label_preamble },
+    { }
+  };
+
+  cups_option_t* cups_options;
+  int num_options = cupsParseOptions (str, 0, &cups_options);
+  while (num_options-- > 0) {
+    const char *name = cups_options[num_options].name;
+    const char *value = cups_options[num_options].value;
+
+    if (strcasecmp (name, "PixelXfer") == 0) {
+      if (value) {
+	if (strcasecmp (value, "RLE") == 0) {
+	  options.pixel_xfer = RLE;
+	  continue;
+	}
+	if (strcasecmp (value, "BIP") == 0) {
+	  options.pixel_xfer = BIP;
+	  continue;
+	}
+	if (strcasecmp (value, "ULP") == 0) {
+	  options.pixel_xfer = ULP;
+	  continue;
+	}
+      }
+      fprintf (stderr, "ERROR: The value of %s "
+	       "must be RLE, BIP or ULP\n", name);
+      exit (2);
+      continue;
     }
-  }
-  cups_option
-    = cupsGetOption ("PrintQuality", num_options, cups_options);
-  if (cups_option) {
-    if (strcasecmp (cups_option, "High") == 0)
-      options.print_quality_high = true;
-    else if (strcasecmp (cups_option, "Fast") == 0)
-      options.print_quality_high = false;
-    else {
-      fprintf (stderr, "ERROR: Unknown PrintQuality '%s', "
-               "must be High or Fast\n", cups_option);
-      error_occurred = 1;
+    if (strcasecmp (name, "PrintQuality") == 0) {
+      if (value) {
+	if (strcasecmp (value, "High") == 0) {
+	  options.print_quality_high = true;
+	  continue;
+	}
+	if (strcasecmp (value, "Fast") == 0) {
+	  options.print_quality_high = false;
+	  continue;
+	}
+      }
+      fprintf (stderr, "ERROR: The value of %s "
+	       "must be High or Fast\n", name);
+      exit (2);
+      continue;
     }
-  }
-  OBTAIN_BOOL_OPTION ("HalfCut", half_cut);
-  OBTAIN_INT_OPTION ("BytesPerLine", bytes_per_line,
-                     1, BYTES_PER_LINE_MAX);
-  cups_option
-    = cupsGetOption ("Align", num_options, cups_options);
-  if (cups_option) {
-    if (strcasecmp (cups_option, "Right") == 0)
-      options.align = RIGHT;
-    else if (strcasecmp (cups_option, "Center") == 0)
-      options.align = CENTER;
-    else {
-      fprintf (stderr, "ERROR: Unknown Align '%s', "
-               "must be Right or Center\n", cups_option);
-      error_occurred = 1;
+    if (strcasecmp (name, "Align") == 0) {
+      if (value) {
+	if (strcasecmp (value, "Right") == 0) {
+	  options.align = RIGHT;
+	  continue;
+	}
+	if (strcasecmp (value, "Center") == 0) {
+	  options.align = CENTER;
+	  continue;
+	}
+      }
+      fprintf (stderr, "ERROR: the value of %s "
+	       "must be Right or Center\n", name);
+      exit (2);
+      continue;
     }
+
+    struct int_option *int_option;
+    for (int_option = int_options; int_option->name; int_option++) {
+      if (strcasecmp (name, int_option->name) == 0) {
+	if (value) {
+	  errno = 0;
+	  char *rest;
+	  long v = strtol (value, &rest, 0);
+	  if (!errno && rest != value && *rest == '\0' &&
+	      v >= int_option->min && v <= int_option->max) {
+	    *int_option->value = v;
+	    break;
+	  }
+	}
+	fprintf (stderr, "%s\n", value);
+	fprintf (stderr, "ERROR: The value of %s must be an "
+			 "integer between %d and %d\n",
+		 name, int_option->min, int_option->max);
+	exit (2);
+      }
+    }
+    if (int_option->name)
+      continue;
+
+    struct bool_option *bool_option;
+    for (bool_option = bool_options; bool_option->name; bool_option++) {
+      if (strcasecmp (name, bool_option->name) == 0) {
+	*bool_option->value = strcasecmp (value, "true") == 0;
+	break;
+      }
+    }
+    if (bool_option->name)
+      continue;
+
+    fprintf (stderr, "ERROR: Unknown option %s\n", name);
+    exit (2);
   }
-  OBTAIN_INT_OPTION ("PrintDensity", print_density,
-                     0, PRINT_DENSITY_MAX);
-  OBTAIN_BOOL_OPTION ("ConcatPages", concat_pages);
-  OBTAIN_INT_OPTION ("TransferMode", xfer_mode, 0, 255);
-  OBTAIN_BOOL_OPTION ("SoftwareMirror", software_mirror);
-  OBTAIN_BOOL_OPTION ("LabelPreamble", label_preamble);
+
   /* Release memory allocated for CUPS options struct */
   cupsFreeOptions (num_options, cups_options);
   return options;
@@ -1359,9 +1396,8 @@ emit_raster_lines (job_options_t* job_options,
  * Process CUPS raster data from input file, emitting printer data on
  * stdout.
  * @param job_options  Pointer to print options
- * @return             0 on success, nonzero otherwise
  */
-int
+void
 process_rasterdata (job_options_t* job_options) {
   cups_raster_t* ras;              /* Raster stream for printing    */
   cups_page_header2_t header;      /* Current page header           */
@@ -1476,7 +1512,6 @@ process_rasterdata (job_options_t* job_options) {
     /* Emit page count according to CUPS requirements */
     fprintf (stderr, "PAGE: %d 1\n", job_options->page);
   }
-  return 0;
 }
 
 static void help (void) {
@@ -1519,7 +1554,6 @@ main (int argc, char* argv []) {
   progname = basename (argv[0]);
   const char *input_filename = NULL;
   const char *output_filename = NULL;
-  error_occurred = 0;
 
   for (;;) {
     static struct option long_options[] = {
@@ -1578,7 +1612,7 @@ main (int argc, char* argv []) {
     close (fd);
   }
 
-  int rv = process_rasterdata (&job_options);
+  process_rasterdata (&job_options);
 
 #ifdef DEBUG
   if (debug) {
@@ -1593,5 +1627,5 @@ main (int argc, char* argv []) {
   }
 #endif
 
-  if (error_occurred) return error_occurred; else return rv;
+  return 0;
 }
