@@ -58,6 +58,7 @@ USA
     </en>
   </comments>
   <select>
+    <option id="opt/Brother-PT-LegacyTransferMode" />
     <option id="opt/Brother-PTQL-Resolution">
       <enum_val id="ev/180dpi" />
     </option>

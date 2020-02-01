@@ -102,9 +102,9 @@
  * <tr><td>ESC i K # (1b 69 4b ##)
  *     <td>Set half cut</td>
  *     <td>bit 2: 0=full cut, 1=half cut</td></tr>
- * <tr><td>ESC i R ## (1b 69 52 ##)</td>
- *     <td>Set transfer mode</td>
- *     <td>##: ?: 1=?</td></tr>
+ * <tr><td>ESC i a ## (1b 69 52 ##)</td>
+ *     <td>Set transfer mode (legacy: ESC i R ##)</td>
+ *     <td>##: Transfer mode: 1=Raster mode</td></tr>
  * <tr><td>M ## (4d ##)</td>
  *     <td>Set compression</td>
  *     <td>##: Compression type: 2=RLE</td></tr>
@@ -248,6 +248,12 @@
  *   than 61mm, which is probably to ensure that printed pixels stay
  *   within the tape even if it is not precisely positioned.  The
  *   print head really IS 720 pixels.
+ * - The Brother Raster Command Reference for various printers document that
+ *   the "ESC i a 0x01" command sequence should be used to switch printers into
+ *   raster mode.  That's the command sequence at least some of the Windows
+ *   drivers use (tested on PT-P700 and PT-P900W).  It's unclear which (if any)
+ *   printers require "ESC i R 0x01", so keep using that for old printers and
+ *   switch to "ESC i a 0x01" for printers documented to use "ESC i a 0x01".
  */
 
 #include <config.h>
@@ -352,6 +358,7 @@ typedef struct {
   align_t align;        /**< pixel data alignment                 */
   bool software_mirror; /**< mirror pixel data if mirror printing */
   int print_density;    /**< printing density (1=light, ..., 5=dark, 0=don't change)    */
+  int legacy_xfer_mode; /**< legacy transfer mode (-1 = don't set)       */
   int xfer_mode;        /**< transfer mode (-1 = don't set)       */
   bool label_preamble;  /**< emit ESC i z ...                     */
   bool concat_pages;    /**< remove interlabel margins            */
@@ -380,6 +387,7 @@ parse_job_options (const char* str) {
     /* align */ RIGHT,
     /* software_mirror*/ false,
     /* print_density */ 0,
+    /* legacy_xfer_mode (don't set) */ -1,
     /* xfer_mode (don't set) */ -1,
     /* label_preamble */ false,
     /* concat_pages */ false,
@@ -396,6 +404,7 @@ parse_job_options (const char* str) {
   struct int_option int_options [] = {
     { "BytesPerLine", &options.bytes_per_line, 1, 255 },
     { "PrintDensity", &options.print_density, 0, 5 },
+    { "LegacyTransferMode", &options.legacy_xfer_mode, 0, 255 },
     { "TransferMode", &options.xfer_mode, 0, 255 },
     { }
   };
@@ -641,9 +650,13 @@ emit_job_cmds (job_options_t* job_options) {
   /* Initialise printer */
   putchar (ESC); putchar ('@');
   /* Emit transfer mode selection command if required */
+  int legacy_xfer_mode = job_options->legacy_xfer_mode;
+  if (legacy_xfer_mode >= 0 && legacy_xfer_mode < 0x100) {
+    putchar (ESC); putchar ('i'); putchar ('R'); putchar (legacy_xfer_mode);
+  }
   int xfer_mode = job_options->xfer_mode;
   if (xfer_mode >= 0 && xfer_mode < 0x100) {
-    putchar (ESC); putchar ('i'); putchar ('R'); putchar (xfer_mode);
+    putchar (ESC); putchar ('i'); putchar ('a'); putchar (xfer_mode);
   }
 }
 
