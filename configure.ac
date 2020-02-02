@@ -12,9 +12,28 @@ AC_PROG_CC
 AC_PROG_INSTALL
 
 # Checks for libraries.
-AC_CHECK_LIB([cups], [cupsParseOptions])
-AC_CHECK_LIB([cupsimage], [cupsRasterReadHeader])
+INITIAL_LIBS=$LIBS
+
 AC_CHECK_LIB([m], [lrint])
+LIBM=$LIBS
+LIBS=$INITIAL_LIBS
+
+AC_CHECK_LIB([cups], [cupsParseOptions])
+LIBCUPS=$LIBS
+LIBS=$INITIAL_LIBS
+
+AC_CHECK_LIB([cupsimage], [cupsRasterReadHeader])
+LIBCUPSIMAGE=$LIBS
+LIBS=$INITIAL_LIBS
+
+AC_CHECK_LIB([png], [png_write_row])
+LIBPNG=$LIBS
+LIBS=$INITIALL_LIBS
+
+AC_SUBST([LIBM])
+AC_SUBST([LIBCUPS])
+AC_SUBST([LIBCUPSIMAGE])
+AC_SUBST([LIBPNG])
 
 # Checks for header files.
 AC_HEADER_STDC
