@@ -18,9 +18,19 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 ## USA
 
+LIBM				= @LIBM@
+LIBCUPS				= @LIBCUPS@
+LIBCUPSIMAGE			= @LIBCUPSIMAGE@
+LIBPNG				= @LIBPNG@
+
 execfilterdir			= $(libdir)/cups/filter
 execfilter_PROGRAMS		= rastertoptch
 rastertoptch_CPPFLAGS		= -D_GNU_SOURCE
+rastertoptch_LDADD		= $(LIBM) $(LIBCUPS) $(LIBCUPSIMAGE)
+
+noinst_ptexplaindir		= .
+noinst_ptexplain_PROGRAMS	= ptexplain
+ptexplain_LDADD			= $(LIBPNG)
 
 DRIVERS				= driver/ptouch-pt.xml \
 				  driver/ptouch-ql.xml
