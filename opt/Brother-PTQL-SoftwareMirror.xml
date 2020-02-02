@@ -18,7 +18,7 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<option type='bool' id='opt/Brother-PTQL-SoftwareMirror'>
+<option type='enum' id='opt/Brother-PTQL-SoftwareMirror'>
   <comments>
     <en>
       Decide whether the hardware mirrors the pixel line data, or
@@ -31,21 +31,25 @@ USA
   <arg_shortname>
     <en>SoftwareMirror</en>
   </arg_shortname>
-  <arg_shortname_false>
-    <en>HardwareMirror</en>
-  </arg_shortname_false>
   <arg_execution>
     <arg_group>PrinterSpecifics</arg_group>
     <arg_order>110</arg_order>
     <arg_spot>B</arg_spot>
     <arg_substitution />
-    <arg_proto> SoftwareMirror </arg_proto>
+    <arg_proto> %s </arg_proto>
   </arg_execution>
+  <enum_vals>
+    <enum_val id="ev/SoftwareMirror">
+      <ev_longname>
+       <en>Software Mirror</en>
+      </ev_longname>
+      <ev_shortname>
+       <en>SoftwareMirror</en>
+      </ev_shortname>
+      <ev_driverval>SoftwareMirror</ev_driverval>
+    </enum_val>
+  </enum_vals>
   <constraints>
-    <constraint sense='true'>
-      <driver>ptouch-pt</driver>
-      <arg_defval>0</arg_defval>
-    </constraint>
     <constraint sense='true'>
       <driver>ptouch-ql</driver>
       <arg_defval>1</arg_defval>
