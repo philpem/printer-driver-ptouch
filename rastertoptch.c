@@ -138,7 +138,7 @@
  *         #5 #6: Page consists of N=#5+256*#6 pixel lines</td></tr>
  * <tr><td>ESC i d #1 #2 <br>(1b 69 64 #1 #2)</td>
  *     <td>Set margin</td>
- *     <td>Set size of right(?) margin to N=#1+256*#2 pixels</td></tr>
+ *     <td>Set size of top and bottom margin to N=#1+256*#2 pixels</td></tr>
  * <tr><td>FF (0c)</td>
  *     <td>Form feed</td>
  *     <td>Print buffer data without ejecting.</td></tr>
@@ -720,6 +720,13 @@ emit_quality_rollfed_size (job_options_t* job_options,
   putchar (0x00);   // n10, always 0
 }
 
+void emit_feed (cups_page_header2_t* header) {
+  float pt2px = header->HWResolution [1] / 72.0;
+  unsigned feed = lrint (header->AdvanceDistance * pt2px);
+  putchar (ESC); putchar ('i'); putchar ('d');
+  putchar (feed & 0xff); putchar ((feed >> 8) & 0xff);
+}
+
 /**
  * Emit printer command codes at start of page for options that have
  * changed.
@@ -777,7 +784,7 @@ emit_page_cmds (job_options_t* job_options,
                           header->CutMedia == CUPS_CUT_PAGE,
                           header->MirrorPrint == CUPS_TRUE);
 
-  /* WHY DON'T WE SET MARGIN (ESC i d ...)? */
+  emit_feed (header);
 
   /* Set pixel data transfer compression */
   if (force) {
