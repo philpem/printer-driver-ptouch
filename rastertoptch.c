@@ -310,14 +310,6 @@
 
 static const char* progname;
 
-#ifdef DEBUG
-#include <sys/times.h>
-/** Debug flag */
-int debug = 0;
-/** Number of emitted lines */
-unsigned emitted_lines = 0;
-#endif
-
 /** Length of a PostScript point in mm */
 #define MM_PER_PT    (25.4 / 72.0)
 /** Printer code: Eject */
@@ -925,15 +917,6 @@ generate_emit_line (unsigned char* in_buffer,
                     int shift,
                     int do_mirror,
                     unsigned char xormask) {
-#ifdef DEBUG
-  if (debug)
-    fprintf (stderr, "DEBUG: generate_emit_line "
-             "(in_buffer=%0x, out_buffer=%0x, "
-             "buflen=%d, bytes_per_line=%d, right_padding_bytes=%d, "
-             "shift=%d, do_mirror=%d, xormask=%0x)\n",
-             in_buffer, out_buffer, buflen, bytes_per_line,
-             right_padding_bytes, shift, do_mirror, xormask);
-#endif
   /* Generate right padding zero bytes */
   memset (out_buffer, xormask, right_padding_bytes);
   unsigned int nonzero = 0;
@@ -995,12 +978,6 @@ generate_emit_line (unsigned char* in_buffer,
 static inline void
 flush_rle_buffer (job_options_t* job_options,
                   page_options_t* page_options) {
-#ifdef DEBUG
-  if (debug)
-    fprintf (stderr, "DEBUG: flush_rle_buffer (): "
-             "lines_waiting = %d\n",
-             lines_waiting);
-#endif
   if (lines_waiting > 0) {
     if (job_options->label_preamble)
       emit_quality_rollfed_size (job_options, page_options,
@@ -1054,10 +1031,6 @@ flush_rle_buffer (job_options_t* job_options,
         }
         emitted_lines++;
       }
-#ifdef DEBUG
-  if (debug)
-    fprintf (stderr, "DEBUG: emitted %d lines\n", emitted_lines);
-#endif
       break;
     }
     default:
@@ -1085,14 +1058,6 @@ ensure_rle_buf_space (job_options_t* job_options,
   if (nextpos + bytes > rle_alloced) {
     /* Exponential size increase avoids too frequent reallocation */
     unsigned long new_alloced = rle_alloced * 2 + 0x4000;
-#ifdef DEBUG
-  if (debug)
-    fprintf (stderr, "DEBUG: ensure_rle_buf_space (bytes=%d): "
-             "increasing rle_buffer from %d to %d\n",
-             bytes,
-             rle_alloced * sizeof (char),
-             new_alloced * sizeof (char));
-#endif
     void* p = NULL;
     if (new_alloced <= 1000000)
       p = realloc (rle_buffer, new_alloced * sizeof (char));
@@ -1264,12 +1229,6 @@ RLE_store_empty_lines (job_options_t* job_options,
                        int empty_lines,
                        unsigned char xormask) {
   int bytes_per_line = job_options->bytes_per_line;
-#ifdef DEBUG
-  if (debug)
-    fprintf (stderr, "DEBUG: RLE_store_empty_lines (empty_lines=%d, "
-             "bytes_per_line=%d): lines_waiting = %d\n",
-             empty_lines, bytes_per_line, lines_waiting);
-#endif
   lines_waiting += empty_lines;
   if (xormask) {
     int blocks = (bytes_per_line + 127) / 128;
@@ -1355,13 +1314,6 @@ emit_raster_lines (job_options_t* job_options,
   int shift_positive = (shift > 0 ? 1 : 0);
   /* We cannot allow buffer+padding to exceed device width */
   if (buflen + right_padding_bytes + shift_positive > bytes_per_line) {
-#ifdef DEBUG
-    if (debug) {
-      fprintf (stderr, "DEBUG: Warning: buflen = %d, right_padding_bytes = %d, "
-               "shift = %d, bytes_per_line = %d\n",
-               buflen, right_padding_bytes, shift, bytes_per_line);
-    }
-#endif
     /* We cannot allow padding to exceed device width */
     if (right_padding_bytes + shift_positive > bytes_per_line)
       right_padding_bytes = bytes_per_line - shift_positive;
@@ -1577,20 +1529,6 @@ static void fail_bad_options () {
  */
 int
 main (int argc, char* argv []) {
-#ifdef DEBUG
-  int i;
-  struct tms time_start, time_end;
-  if (debug) {
-    fprintf (stderr, "DEBUG: args = ");
-    for (i = 0; i < argc; i++) fprintf (stderr, "%d:'%s' ", i, argv [i]);
-    fprintf (stderr, "\nDEBUG: environment =\n");
-    char** envvarbind;
-    for (envvarbind = environ; *envvarbind; envvarbind++)
-      fprintf (stderr, "DEBUG:  %s\n", *envvarbind);
-    times (&time_start);
-  }
-#endif
-
   progname = basename (argv[0]);
   const char *input_filename = NULL;
   const char *output_filename = NULL;
@@ -1662,19 +1600,6 @@ main (int argc, char* argv []) {
   setitimer (ITIMER_REAL, &it, NULL);
 
   process_rasterdata (&job_options);
-
-#ifdef DEBUG
-  if (debug) {
-    times (&time_end);
-    fprintf (stderr, "DEBUG: User time  System time  (usec)\n");
-    fprintf (stderr, "DEBUG: %9.3g  %9.3g\n",
-             (time_end.tms_utime - time_start.tms_utime)
-             * 1000000.0 / CLOCKS_PER_SEC,
-             (time_end.tms_stime - time_start.tms_stime)
-             * 1000000.0 / CLOCKS_PER_SEC);
-    fprintf (stderr, "DEBUG: Emitted lines: %u\n", emitted_lines);
-  }
-#endif
 
   return 0;
 }
