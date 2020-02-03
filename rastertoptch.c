@@ -1358,12 +1358,11 @@ emit_raster_lines (job_options_t* job_options,
 /**
  * Process CUPS raster data from input file, emitting printer data on
  * stdout.
- * @param fd           File descriptor for input file
  * @param job_options  Pointer to print options
  * @return             0 on success, nonzero otherwise
  */
 int
-process_rasterdata (int fd, job_options_t* job_options) {
+process_rasterdata (job_options_t* job_options) {
   cups_raster_t* ras;              /* Raster stream for printing    */
   cups_page_header2_t header;      /* Current page header           */
   int more_pages;                  /* Are there more pages left?    */
@@ -1383,7 +1382,7 @@ process_rasterdata (int fd, job_options_t* job_options) {
   page_options_t* old_page_options
     = page_options + 1;            /* Options for preceding page    */
   page_options_t* tmp_page_options;/* Temp variable for swapping    */
-  ras = cupsRasterOpen (fd, CUPS_RASTER_READ);
+  ras = cupsRasterOpen (0, CUPS_RASTER_READ);
   for (job_options->page = 1,
          more_pages = cupsRasterReadHeader2 (ras, &header);
        more_pages;
@@ -1552,16 +1551,17 @@ main (int argc, char* argv []) {
 
   job_options_t job_options = parse_job_options (argv [optind]);
 
-  int fd = 0;
   if (input_filename) {
-    fd = open (input_filename, O_RDONLY);
+    int fd = open (input_filename, O_RDONLY);
     if (fd < 0) {
       fprintf (stderr, "%s: %s: %s\n", progname, input_filename, strerror(errno));
       exit (1);
     }
+    dup2 (fd, 0);
+    close (fd);
   }
 
-  int rv = process_rasterdata (fd, &job_options);
+  int rv = process_rasterdata (&job_options);
 
 #ifdef DEBUG
   if (debug) {
@@ -1575,8 +1575,6 @@ main (int argc, char* argv []) {
     fprintf (stderr, "DEBUG: Emitted lines: %u\n", emitted_lines);
   }
 #endif
-
-  if (fd != 0) close (fd);
 
   if (error_occurred) return error_occurred; else return rv;
 }
