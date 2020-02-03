@@ -1246,17 +1246,21 @@ RLE_store_empty_lines (job_options_t* job_options,
     int blocks = (bytes_per_line + 127) / 128;
     ensure_rle_buf_space (job_options, page_options,
                           empty_lines * blocks);
+
     for (; empty_lines--; ) {
       *(rle_buffer_next++) = 'G';
-      *(rle_buffer_next++) = 0x02;
-      *(rle_buffer_next++) = 0x00;
-      int rep_len;
-      for (; bytes_per_line > 0; bytes_per_line -= rep_len) {
-        rep_len = bytes_per_line;
-        if (rep_len > 128) rep_len = 128;
+      /* leave space for the length */
+      rle_buffer_next += 2;
+      unsigned char *start = rle_buffer_next;
+      int len, rep_len;
+      for (len = bytes_per_line; len > 0; len -= rep_len) {
+        rep_len = len;
+        if (rep_len > 129) rep_len = 129;
         *(rle_buffer_next++) = (signed char) (1 - rep_len);
         *(rle_buffer_next++) = xormask;
       }
+      start [-2] = (rle_buffer_next - start) & 0xff;
+      start [-1] = ((rle_buffer_next - start) >> 8) & 0xff;
     }
   } else {
     ensure_rle_buf_space (job_options, page_options, empty_lines);
