@@ -1483,8 +1483,9 @@ static void help (void) {
   printf ("Usage: %s [options] {job-options}\n"
 	  "\n"
 	  "Options:\n"
-	  "  -i, --input=NAME  read from NAME instead of standard input\n"
-	  "  -h, --help        display this help and exit\n",
+	  "  -i, --input=NAME   read from NAME instead of standard input\n"
+	  "  -o, --output=NAME  write to NAME instead of standard output\n"
+	  "  -h, --help         display this help and exit\n",
 	  progname);
 }
 
@@ -1517,16 +1518,18 @@ main (int argc, char* argv []) {
 
   progname = basename (argv[0]);
   const char *input_filename = NULL;
+  const char *output_filename = NULL;
   error_occurred = 0;
 
   for (;;) {
     static struct option long_options[] = {
       { "input",  1, NULL, 'i' },
+      { "output",  1, NULL, 'o' },
       { "help",   0, NULL, 'h' },
       { }
     };
 
-    int c = getopt_long (argc, argv, "hi:", long_options, NULL);
+    int c = getopt_long (argc, argv, "hi:o:", long_options, NULL);
     if (c == -1)
       break;
 
@@ -1537,6 +1540,10 @@ main (int argc, char* argv []) {
 
     case 'i':  /* --input=NAME */
       input_filename = optarg;
+      break;
+
+    case 'o':  /*  --output=NAME */
+      output_filename = optarg;
       break;
 
     case '?':  /* unknown option or missing argument */
@@ -1558,6 +1565,16 @@ main (int argc, char* argv []) {
       exit (1);
     }
     dup2 (fd, 0);
+    close (fd);
+  }
+
+  if (output_filename) {
+    int fd = open (output_filename, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+    if (fd < 0) {
+      fprintf (stderr, "%s: %s: %s\n", progname, output_filename, strerror(errno));
+      exit (1);
+    }
+    dup2 (fd, 1);
     close (fd);
   }
 
