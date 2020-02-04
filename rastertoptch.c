@@ -273,24 +273,6 @@
 #define LABEL_PREAMBLE_DEFAULT     false
 /** Interlabel margin removal default */
 #define CONCAT_PAGES_DEFAULT       false
-/** Mirror printing default */
-#define MIRROR_DEFAULT             false
-/** Negative printing default */
-#define NEGATIVE_DEFAULT           false
-/** Cut media mode default */
-#define CUT_MEDIA_DEFAULT          CUPS_CUT_NONE
-/** Roll fed media default */
-#define ROLL_FED_MEDIA_DEFAULT     true
-/** Device resolution default in DPI */
-#define RESOLUTION_DEFAULT         { 300, 300 }
-/** Page size default in PostScript points */
-#define PAGE_SIZE_DEFAULT          { 176, 142 } /* 62x50mm */
-/** Image size default in pixels */
-#define IMAGE_HEIGHT_DEFAULT       0
-/** Feed amount default */
-#define FEED_DEFAULT               0
-/** When to perform feed default */
-#define PERFORM_FEED_DEFAULT       CUPS_ADVANCE_NONE
 
 #include <config.h>
 #include <stdio.h>
@@ -395,20 +377,6 @@ typedef struct {
   bool debug;		/**< emit debug information               */
   unsigned int page;    /**< The current page number              */
 } job_options_t;
-
-/**
- * Struct type for holding current page options.
- */
-typedef struct {
-  cups_cut_t cut_media;    /**< cut media mode                     */
-  cups_bool_t mirror;      /**< mirror printing                    */
-  bool roll_fed_media;     /**< continuous (not labels) roll media */
-  unsigned resolution [2]; /**< horiz & vertical resolution in DPI */
-  float page_size [2];     /**< width & height of page in points   */
-  unsigned image_height;   /**< height of page image in pixels     */
-  unsigned feed;           /**< feed size in points                */
-  cups_adv_t perform_feed; /**< When to feed                       */
-} page_options_t;
 
 /**
  * Parse command-line cups options
@@ -559,28 +527,6 @@ parse_job_options (const char* str) {
   return options;
 }
 
-/**
- * Update page_options with information found in header.
- * @param header        CUPS page header
- * @param page_options  page options to be updated
- */
-void
-update_page_options (cups_page_header2_t* header,
-                     page_options_t* page_options) {
-  page_options->cut_media = header->CutMedia;
-  page_options->mirror = header->MirrorPrint;
-  const char* media_type = header->MediaType;
-  page_options->roll_fed_media /* Default is continuous roll */
-    = (strcasecmp ("Labels", media_type) != 0);
-  page_options->resolution [0] = header->HWResolution [0];
-  page_options->resolution [1] = header->HWResolution [1];
-  page_options->page_size [0] = header->cupsPageSize [0];
-  page_options->page_size [1] = header->cupsPageSize [1];
-  page_options->image_height = header->cupsHeight;
-  page_options->feed = header->AdvanceDistance;
-  page_options->perform_feed = header->AdvanceMedia;
-}
-
 void cancel_job (int signal);
 /**
  * Prepare for a new page by setting up signalling infrastructure and
@@ -715,19 +661,22 @@ emit_feed_cut_mirror (bool do_feed, unsigned feed,
   putchar ((char) (feed & 0x1f) | auto_cut_bit | mirror_bit);
 }
 
+/* Default is continuous roll */
+bool MediaTypeLabels (cups_page_header2_t* header) {
+  return strcasecmp ("Labels", header->MediaType) != 0;
+}
+
 /**
  * Emit quality, roll fed media, and label size command codes.
  * @param job_options      Current job options
- * @param page_options     Current page options
- * @param page_size_y      Page size (height) in pt
+ * @param header           Current page header
  * @param image_height_px  Number of pixel lines in current page
  */
 void
 emit_quality_rollfed_size (job_options_t* job_options,
-                           page_options_t* page_options,
-                           float page_size_y,
+                           cups_page_header2_t* header,
                            unsigned image_height_px) {
-  bool roll_fed_media = page_options->roll_fed_media;
+  bool roll_fed_media = ! MediaTypeLabels (header);
 
   const unsigned char PI_TYPE = 0x02;   // Paper type (roll fed media bit) is valid
   const unsigned char PI_WIDTH = 0x04;  // Paper width is valid
@@ -738,7 +687,7 @@ emit_quality_rollfed_size (job_options_t* job_options,
     = (job_options->print_quality_high == CUPS_TRUE) ? 0x40 : 0x00;
   unsigned char paper_type_id = roll_fed_media ? 0x0A : 0x0B;
   /* Get tape width in mm */
-  int tape_width_mm = lrint (page_options->page_size [0] * MM_PER_PT);
+  int tape_width_mm = lrint (header->cupsPageSize [0] * MM_PER_PT);
   if (tape_width_mm > 0xff) {
     fprintf (stderr,
              "ERROR: Page width (%umm) exceeds 255mm\n",
@@ -750,7 +699,7 @@ emit_quality_rollfed_size (job_options_t* job_options,
   if (roll_fed_media)
     tape_length_mm = 0;
   else
-    tape_length_mm = lrint (page_size_y * MM_PER_PT);
+    tape_length_mm = lrint (header->cupsPageSize [1] * MM_PER_PT);
   if (tape_length_mm > 0xff) {
     fprintf (stderr,
              "ERROR: Page height (%umm) exceeds 255mm; use continuous tape (MediaType=roll)\n",
@@ -770,35 +719,35 @@ emit_quality_rollfed_size (job_options_t* job_options,
   putchar (job_options->page != 1);   // n9: 0 for first page, 1 for other pages
   putchar (0x00);   // n10, always 0
 }
+
 /**
  * Emit printer command codes at start of page for options that have
  * changed.
  * @param job_options       Job options
- * @param old_page_options  Page options for preceding page
- * @param new_page_options  Page options for page to be printed
- * @param force             Ignore old_page_options and emit commands
- *                          for selecting all options in new_page_options
+ * @param header            Current page header
+ * @param prev_header       Previous page header
+ * @param force             Ignore prev_header and emit commands
+ *                          for selecting all options in header
  */
 void
 emit_page_cmds (job_options_t* job_options,
-                page_options_t* old_page_options,
-                page_options_t* new_page_options) {
+		cups_page_header2_t* prev_header,
+		cups_page_header2_t* header) {
   bool force = job_options->page == 1;
+  float pt2px = header->HWResolution [1] / 72.0;
   int tape_width_mm = -1;
 
   /* Set width and resolution */
-  unsigned hres = new_page_options->resolution [0];
-  unsigned vres = new_page_options->resolution [1];
-  float old_page_size_x = old_page_options->page_size [0];
-  float new_page_size_x = new_page_options->page_size [0];
   if (force
-      || hres != old_page_options->resolution [0]
-      || vres != old_page_options->resolution [1]
-      || new_page_size_x != old_page_size_x)
+      || header->HWResolution [0] != prev_header->HWResolution [0]
+      || header->HWResolution [1] != prev_header->HWResolution [1]
+      || header->cupsPageSize [0] != prev_header->cupsPageSize [0])
     /* We only know how to select 360x360DPI or 360x720DPI */
-    if (hres == 360 && (vres == 360 || vres == 720)) {
+    if (header->HWResolution [0] == 360
+	&& (header->HWResolution [1] == 360
+	    || header->HWResolution [1] == 720)) {
       /* Get tape width in mm */
-      tape_width_mm = lrint (new_page_size_x * MM_PER_PT);
+      tape_width_mm = lrint (header->cupsPageSize [0] * MM_PER_PT);
       if (tape_width_mm > 0xff) {
         fprintf (stderr,
                  "ERROR: Page width (%umm) exceeds 255mm\n",
@@ -807,7 +756,7 @@ emit_page_cmds (job_options_t* job_options,
       }
       /* Emit printer commands */
       putchar (ESC); putchar ('i'); putchar ('c');
-      if (vres == 360) {
+      if (header->HWResolution [1] == 360) {
         putchar (0x84); putchar (0x00); putchar (tape_width_mm & 0xff);
         putchar (0x00); putchar (0x00);
       } else {
@@ -817,19 +766,16 @@ emit_page_cmds (job_options_t* job_options,
     }
 
   /* Set feed, auto cut and mirror print */
-  unsigned feed = new_page_options->feed;
-  cups_adv_t perform_feed = new_page_options->perform_feed;
-  cups_cut_t cut_media = new_page_options->cut_media;
-  cups_bool_t mirror = new_page_options->mirror;
   if (force
-      || feed != old_page_options->feed
-      || perform_feed != old_page_options->perform_feed
-      || cut_media != old_page_options->cut_media
-      || mirror != old_page_options->mirror)
+      || header->AdvanceDistance != prev_header->AdvanceDistance
+      || header->AdvanceMedia != prev_header->AdvanceMedia
+      || header->CutMedia != prev_header->CutMedia
+      || header->MirrorPrint != prev_header->MirrorPrint)
     /* We only know how to feed after each page */
-    emit_feed_cut_mirror (perform_feed == CUPS_ADVANCE_PAGE, feed,
-                          cut_media == CUPS_CUT_PAGE,
-                          mirror == CUPS_TRUE);
+    emit_feed_cut_mirror (header->AdvanceMedia == CUPS_ADVANCE_PAGE,
+			  header->AdvanceDistance,
+                          header->CutMedia == CUPS_CUT_PAGE,
+                          header->MirrorPrint == CUPS_TRUE);
 
   /* WHY DON'T WE SET MARGIN (ESC i d ...)? */
 
@@ -841,8 +787,7 @@ emit_page_cmds (job_options_t* job_options,
   }
   /* Emit number of raster lines to follow if using BIP */
   if (job_options->pixel_xfer == BIP) {
-    unsigned page_size_y = new_page_options->page_size [1];
-    unsigned image_height_px = lrint (page_size_y * vres / 72.0);
+    unsigned image_height_px = lrint (header->cupsPageSize [1] * pt2px);
     putchar (ESC); putchar (0x2a); putchar (0x27);
     putchar (image_height_px & 0xff);
     putchar ((image_height_px >> 8) & 0xff);
@@ -973,16 +918,14 @@ generate_emit_line (unsigned char* in_buffer,
  * Resets global variable rle_buffer_next to rle_buffer,
  * and lines_waiting to zero.
  * @param job_options   Job options
- * @param page_options  Page options
+ * @param header        Page header
  */
 static inline void
 flush_rle_buffer (job_options_t* job_options,
-                  page_options_t* page_options) {
+		  cups_page_header2_t* header) {
   if (lines_waiting > 0) {
     if (job_options->label_preamble)
-      emit_quality_rollfed_size (job_options, page_options,
-                                 page_options->page_size [1],
-                                 lines_waiting);
+      emit_quality_rollfed_size (job_options, header, lines_waiting);
     xfer_t pixel_xfer = job_options->pixel_xfer;
     int bytes_per_line = job_options->bytes_per_line;
     switch (pixel_xfer) {
@@ -1047,12 +990,12 @@ flush_rle_buffer (job_options_t* job_options,
  * If rle buffer needs to be extended, global variables rle_buffer and
  * rle_buffer_next might be altered.
  * @param job_options   Job options
- * @param page_options  Page options
+ * @param header        Page header
  * @param bytes         Number of bytes required.
  */
 static inline void
 ensure_rle_buf_space (job_options_t* job_options,
-                      page_options_t* page_options,
+                      cups_page_header2_t* header,
                       unsigned bytes) {
   unsigned long nextpos = rle_buffer_next - rle_buffer;
   if (nextpos + bytes > rle_alloced) {
@@ -1066,7 +1009,7 @@ ensure_rle_buf_space (job_options_t* job_options,
       rle_buffer_next = rle_buffer + nextpos;
       rle_alloced = new_alloced;
     } else { /* Gain memory by flushing buffer to printer */
-      flush_rle_buffer (job_options, page_options);
+      flush_rle_buffer (job_options, header);
       if (rle_buffer_next - rle_buffer + bytes > rle_alloced) {
         fprintf (stderr,
                  "ERROR: Out of memory when attempting to increase RLE "
@@ -1086,7 +1029,7 @@ ensure_rle_buf_space (job_options_t* job_options,
 /**
  * Store buffer data in rle buffer using run-length encoding.
  * @param job_options   Job options
- * @param page_options  Page options
+ * @param header        Page header
  * @param buf           Buffer containing data to store
  * @param buf_len       Length of buffer
  *
@@ -1111,9 +1054,9 @@ ensure_rle_buf_space (job_options_t* job_options,
  */
 static inline void
 RLE_store_line (job_options_t* job_options,
-                page_options_t* page_options,
+		cups_page_header2_t* header,
                 const unsigned char* buf, unsigned buf_len) {
-  ensure_rle_buf_space (job_options, page_options,
+  ensure_rle_buf_space (job_options, header,
                         4 + buf_len + buf_len / 128);
   unsigned char* rle_next = rle_buffer_next + 3;
   /* Make room for 3 initial meta data bytes, */
@@ -1213,26 +1156,26 @@ RLE_store_line (job_options_t* job_options,
   }
   lines_waiting++;
   if (lines_waiting >= max_lines_waiting)
-    flush_rle_buffer (job_options, page_options);
+    flush_rle_buffer (job_options, header);
 }
 
 /**
  * Store a number of empty lines in rle_buffer using RLE.
  * @param job_options     Job options
- * @param page_options    Page options
+ * @param header          Page header
  * @param empty_lines     Number of empty lines to store
  * @param xormask         The XOR mask for negative printing
  */
 static inline void
 RLE_store_empty_lines (job_options_t* job_options,
-                       page_options_t* page_options,
+                       cups_page_header2_t* header,
                        int empty_lines,
                        unsigned char xormask) {
   int bytes_per_line = job_options->bytes_per_line;
   lines_waiting += empty_lines;
   if (xormask) {
     int blocks = (bytes_per_line + 127) / 128;
-    ensure_rle_buf_space (job_options, page_options,
+    ensure_rle_buf_space (job_options, header,
                           empty_lines * blocks);
 
     for (; empty_lines--; ) {
@@ -1251,7 +1194,7 @@ RLE_store_empty_lines (job_options_t* job_options,
       start [-1] = ((rle_buffer_next - start) >> 8) & 0xff;
     }
   } else {
-    ensure_rle_buf_space (job_options, page_options, empty_lines);
+    ensure_rle_buf_space (job_options, header, empty_lines);
     for (; empty_lines--; ) *(rle_buffer_next++) = 'Z';
   }
 }
@@ -1259,19 +1202,17 @@ RLE_store_empty_lines (job_options_t* job_options,
 /**
  * Emit raster lines for current page.
  * @param job_options   Job options
- * @param page_options  Page options
  * @param ras           Raster data stream
- * @param header        Current page header
+ * @param header        Page header
  * @return              0 on success, nonzero otherwise
  */
 int
 emit_raster_lines (job_options_t* job_options,
-                   page_options_t* page_options,
                    cups_raster_t* ras,
                    cups_page_header2_t* header) {
   unsigned char xormask = (header->NegativePrint ? ~0 : 0);
   /* Determine whether we need to mirror the pixel data */
-  int do_mirror = job_options->software_mirror && page_options->mirror;
+  int do_mirror = job_options->software_mirror && header->MirrorPrint;
 
   unsigned cupsBytesPerLine = header->cupsBytesPerLine;
   unsigned cupsHeight = header->cupsHeight;
@@ -1291,8 +1232,7 @@ emit_raster_lines (job_options_t* job_options,
   unsigned right_spacing_px = 0;
   if (header->cupsImagingBBox[2] < header->cupsPageSize[0]) {
     right_spacing_px =
-      (header->cupsPageSize[0] - header->cupsImagingBBox[2]) *
-      pt2px [0];
+      (header->cupsPageSize[0] - header->cupsImagingBBox[2]) * pt2px [0];
   }
   /* Calculate right_padding_bytes and shift */
   int right_padding_bits;
@@ -1349,10 +1289,10 @@ emit_raster_lines (job_options_t* job_options,
     if (nonempty_line) {
       if (empty_lines) {
         RLE_store_empty_lines
-          (job_options, page_options, empty_lines, xormask);
+          (job_options, header, empty_lines, xormask);
         empty_lines = 0;
       }
-      RLE_store_line (job_options, page_options,
+      RLE_store_line (job_options, header,
                       emit_line_buffer, bytes_per_line);
     } else
       empty_lines++;
@@ -1370,6 +1310,7 @@ emit_raster_lines (job_options_t* job_options,
     empty_lines += bot_empty_lines;
   return 0;
 }
+
 /**
  * Process CUPS raster data from input file, emitting printer data on
  * stdout.
@@ -1378,44 +1319,32 @@ emit_raster_lines (job_options_t* job_options,
 void
 process_rasterdata (job_options_t* job_options) {
   cups_raster_t* ras;              /* Raster stream for printing    */
-  cups_page_header2_t header;      /* Current page header           */
+  cups_page_header2_t headers[2];  /* Page headers                  */
   int more_pages;                  /* Are there more pages left?    */
   int bytes_per_line = job_options->bytes_per_line;
-  page_options_t page_options [2] = {{
-    CUT_MEDIA_DEFAULT,
-    MIRROR_DEFAULT,
-    ROLL_FED_MEDIA_DEFAULT,
-    RESOLUTION_DEFAULT,
-    PAGE_SIZE_DEFAULT,
-    IMAGE_HEIGHT_DEFAULT,
-    FEED_DEFAULT,
-    PERFORM_FEED_DEFAULT,}
-  };                               /* Current & preceding page opts */
-  page_options_t* new_page_options
-    = page_options + 0;            /* Options for current page      */
-  page_options_t* old_page_options
-    = page_options + 1;            /* Options for preceding page    */
-  page_options_t* tmp_page_options;/* Temp variable for swapping    */
+  cups_page_header2_t *prev_header = headers;
+  cups_page_header2_t *header = headers + 1;
+  cups_page_header2_t *tmp_header;
+
   ras = cupsRasterOpen (0, CUPS_RASTER_READ);
   for (job_options->page = 1,
-         more_pages = cupsRasterReadHeader2 (ras, &header);
+         more_pages = cupsRasterReadHeader2 (ras, header);
        more_pages;
-       tmp_page_options = old_page_options,
-         old_page_options = new_page_options,
-         new_page_options = tmp_page_options,
+       tmp_header = prev_header,
+         prev_header = header,
+         header = tmp_header,
 	 job_options->page++) {
-    update_page_options (&header, new_page_options);
     float pt2px[] = {
-      header.HWResolution [0] / 72.0,
-      header.HWResolution [1] / 72.0
+      header->HWResolution [0] / 72.0,
+      header->HWResolution [1] / 72.0
     };
     if (job_options->debug) {
       fprintf (stderr, "DEBUG: %s: PageSize: %.2fx%.2f pt / %.2fx%.2f mm / %.2fx%.2f px\n",
 	       progname,
-	       header.cupsPageSize [0], header.cupsPageSize [1],
-	       header.cupsPageSize [0] * MM_PER_PT, header.cupsPageSize [1] * MM_PER_PT,
-	       header.cupsPageSize [0] * pt2px [0], header.cupsPageSize [1] * pt2px [1]);
-      float *bbox = header.cupsImagingBBox;
+	       header->cupsPageSize [0], header->cupsPageSize [1],
+	       header->cupsPageSize [0] * MM_PER_PT, header->cupsPageSize [1] * MM_PER_PT,
+	       header->cupsPageSize [0] * pt2px [0], header->cupsPageSize [1] * pt2px [1]);
+      float *bbox = header->cupsImagingBBox;
       fprintf (stderr, "DEBUG: %s: ImagingBoundingBox: %.2f %.2f %.2f %.2f pt / "
 	       "%.2f %.2f %.2f %.2f mm /"
 	       "%.2f %.2f %.2f %.2f px\n",
@@ -1427,45 +1356,43 @@ process_rasterdata (job_options_t* job_options) {
 	       bbox [2] * pt2px [0], bbox [3] * pt2px [1]);
       fprintf (stderr, "DEBUG: %s: HWResolution: %dx%ddpi\n",
 	       progname,
-	       header.HWResolution [0], header.HWResolution [1]);
+	       header->HWResolution [0], header->HWResolution [1]);
       fprintf (stderr, "DEBUG: %s: Width Height: %u %u\n",
 	       progname,
-	       header.cupsWidth, header.cupsHeight);
+	       header->cupsWidth, header->cupsHeight);
       fprintf (stderr, "DEBUG: %s: Margins: %u %u\n",
 	       progname,
-	       header.Margins [0], header.Margins [1]);
+	       header->Margins [0], header->Margins [1]);
       fprintf (stderr, "DEBUG: %s: CutMedia: %d\n",
-	       progname, header.CutMedia);
+	       progname, header->CutMedia);
       fprintf (stderr, "DEBUG: %s: MirrorPrint: %d\n",
-	       progname, header.MirrorPrint);
+	       progname, header->MirrorPrint);
       fprintf (stderr, "DEBUG: %s: NegativePrint: %d\n",
-	       progname, header.NegativePrint);
+	       progname, header->NegativePrint);
       fprintf (stderr, "DEBUG: %s: MediaType: %s\n",
-	       progname, header.MediaType);
+	       progname, header->MediaType);
       fprintf (stderr, "DEBUG: %s: AdvanceDistance: %u\n",
-	       progname, header.AdvanceDistance);
+	       progname, header->AdvanceDistance);
       fprintf (stderr, "DEBUG: %s: AdvanceMedia: %u\n",
-	       progname, header.AdvanceMedia);
+	       progname, header->AdvanceMedia);
     }
-    page_prepare (header.cupsBytesPerLine, bytes_per_line);
+    page_prepare (header->cupsBytesPerLine, bytes_per_line);
     if (job_options->page == 1) {
       emit_job_cmds (job_options);
-      emit_page_cmds (job_options, old_page_options,
-                      new_page_options);
+      emit_page_cmds (job_options, prev_header, header);
     }
-    emit_raster_lines (job_options, new_page_options, ras, &header);
-    unsigned char xormask = (header.NegativePrint ? ~0 : 0);
+    emit_raster_lines (job_options, ras, header);
+    unsigned char xormask = (header->NegativePrint ? ~0 : 0);
     /* Determine whether this is the last page (fetch next)    */
-    more_pages = cupsRasterReadHeader2 (ras, &header);
+    more_pages = cupsRasterReadHeader2 (ras, prev_header);
     /* Do feeding or ejecting at the end of each page. */
-    cups_adv_t perform_feed = new_page_options->perform_feed;
     if (more_pages) {
       if (!job_options->concat_pages) {
         RLE_store_empty_lines
-          (job_options, page_options, empty_lines, xormask);
+          (job_options, header, empty_lines, xormask);
         empty_lines = 0;
-        flush_rle_buffer (job_options, page_options);
-        if (perform_feed == CUPS_ADVANCE_PAGE)
+        flush_rle_buffer (job_options, header);
+        if (header->AdvanceMedia == CUPS_ADVANCE_PAGE)
           putchar (PTC_EJECT);    /* Emit eject marker to force feed   */
         else
           putchar (PTC_FORMFEED); /* Emit page end marker without feed */
@@ -1473,29 +1400,30 @@ process_rasterdata (job_options_t* job_options) {
     } else {
       if (!job_options->concat_pages) {
         RLE_store_empty_lines
-          (job_options, page_options, empty_lines, xormask);
+          (job_options, header, empty_lines, xormask);
         empty_lines = 0;
-        flush_rle_buffer (job_options, page_options);
+        flush_rle_buffer (job_options, header);
         putchar (PTC_FORMFEED);
       } else {
         unsigned bot_empty_lines
-          = lrint (header.cupsImagingBBox [1] * pt2px [1]);
+          = lrint (header->cupsImagingBBox [1] * pt2px [1]);
         empty_lines = bot_empty_lines;
         RLE_store_empty_lines
-          (job_options, page_options, empty_lines, xormask);
+          (job_options, header, empty_lines, xormask);
         empty_lines = 0;
-        flush_rle_buffer (job_options, page_options);
+        flush_rle_buffer (job_options, header);
       }
 
       /* If special feed or cut at job end, emit commands to that effect */
-      cups_cut_t cut_media = new_page_options->cut_media;
-      if (perform_feed == CUPS_ADVANCE_JOB || cut_media == CUPS_CUT_JOB) {
+      if (header->AdvanceMedia == CUPS_ADVANCE_JOB ||
+	  header->CutMedia == CUPS_CUT_JOB) {
         emit_feed_cut_mirror
-          (perform_feed == CUPS_ADVANCE_PAGE ||
-           perform_feed == CUPS_ADVANCE_JOB,
-           new_page_options->feed,
-           cut_media == CUPS_CUT_PAGE || cut_media == CUPS_CUT_JOB,
-           new_page_options->mirror == CUPS_TRUE);
+          (header->AdvanceMedia == CUPS_ADVANCE_PAGE ||
+           header->AdvanceMedia == CUPS_ADVANCE_JOB,
+           header->AdvanceDistance,
+           header->CutMedia == CUPS_CUT_PAGE ||
+	   header->CutMedia == CUPS_CUT_JOB,
+           header->MirrorPrint == CUPS_TRUE);
         /* Emit eject marker */
         putchar (PTC_EJECT);
       }
