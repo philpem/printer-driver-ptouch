@@ -58,13 +58,13 @@ PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-PT-9400.xml \
 				  printer/Brother-PT-9500PC.xml \
 				  printer/Brother-PT-9600.xml
-OPTIONS				= opt/Brother-PTQL-AdvanceDistance.xml \
-				  opt/Brother-PTQL-AdvanceMedia.xml \
-				  opt/Brother-PTQL-Align.xml \
+OPTIONS				= opt/Brother-PTQL-Align.xml \
+				  opt/Brother-PTQL-AutoCut.xml \
+				  opt/Brother-PTQL-ChainPrinting.xml \
 				  opt/Brother-PTQL-Debug.xml \
 				  opt/Brother-PTQL-BytesPerLine.xml \
 				  opt/Brother-PTQL-ConcatPages.xml \
-				  opt/Brother-PTQL-CutMedia.xml \
+				  opt/Brother-PTQL-Margin.xml \
 				  opt/Brother-PTQL-MirrorPrint.xml \
 				  opt/Brother-PTQL-NegativePrint.xml \
 				  opt/Brother-PTQL-PixelTransfer.xml \

@@ -31,9 +31,9 @@ USA
   <arg_execution>
     <arg_group>General</arg_group>
     <arg_order>110</arg_order>
-    <arg_spot>A</arg_spot>
-    <arg_postscript />
-    <arg_proto>&lt;&lt;/MirrorPrint true&gt;&gt;setpagedevice</arg_proto>
+    <arg_spot>B</arg_spot>
+    <arg_substitution />
+    <arg_proto> MirrorPrint </arg_proto>
   </arg_execution>
   <constraints>
     <constraint sense='true'>
