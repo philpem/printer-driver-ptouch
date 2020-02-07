@@ -69,6 +69,6 @@ USA
       <enum_val id="ev/tz-18" />
       <enum_val id="ev/tz-24" />
     </option>
-    <option id="opt/Brother-PTQL-CutMedia" sense="false" />
+    <option id="opt/Brother-PTQL-AutoCut" sense="false" />
   </select>
 </printer>
