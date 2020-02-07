@@ -65,8 +65,12 @@ USA
       <enum_val id="ev/3" />
     </option>
     <option id="opt/Brother-PT-PageSize">
-      <arg_defval>ev/24x100mm</arg_defval>
-      <enum_val id="ev/36x100mm" sense="false" />
+      <arg_defval>ev/tz-24</arg_defval>
+      <enum_val id="ev/tz-6" />
+      <enum_val id="ev/tz-9" />
+      <enum_val id="ev/tz-12" />
+      <enum_val id="ev/tz-18" />
+      <enum_val id="ev/tz-24" />
     </option>
     <option id="opt/Brother-PTQL-PixelTransfer">
       <enum_val id="ev/RLE" sense="false" />
