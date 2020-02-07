@@ -38,7 +38,7 @@ USA
   </lang>
   <autodetect>
     <general>
-      <ieee1284>MFG:Brother;CMD:PT-CBP;MDL:18R;CLS:PRINTER;</ieee1284>
+      <ieee1284>MFG:Brother;CMD:PT-CBP;MDL:PT-18R;CLS:PRINTER;</ieee1284>
       <commandset>PT-CBP</commandset>
       <description>Brother PT-18R</description>
       <manufacturer>Brother</manufacturer>
