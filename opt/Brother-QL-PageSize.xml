@@ -35,11 +35,11 @@ USA
   <constraints>
      <constraint sense='true'>
        <driver>ptouch-ql</driver>
-      <arg_defval>ev/Ptouch-PageSize-62x50mm</arg_defval>
+      <arg_defval>ev/62x50mm</arg_defval>
      </constraint>
   </constraints>
   <enum_vals>
-   <enum_val id="ev/Ptouch-PageSize-17x54mm">
+   <enum_val id="ev/17x54mm">
     <ev_longname>
      <en>Hanging File Folder, Return Address label (17 x 54mm)</en>
     </ev_longname>
@@ -48,7 +48,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[48 153]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-17x87mm">
+   <enum_val id="ev/17x87mm">
     <ev_longname>
      <en>File Folder label (17 x 87mm)</en>
     </ev_longname>
@@ -57,7 +57,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[48 247]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-29x90mm">
+   <enum_val id="ev/29x90mm">
     <ev_longname>
      <en>Standard Address Label (29 x 90mm)</en>
     </ev_longname>
@@ -66,7 +66,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[82 255]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-29x209mm">
+   <enum_val id="ev/29x209mm">
     <ev_longname>
      <en>Binder 3cm - Spine Tape (29 x 209mm)</en>
     </ev_longname>
@@ -75,7 +75,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[82 592]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-38x90mm">
+   <enum_val id="ev/38x90mm">
     <ev_longname>
      <en>Large Address Label (38 x 90mm)</en>
     </ev_longname>
@@ -84,7 +84,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[108 255]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-58x58mm">
+   <enum_val id="ev/58x58mm">
     <ev_longname>
      <en>CD/DVD Circular Label (58 x 58mm)</en>
     </ev_longname>
@@ -93,7 +93,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[164 164]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-62x29mm">
+   <enum_val id="ev/62x29mm">
     <ev_longname>
      <en>Small Address Label (62 x 29mm)</en>
     </ev_longname>
@@ -102,7 +102,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[176 82]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-62x45mm">
+   <enum_val id="ev/62x45mm">
     <ev_longname>
      <en>MO-Face Tape (62 x 45mm)</en>
     </ev_longname>
@@ -111,7 +111,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[176 128]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-62x50mm">
+   <enum_val id="ev/62x50mm">
     <ev_longname>
      <en>Floppy Tape (62 x 50mm)</en>
     </ev_longname>
@@ -120,7 +120,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[176 142]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-62x100mm">
+   <enum_val id="ev/62x100mm">
     <ev_longname>
      <en>Shipping Label, Visitor Name Badge (62 x 100mm)</en>
     </ev_longname>
@@ -129,7 +129,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[176 283]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-62x209mm">
+   <enum_val id="ev/62x209mm">
     <ev_longname>
      <en>Binder 5cm-Spine Tape (62 x 209mm)</en>
     </ev_longname>
@@ -138,7 +138,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[176 592]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-12x36mm">
+   <enum_val id="ev/12x36mm">
     <ev_longname>
      <en>Compact Flash(TM) Tape (12 x 36mm)</en>
     </ev_longname>
@@ -147,7 +147,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[34 102]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-12x26mm">
+   <enum_val id="ev/12x26mm">
     <ev_longname>
      <en>SmartMedia(TM) Tape (12 x 26mm)</en>
     </ev_longname>
@@ -156,7 +156,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[34 74]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-12x34mm">
+   <enum_val id="ev/12x34mm">
     <ev_longname>
      <en>Memory Stick(TM) Tape (12 x 34mm)</en>
     </ev_longname>
@@ -165,7 +165,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[34 96]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-57x50mm">
+   <enum_val id="ev/57x50mm">
     <ev_longname>
      <en>Stock Tape (57 x 50mm)</en>
     </ev_longname>
@@ -174,7 +174,7 @@ USA
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[161 142]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Ptouch-PageSize-Custom">
+   <enum_val id="ev/Custom">
     <ev_longname>
      <en>Custom size</en>
     </ev_longname>
