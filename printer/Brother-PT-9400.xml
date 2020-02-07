@@ -61,7 +61,13 @@ USA
       <enum_val id="ev/48" />
     </option>
     <option id="opt/Brother-PT-PageSize">
-      <arg_defval>ev/36x100mm</arg_defval>
+      <arg_defval>ev/tz-36</arg_defval>
+      <enum_val id="ev/tz-6" />
+      <enum_val id="ev/tz-9" />
+      <enum_val id="ev/tz-12" />
+      <enum_val id="ev/tz-18" />
+      <enum_val id="ev/tz-24" />
+      <enum_val id="ev/tz-36" />
     </option>
     <option id="opt/Brother-PT-HalfCut" />
   </select>

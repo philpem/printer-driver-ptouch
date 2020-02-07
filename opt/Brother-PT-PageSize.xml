@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+Copyright (c) 2020  Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
 
 This file is part of ptouch-driver.
 
@@ -18,6 +18,12 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
+<!--
+According to the Brother PT-P700 Raster Command Reference Manual for
+PT-H500/P700/E500, the maximum label length for TZe Tape is 100 cm,
+and for HSe Heat Shrink Tube it is 50 cm.  Using the maximum length
+as the page size here is not well supported by applications, though.
+-->
 <option type="enum" id="opt/Brother-PT-PageSize">
   <arg_longname>
    <en>Page Size</en>
@@ -33,59 +39,184 @@ USA
    <arg_proto>&lt;&lt;/PageSize[%s]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</arg_proto>
   </arg_execution>
   <enum_vals>
-   <enum_val id="ev/6x100mm">
+   <!-- TZe Tape (3.5mm): print area width = 24 dots, margin = 0 dots -->
+   <enum_val id="ev/tz-4">
     <ev_longname>
-     <en>(6 x 100mm)</en>
+     <en>3.5mm (TZ Tape)</en>
     </ev_longname>
     <ev_shortname>
-     <en>6x100mm</en>
+     <en>tz-4</en>
+    </ev_shortname>
+    <ev_driverval>10 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
+   <!-- TZe Tape (6mm): print area width = 32 dots, margin = 5 dots -->
+   <enum_val id="ev/tz-6">
+    <ev_longname>
+     <en>6mm (TZ Tape)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>tz-6</en>
     </ev_shortname>
     <ev_driverval>17 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
    </enum_val>
-   <enum_val id="ev/9x100mm">
+   <!--- TZe Tape (9mm): print area width = 50 dots, margin = 7 dots -->
+   <enum_val id="ev/tz-9">
     <ev_longname>
-     <en>(9 x 100mm)</en>
+     <en>9mm (TZ Tape)</en>
     </ev_longname>
     <ev_shortname>
-     <en>9x100mm</en>
+     <en>tz-9</en>
     </ev_shortname>
     <ev_driverval>26 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
    </enum_val>
-   <enum_val id="ev/12x100mm">
+   <!--- TZe Tape (12mm): print area width = 70 dots, margin = 7 dots -->
+   <enum_val id="ev/tz-12">
     <ev_longname>
-     <en>(12 x 100mm)</en>
+     <en>12mm (TZ Tape)</en>
     </ev_longname>
     <ev_shortname>
-     <en>12x100mm</en>
+     <en>tz-12</en>
     </ev_shortname>
     <ev_driverval>34 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
    </enum_val>
-   <enum_val id="ev/18x100mm">
+   <!-- TZe Tape (18mm): print area width = 112 dots, margin = 8 dots -->
+   <enum_val id="ev/tz-18">
     <ev_longname>
-     <en>(18 x 100mm)</en>
+     <en>18mm (TZ Tape)</en>
     </ev_longname>
     <ev_shortname>
-     <en>18x100mm</en>
+     <en>tz-18</en>
     </ev_shortname>
     <ev_driverval>51 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
    </enum_val>
-   <enum_val id="ev/24x100mm">
+   <!-- TZe Tape (24mm): print area width = 128 dots, margin = 21 dots -->
+   <enum_val id="ev/tz-24">
     <ev_longname>
-     <en>(24 x 100mm)</en>
+     <en>24mm (TZ Tape)</en>
     </ev_longname>
     <ev_shortname>
-     <en>24x100mm</en>
+     <en>tz-24</en>
     </ev_shortname>
     <ev_driverval>68 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
    </enum_val>
-   <enum_val id="ev/36x100mm">
+   <enum_val id="ev/tz-36">
     <ev_longname>
-     <en>(36 x 100mm)</en>
+     <en>36mm (TZ Tape)</en>
     </ev_longname>
     <ev_shortname>
-     <en>36x100mm</en>
+     <en>tz-36</en>
     </ev_shortname>
     <ev_driverval>102 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
+   <!-- HSe Tube (6mm): print area width = 40 dots, margin = 6 dots -->
+   <enum_val id="ev/hs-6">
+    <ev_longname>
+     <en>5.8mm (HS Heat Shrink Tube)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>hs-6</en>
+    </ev_shortname>
+    <ev_driverval>16 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
+   <!-- HSe Tube (9mm): print area width = 62 dots, margin = 8 dots -->
+   <enum_val id="ev/hs-9">
+    <ev_longname>
+     <en>8.8mm (HS Heat Shrink Tube)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>hs-9</en>
+    </ev_shortname>
+    <ev_driverval>25 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
+   <!-- HSe Tube (12mm): print area width = 82 dots, margin = 8 dots -->
+   <enum_val id="ev/hs-12">
+    <ev_longname>
+     <en>11.7mm (HS Heat Shrink Tube)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>hs-12</en>
+    </ev_shortname>
+    <ev_driverval>33 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
+   <!-- HSe Tube (18mm): print area width = 126 dots, margin = 10 dots -->
+   <enum_val id="ev/hs-18">
+    <ev_longname>
+     <en>17.7mm (HS Heat Shrink Tube)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>hs-18</en>
+    </ev_shortname>
+    <ev_driverval>50 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
+   <!-- HSe Tube (24mm): print area width = 168 dots, margin = 20 dots -->
+   <enum_val id="ev/hs-24">
+    <ev_longname>
+     <en>23.6mm (HS Heat Shrink Tube)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>hs-24</en>
+    </ev_shortname>
+    <ev_driverval>67 283</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
    </enum_val>
   </enum_vals>
 </option>
