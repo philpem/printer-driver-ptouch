@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
 <option type="enum" id="opt/Brother-QL-RollFedMedia">
-  <!-- A multilingual <comments> block can appear here, too;
-       it should be treated as documentation for the user. -->
   <arg_longname>
    <en>Roll Fed Media</en>
   </arg_longname>
@@ -45,12 +43,8 @@ USA
     <ev_longname>
      <en>Automatically determined by page size</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>Auto</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval></ev_driverval>
    </enum_val>
@@ -58,12 +52,8 @@ USA
     <ev_longname>
      <en>Continuous roll</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>Roll</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -71,12 +61,8 @@ USA
     <ev_longname>
      <en>Labels</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>Labels</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>

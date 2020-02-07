@@ -40,13 +40,13 @@ USA
  </comments>
  <printers>
   <printer>
-   <id>printer/Brother-QL-500</id><!-- Brother P-touch QL-500 -->
+   <id>printer/Brother-QL-500</id>
   </printer>
   <printer>
-   <id>printer/Brother-QL-550</id><!-- Brother P-touch QL-550 -->
+   <id>printer/Brother-QL-550</id>
   </printer>
   <printer>
-   <id>printer/Brother-QL-650TD</id><!-- Brother P-touch QL-650TD -->
+   <id>printer/Brother-QL-650TD</id>
   </printer>
  </printers>
 </driver>

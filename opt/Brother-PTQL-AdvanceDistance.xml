@@ -54,12 +54,8 @@ USA
     <ev_longname>
      <en>None</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>0None</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>0</ev_driverval>
    </enum_val>
@@ -67,12 +63,8 @@ USA
     <ev_longname>
      <en>Small</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>1Small</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>22</ev_driverval>
    </enum_val>
@@ -80,12 +72,8 @@ USA
     <ev_longname>
      <en>Medium</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>2Medium</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>34</ev_driverval>
    </enum_val>
@@ -93,12 +81,8 @@ USA
     <ev_longname>
      <en>Large</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>3Large</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>74</ev_driverval>
    </enum_val>

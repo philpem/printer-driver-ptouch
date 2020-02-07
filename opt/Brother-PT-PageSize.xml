@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
 <option type="enum" id="opt/Brother-PT-PageSize">
-  <!-- A multilingual <comments> block can appear here, too;
-       it should be treated as documentation for the user. -->
   <arg_longname>
    <en>Page Size</en>
   </arg_longname>
@@ -40,97 +38,97 @@ USA
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-PC</printer><!-- Brother P-touch PT-PC -->
+      <printer>printer/Brother-PT-PC</printer>
       <arg_defval>ev/Ptouch-PageSize-24x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-18R</printer><!-- Brother P-touch PT-18R -->
+      <printer>printer/Brother-PT-18R</printer>
       <arg_defval>ev/Ptouch-PageSize-18x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-550A</printer><!-- Brother P-touch PT-550A -->
+      <printer>printer/Brother-PT-550A</printer>
       <arg_defval>ev/Ptouch-PageSize-36x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-1500PC</printer><!-- Brother P-touch PT-1500PC -->
+      <printer>printer/Brother-PT-1500PC</printer>
       <arg_defval>ev/Ptouch-PageSize-24x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-1950</printer><!-- Brother P-touch PT-1950 -->
+      <printer>printer/Brother-PT-1950</printer>
       <arg_defval>ev/Ptouch-PageSize-18x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-1950VP</printer><!-- Brother P-touch PT-1950VP -->
+      <printer>printer/Brother-PT-1950VP</printer>
       <arg_defval>ev/Ptouch-PageSize-18x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-1960</printer><!-- Brother P-touch PT-1960 -->
+      <printer>printer/Brother-PT-1960</printer>
       <arg_defval>ev/Ptouch-PageSize-18x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2300</printer><!-- Brother P-touch PT-2300 -->
+      <printer>printer/Brother-PT-2300</printer>
       <arg_defval>ev/Ptouch-PageSize-24x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2420PC</printer><!-- Brother P-touch PT-2420PC -->
+      <printer>printer/Brother-PT-2420PC</printer>
       <arg_defval>ev/Ptouch-PageSize-24x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2450DX</printer><!-- Brother P-touch PT-2450DX -->
+      <printer>printer/Brother-PT-2450DX</printer>
       <arg_defval>ev/Ptouch-PageSize-24x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2500PC</printer><!-- Brother P-touch PT-2500PC -->
+      <printer>printer/Brother-PT-2500PC</printer>
       <arg_defval>ev/Ptouch-PageSize-24x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2600</printer><!-- Brother P-touch PT-2600 -->
+      <printer>printer/Brother-PT-2600</printer>
       <arg_defval>ev/Ptouch-PageSize-24x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-2610</printer><!-- Brother P-touch PT-2610 -->
+      <printer>printer/Brother-PT-2610</printer>
       <arg_defval>ev/Ptouch-PageSize-24x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-3600</printer><!-- Brother P-touch PT-3600 -->
+      <printer>printer/Brother-PT-3600</printer>
       <arg_defval>ev/Ptouch-PageSize-36x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-9200DX</printer><!-- Brother P-touch PT-9200DX -->
+      <printer>printer/Brother-PT-9200DX</printer>
       <arg_defval>ev/Ptouch-PageSize-36x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-9200PC</printer><!-- Brother P-touch PT-9200PC -->
+      <printer>printer/Brother-PT-9200PC</printer>
       <arg_defval>ev/Ptouch-PageSize-36x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-9400</printer><!-- Brother P-touch PT-9400 -->
+      <printer>printer/Brother-PT-9400</printer>
       <arg_defval>ev/Ptouch-PageSize-36x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-9500PC</printer><!-- Brother P-touch PT-9500PC -->
+      <printer>printer/Brother-PT-9500PC</printer>
       <arg_defval>ev/Ptouch-PageSize-36x100mm</arg_defval>
     </constraint>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-9600</printer><!-- Brother P-touch PT-9600 -->
+      <printer>printer/Brother-PT-9600</printer>
       <arg_defval>ev/Ptouch-PageSize-36x100mm</arg_defval>
     </constraint>
   </constraints>
@@ -139,12 +137,8 @@ USA
     <ev_longname>
      <en>(6 x 100mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>6x100mm</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>17 283</ev_driverval>
    </enum_val>
@@ -152,12 +146,8 @@ USA
     <ev_longname>
      <en>(9 x 100mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>9x100mm</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>26 283</ev_driverval>
    </enum_val>
@@ -165,12 +155,8 @@ USA
     <ev_longname>
      <en>(12 x 100mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>12x100mm</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>34 283</ev_driverval>
    </enum_val>
@@ -178,12 +164,8 @@ USA
     <ev_longname>
      <en>(18 x 100mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>18x100mm</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>51 283</ev_driverval>
    </enum_val>
@@ -191,34 +173,26 @@ USA
     <ev_longname>
      <en>(24 x 100mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>24x100mm</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>68 283</ev_driverval>
     <constraints>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-18R</printer><!-- Brother P-touch PT-18R -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-18R</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-1950</printer><!-- Brother P-touch PT-1950 -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-1950</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-1950VP</printer><!-- Brother P-touch PT-1950VP -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-1950VP</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-1960</printer><!-- Brother P-touch PT-1960 -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-1960</printer>
      </constraint>
     </constraints>
    </enum_val>
@@ -226,79 +200,62 @@ USA
     <ev_longname>
      <en>(36 x 100mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>36x100mm</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>102 283</ev_driverval>
     <constraints>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-PC</printer><!-- Brother P-touch PT-PC -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-PC</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-18R</printer><!-- Brother P-touch PT-18R -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-18R</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-1500PC</printer><!-- Brother P-touch PT-1500PC -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-1500PC</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-1950</printer><!-- Brother P-touch PT-1950 -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-1950</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-1950VP</printer><!-- Brother P-touch PT-1950VP -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-1950VP</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-1960</printer><!-- Brother P-touch PT-1960 -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-1960</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-2300</printer><!-- Brother P-touch PT-2300 -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-2300</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-2420PC</printer><!-- Brother P-touch PT-2420PC -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-2420PC</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-2450DX</printer><!-- Brother P-touch PT-2450DX -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-2450DX</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-2500PC</printer><!-- Brother P-touch PT-2500PC -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-2500PC</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-2600</printer><!-- Brother P-touch PT-2600 -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-2600</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-PT-2610</printer><!-- Brother P-touch PT-2610 -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-PT-2610</printer>
      </constraint>
      <constraint sense='false'>
        <driver>ptouch-pt</driver>
-       <printer>printer/Brother-</printer><!-- Brother P-touch  -->
-       <arg_defval>na</arg_defval>
+       <printer>printer/Brother-</printer>
      </constraint>
     </constraints>
    </enum_val>

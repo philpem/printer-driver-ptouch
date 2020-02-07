@@ -46,12 +46,8 @@ USA
     <ev_longname>
      <en>1</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>1</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>1</ev_driverval>
    </enum_val>

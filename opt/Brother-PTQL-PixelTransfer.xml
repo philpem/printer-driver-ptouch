@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
 <option type='enum' id='Brother-PTQL-PixelTransfer'>
-  <!-- A multilingual <comments> block can appear here, too;
-       it should be treated as documentation for the user. -->
   <arg_longname>
     <en>Pixel Transfer Mode</en>
   </arg_longname>
@@ -47,12 +45,8 @@ USA
     <ev_longname>
      <en>Uncompressed line printing</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>UncompressedLinePrinting</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>ULP</ev_driverval>
     <constraints>
@@ -68,12 +62,8 @@ USA
     <ev_longname>
      <en>Run-length encoding</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>RunLengthEncoding</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>RLE</ev_driverval>
     <constraints>
@@ -93,12 +83,8 @@ USA
     <ev_longname>
      <en>Bit image printing</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>BitImagePrinting</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>BIP</ev_driverval>
     <constraints>
