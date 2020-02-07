@@ -24,7 +24,7 @@ USA
     pixel data is more narrow than the maximum print width.
     This is usually fixed for any one printer, based on how the tape
     is mounted in the printer.
-    </en> 
+    </en>
   </comments>
   <arg_longname>
     <en>Align</en>
@@ -52,12 +52,8 @@ USA
     <ev_longname>
      <en>Right aligned</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>Right</en>
-     <!-- Until someone tells me how to learn the user locale in 
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>Right</ev_driverval>
     <constraints>
@@ -77,12 +73,8 @@ USA
     <ev_longname>
      <en>Center aligned</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>Center</en>
-     <!-- Until someone tells me how to learn the user locale in 
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>Center</ev_driverval>
     <constraints>

@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
 <option type='enum' id='Brother-PTQL-AdvanceMedia'>
-  <!-- A multilingual <comments> block can appear here, too;
-       it should be treated as documentation for the user. -->
   <arg_longname>
     <en>Advance Media</en>
   </arg_longname>
@@ -49,12 +47,8 @@ USA
     <ev_longname>
      <en>Do not advance the tape</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>Off</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>0</ev_driverval>
    </enum_val>
@@ -62,12 +56,8 @@ USA
     <ev_longname>
      <en>Advance the tape after each label</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>LabelEnd</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>4</ev_driverval>
    </enum_val>
@@ -75,12 +65,8 @@ USA
     <ev_longname>
      <en>Advance the tape at the end of the job</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>JobEnd</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>2</ev_driverval>
    </enum_val>

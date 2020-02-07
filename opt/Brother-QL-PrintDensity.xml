@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
 <option type="enum" id="opt/Brother-QL-PrintDensity">
-  <!-- A multilingual <comments> block can appear here, too;
-       it should be treated as documentation for the user. -->
   <arg_longname>
    <en>Print Density</en>
   </arg_longname>
@@ -45,12 +43,8 @@ USA
     <ev_longname>
      <en>Use printer default</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>0PrinterDefault</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>0</ev_driverval>
    </enum_val>
@@ -58,12 +52,8 @@ USA
     <ev_longname>
      <en>Very light</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>1VeryLight</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>1</ev_driverval>
    </enum_val>
@@ -71,12 +61,8 @@ USA
     <ev_longname>
      <en>Light</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>2Light</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>2</ev_driverval>
    </enum_val>
@@ -84,12 +70,8 @@ USA
     <ev_longname>
      <en>Medium</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>3Medium</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>3</ev_driverval>
    </enum_val>
@@ -97,12 +79,8 @@ USA
     <ev_longname>
      <en>Dark</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>4Dark</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>4</ev_driverval>
    </enum_val>
@@ -110,12 +88,8 @@ USA
     <ev_longname>
      <en>Very dark</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>5VeryDark</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>5</ev_driverval>
    </enum_val>

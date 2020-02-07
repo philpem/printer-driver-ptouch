@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
 <option type='enum' id='Brother-QL-CutMark'>
-  <!-- A multilingual <comments> block can appear here, too;
-       it should be treated as documentation for the user. -->
   <arg_longname>
     <en>Cut Mark</en>
   </arg_longname>
@@ -40,11 +38,11 @@ USA
     </constraint>
     <constraint sense='false'>
       <driver>ptouch-ql</driver>
-      <printer>printer/Brother-QL-550</printer><!-- Brother P-touch QL-650TD -->
+      <printer>printer/Brother-QL-550</printer>
     </constraint>
     <constraint sense='false'>
       <driver>ptouch-ql</driver>
-      <printer>printer/Brother-QL-650TD</printer><!-- Brother P-touch QL-650TD -->
+      <printer>printer/Brother-QL-650TD</printer>
     </constraint>
   </constraints>
   <enum_vals>
@@ -52,12 +50,8 @@ USA
     <ev_longname>
      <en>Do not print cut marks</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>Off</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>0</ev_driverval>
    </enum_val>
@@ -65,12 +59,8 @@ USA
     <ev_longname>
      <en>Print cut mark after each label</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>LabelEnd</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>4</ev_driverval>
    </enum_val>
@@ -78,12 +68,8 @@ USA
     <ev_longname>
      <en>Print cut mark at the end of the job</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>JobEnd</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>2</ev_driverval>
    </enum_val>

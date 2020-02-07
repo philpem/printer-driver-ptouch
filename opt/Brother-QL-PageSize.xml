@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
 <option type="enum" id="opt/Brother-QL-PageSize">
-  <!-- A multilingual <comments> block can appear here, too;
-       it should be treated as documentation for the user. -->
   <arg_longname>
    <en>Page Size</en>
   </arg_longname>
@@ -45,12 +43,8 @@ USA
     <ev_longname>
      <en>Hanging File Folder, Return Address label (17 x 54mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>ReturnAddressLabel</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[48 153]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -58,12 +52,8 @@ USA
     <ev_longname>
      <en>File Folder label (17 x 87mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>FileFolderLabel</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[48 247]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -71,12 +61,8 @@ USA
     <ev_longname>
      <en>Standard Address Label (29 x 90mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>StandardAddressLabel</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[82 255]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -84,12 +70,8 @@ USA
     <ev_longname>
      <en>Binder 3cm - Spine Tape (29 x 209mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>Binder3cmSpineTape</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[82 592]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -97,12 +79,8 @@ USA
     <ev_longname>
      <en>Large Address Label (38 x 90mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>LargeAddressLabel</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[108 255]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -110,12 +88,8 @@ USA
     <ev_longname>
      <en>CD/DVD Circular Label (58 x 58mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>CD/DVDLabel</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[164 164]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -123,12 +97,8 @@ USA
     <ev_longname>
      <en>Small Address Label (62 x 29mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>SmallAddressLabel</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[176 82]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -136,12 +106,8 @@ USA
     <ev_longname>
      <en>MO-Face Tape (62 x 45mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>MO-FaceTape</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[176 128]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -149,12 +115,8 @@ USA
     <ev_longname>
      <en>Floppy Tape (62 x 50mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>FloppyTape</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[176 142]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -162,12 +124,8 @@ USA
     <ev_longname>
      <en>Shipping Label, Visitor Name Badge (62 x 100mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>ShippingLabel</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[176 283]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -175,12 +133,8 @@ USA
     <ev_longname>
      <en>Binder 5cm-Spine Tape (62 x 209mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>Binder5cmSpineTape</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[176 592]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -188,12 +142,8 @@ USA
     <ev_longname>
      <en>Compact Flash(TM) Tape (12 x 36mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>CompactFlashTape</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[34 102]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -201,12 +151,8 @@ USA
     <ev_longname>
      <en>SmartMedia(TM) Tape (12 x 26mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>SmartMediaTape</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[34 74]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -214,12 +160,8 @@ USA
     <ev_longname>
      <en>Memory Stick(TM) Tape (12 x 34mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>MemoryStickTape</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[34 96]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -227,12 +169,8 @@ USA
     <ev_longname>
      <en>Stock Tape (57 x 50mm)</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>StockTape</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[161 142]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
@@ -240,12 +178,8 @@ USA
     <ev_longname>
      <en>Custom size</en>
     </ev_longname>
-    <!-- A multilingual <comments> block can appear here, too;
-         it should be treated as documentation for the user. -->
     <ev_shortname>
      <en>Custom</en>
-     <!-- Until someone tells me how to learn the user locale in
-          backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[%0 %1]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>

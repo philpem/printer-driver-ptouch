@@ -40,61 +40,61 @@ USA
  </comments>
  <printers>
   <printer>
-   <id>printer/Brother-PT-PC</id><!-- Brother P-touch PT-PC -->
+   <id>printer/Brother-PT-PC</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-18R</id><!-- Brother P-touch PT-18R -->
+   <id>printer/Brother-PT-18R</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-550A</id><!-- Brother P-touch PT-550A -->
+   <id>printer/Brother-PT-550A</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-1500PC</id><!-- Brother P-touch PT-1500PC -->
+   <id>printer/Brother-PT-1500PC</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-1950VP</id><!-- Brother P-touch PT-1950VP -->
+   <id>printer/Brother-PT-1950VP</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-1950</id><!-- Brother P-touch PT-1950 -->
+   <id>printer/Brother-PT-1950</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-1960</id><!-- Brother P-touch PT-1960 -->
+   <id>printer/Brother-PT-1960</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-2300</id><!-- Brother P-touch PT-2300 -->
+   <id>printer/Brother-PT-2300</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-2420PC</id><!-- Brother P-touch PT-2420PC -->
+   <id>printer/Brother-PT-2420PC</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-2450DX</id><!-- Brother P-touch PT-2450DX -->
+   <id>printer/Brother-PT-2450DX</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-2500PC</id><!-- Brother P-touch PT-2500PC -->
+   <id>printer/Brother-PT-2500PC</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-2600</id><!-- Brother P-touch PT-2600 -->
+   <id>printer/Brother-PT-2600</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-2610</id><!-- Brother P-touch PT-2610 -->
+   <id>printer/Brother-PT-2610</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-3600</id><!-- Brother P-touch PT-3600 -->
+   <id>printer/Brother-PT-3600</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-9200DX</id><!-- Brother P-touch PT-9200DX -->
+   <id>printer/Brother-PT-9200DX</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-9200PC</id><!-- Brother P-touch PT-9200PC -->
+   <id>printer/Brother-PT-9200PC</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-9400</id><!-- Brother P-touch PT-9400 -->
+   <id>printer/Brother-PT-9400</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-9500PC</id><!-- Brother P-touch PT-9500PC -->
+   <id>printer/Brother-PT-9500PC</id>
   </printer>
   <printer>
-   <id>printer/Brother-PT-9600</id><!-- Brother P-touch PT-9600 -->
+   <id>printer/Brother-PT-9600</id>
   </printer>
  </printers>
 </driver>
