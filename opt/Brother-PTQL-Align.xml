@@ -41,17 +41,10 @@ USA
   </arg_execution>
   <constraints>
     <constraint sense='true'>
+      <driver>ptouch-pt</driver>
+    </constraint>
+    <constraint sense='true'>
       <driver>ptouch-ql</driver>
-      <arg_defval>ev/Right</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch-pt</driver>
-      <arg_defval>ev/Center</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch-pt</driver>
-      <printer>printer/Brother-PT-PC</printer><!-- Brother P-touch PT-PC -->
-      <arg_defval>ev/Right</arg_defval>
     </constraint>
   </constraints>
   <enum_vals>
@@ -67,6 +60,18 @@ USA
           backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>Right</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+      <constraint sense="true">
+        <driver>ptouch-pt</driver>
+	<printer>printer/Brother-PT-PC</printer>
+      </constraint>
+      <constraint sense="true">
+        <driver>ptouch-ql</driver>
+      </constraint>
+    </constraints>
    </enum_val>
    <enum_val id="ev/Center">
     <ev_longname>
@@ -80,6 +85,18 @@ USA
           backends, the shortname must be monolingual in <en>! -->
     </ev_shortname>
     <ev_driverval>Center</ev_driverval>
+    <constraints>
+      <constraint sense="true">
+        <driver>ptouch-pt</driver>
+      </constraint>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+	<printer>printer/Brother-PT-PC</printer>
+      </constraint>
+      <constraint sense="false">
+        <driver>ptouch-ql</driver>
+      </constraint>
+    </constraints>
    </enum_val>
   </enum_vals>
 </option>
