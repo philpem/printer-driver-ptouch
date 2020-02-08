@@ -249,30 +249,6 @@
  *   within the tape even if it is not precisely positioned.  The
  *   print head really IS 720 pixels.
  */
-/** Default pixel transfer method */
-#define PIXEL_XFER_DEFAULT         RLE
-/** Default print quality */
-#define PRINT_QUALITY_HIGH_DEFAULT true
-/** Default half cut mode */
-#define HALF_CUT_DEFAULT           false
-/** Maximum number of bytes per line */
-#define BYTES_PER_LINE_MAX         255 /* cf. ULP_emit_line */
-/** Default number of bytes per line */
-#define BYTES_PER_LINE_DEFAULT     90
-/** Default pixel data alignment on narrow tapes */
-#define ALIGN_DEFAULT              RIGHT
-/** Maximum print density value */
-#define PRINT_DENSITY_MAX          5
-/** Default print density value (1: light, ..., 5:dark, 0: no change) */
-#define PRINT_DENSITY_DEFAULT      0
-/** Transfer mode default ??? (-1 = don't set) */
-#define TRANSFER_MODE_DEFAULT      -1
-/** Driver pixel data mirroring default */
-#define SOFTWARE_MIRROR_DEFAULT    false
-/** Label preamble emitting default */
-#define LABEL_PREAMBLE_DEFAULT     false
-/** Interlabel margin removal default */
-#define CONCAT_PAGES_DEFAULT       false
 
 #include <config.h>
 #include <stdio.h>
@@ -370,8 +346,8 @@ typedef struct {
   int bytes_per_line;   /**< bytes per line (print head width)    */
   align_t align;        /**< pixel data alignment                 */
   bool software_mirror; /**< mirror pixel data if mirror printing */
-  int print_density;    /**< printing density (0=don't change)    */
-  int xfer_mode;        /**< transfer mode ???                    */
+  int print_density;    /**< printing density (1=light, ..., 5=dark, 0=don't change)    */
+  int xfer_mode;        /**< transfer mode (-1 = don't set)       */
   bool label_preamble;  /**< emit ESC i z ...                     */
   bool concat_pages;    /**< remove interlabel margins            */
   bool debug;		/**< emit debug information               */
@@ -387,16 +363,16 @@ typedef struct {
 job_options_t
 parse_job_options (const char* str) {
   job_options_t options = {
-    PIXEL_XFER_DEFAULT,
-    PRINT_QUALITY_HIGH_DEFAULT,
-    HALF_CUT_DEFAULT,
-    BYTES_PER_LINE_DEFAULT,
-    ALIGN_DEFAULT,
-    SOFTWARE_MIRROR_DEFAULT,
-    PRINT_DENSITY_DEFAULT,
-    TRANSFER_MODE_DEFAULT,
-    LABEL_PREAMBLE_DEFAULT,
-    CONCAT_PAGES_DEFAULT,
+    /* pixel_xfer */ RLE,
+    /* print_quality_high */ true,
+    /* half_cut */ false,
+    /* bytes_per_line */ 90,
+    /* align */ RIGHT,
+    /* software_mirror*/ false,
+    /* print_density */ 0,
+    /* xfer_mode (don't set) */ -1,
+    /* label_preamble */ false,
+    /* concat_pages */ false,
     /* debug */ false,
   };
 
@@ -407,8 +383,8 @@ parse_job_options (const char* str) {
     int max;
   };
   struct int_option int_options [] = {
-    { "BytesPerLine", &options.bytes_per_line, 1, BYTES_PER_LINE_MAX },
-    { "PrintDensity", &options.print_density, 0, PRINT_DENSITY_MAX },
+    { "BytesPerLine", &options.bytes_per_line, 1, 255 },
+    { "PrintDensity", &options.print_density, 0, 5 },
     { "TransferMode", &options.xfer_mode, 0, 255 },
     { }
   };
