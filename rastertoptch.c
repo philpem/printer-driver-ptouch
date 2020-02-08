@@ -402,6 +402,16 @@ parse_job_options (const char* str) {
     { }
   };
 
+  struct float_option {
+    const char *name;
+    float *value;
+    float min;
+    float max;
+  };
+  struct float_option float_options [] = {
+    { }
+  };
+
   cups_option_t* cups_options;
   int num_options = cupsParseOptions (str, 0, &cups_options);
   while (num_options-- > 0) {
@@ -492,6 +502,29 @@ parse_job_options (const char* str) {
       }
     }
     if (bool_option->name)
+      continue;
+
+    struct float_option *float_option;
+    for (float_option = float_options; float_option->name; float_option++) {
+      if (strcasecmp (name, float_option->name) == 0) {
+	if (value) {
+	  errno = 0;
+	  char *rest;
+	  float v = strtof (value, &rest);
+	  if (!errno && rest != value && *rest == '\0' &&
+	      v >= float_option->min && v <= float_option->max) {
+	    *float_option->value = v;
+	    break;
+	  }
+	}
+	fprintf (stderr, "%s\n", value);
+	fprintf (stderr, "ERROR: The value of %s must be an "
+			 "integer between %f and %f\n",
+		 name, float_option->min, float_option->max);
+	exit (2);
+      }
+    }
+    if (float_option->name)
       continue;
 
     fprintf (stderr, "ERROR: Unknown option %s\n", name);
