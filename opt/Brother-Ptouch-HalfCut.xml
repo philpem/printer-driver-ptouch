@@ -25,10 +25,10 @@ USA
     <en>Half Cut (Crack &amp; Peel)</en>
   </arg_longname>
   <arg_shortname>
-    <en>HalfCut</en><!-- backends only know <en> shortnames! -->
+    <en>HalfCut</en>
   </arg_shortname>
   <arg_shortname_false>
-    <en>FullCut</en><!-- backends only know <en> shortnames! -->
+    <en>FullCut</en>
   </arg_shortname_false>
   <arg_execution>
     <arg_group>Finishing</arg_group>
