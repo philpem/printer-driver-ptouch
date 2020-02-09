@@ -433,6 +433,7 @@ typedef struct {
   int label_preamble;   /**< emit ESC i z ...                     */
   bool concat_pages;    /**< remove interlabel margins            */
   unsigned long rle_alloc_max; /**< max bytes used for rle_buffer */
+  unsigned int page;    /**< The current page number              */
 } job_options_t;
 
 /**
@@ -760,8 +761,8 @@ emit_quality_rollfed_size (job_options_t* job_options,
 void
 emit_page_cmds (job_options_t* job_options,
                 page_options_t* old_page_options,
-                page_options_t* new_page_options,
-                bool force) {
+                page_options_t* new_page_options) {
+  bool force = job_options->page == 1;
   int tape_width_mm = -1;
 
   /* Set width and resolution */
@@ -1280,7 +1281,6 @@ RLE_store_empty_lines (job_options_t* job_options,
 
 /**
  * Emit raster lines for current page.
- * @param page          Page number of page to be emitted
  * @param job_options   Job options
  * @param page_options  Page options
  * @param ras           Raster data stream
@@ -1288,8 +1288,7 @@ RLE_store_empty_lines (job_options_t* job_options,
  * @return              0 on success, nonzero otherwise
  */
 int
-emit_raster_lines (int page,
-                   job_options_t* job_options,
+emit_raster_lines (job_options_t* job_options,
                    page_options_t* page_options,
                    cups_raster_t* ras,
                    cups_page_header_t* header) {
@@ -1359,7 +1358,7 @@ emit_raster_lines (int page,
   unsigned top_empty_lines = 0;
   unsigned page_size_y = header->PageSize [1];
   if (header->ImagingBoundingBox [3] != 0
-      && (!job_options->concat_pages || page == 1)) {
+      && (!job_options->concat_pages || job_options->page == 1)) {
     unsigned top_distance_pt
       = page_size_y - header->ImagingBoundingBox [3];
     if (top_distance_pt != 0) {
@@ -1377,7 +1376,7 @@ emit_raster_lines (int page,
         completed = now_completed;
         fprintf (stderr,
                  "INFO: Printing page %d, %d%% complete...\n",
-                 page, completed);
+                 job_options->page, completed);
         fflush (stderr);
       }
     }
@@ -1409,7 +1408,7 @@ emit_raster_lines (int page,
     empty_lines += bot_empty_lines;
   fprintf (stderr,
            "INFO: Printing page %d, 100%% complete.\n",
-            page);
+           job_options->page);
   fflush (stderr);
   return 0;
 }
@@ -1422,10 +1421,8 @@ emit_raster_lines (int page,
  */
 int
 process_rasterdata (int fd, job_options_t* job_options) {
-  int page = 1;                    /* Page number                   */
   cups_raster_t* ras;              /* Raster stream for printing    */
   cups_page_header_t header;       /* Current page header           */
-  int first_page = true;           /* Is this the first page?       */
   int more_pages;                  /* Are there more pages left?    */
   int bytes_per_line = job_options->bytes_per_line;
   page_options_t page_options [2] = {{
@@ -1444,12 +1441,13 @@ process_rasterdata (int fd, job_options_t* job_options) {
     = page_options + 1;            /* Options for preceding page    */
   page_options_t* tmp_page_options;/* Temp variable for swapping    */
   ras = cupsRasterOpen (fd, CUPS_RASTER_READ);
-  for (more_pages = cupsRasterReadHeader (ras, &header);
+  for (job_options->page = 1,
+         more_pages = cupsRasterReadHeader (ras, &header);
        more_pages;
        tmp_page_options = old_page_options,
          old_page_options = new_page_options,
          new_page_options = tmp_page_options,
-         first_page = false) {
+	 job_options->page++) {
     update_page_options (&header, new_page_options);
 #ifdef DEBUG
     if (debug) {
@@ -1479,12 +1477,12 @@ process_rasterdata (int fd, job_options_t* job_options) {
     }
 #endif
     page_prepare (header.cupsBytesPerLine, bytes_per_line);
-    if (first_page) {
+    if (job_options->page == 1) {
       emit_job_cmds (job_options);
       emit_page_cmds (job_options, old_page_options,
-                      new_page_options, first_page);
+                      new_page_options);
     }
-    emit_raster_lines (page, job_options, new_page_options, ras, &header);
+    emit_raster_lines (job_options, new_page_options, ras, &header);
     unsigned char xormask = (header.NegativePrint ? ~0 : 0);
     /* Determine whether this is the last page (fetch next)    */
     more_pages = cupsRasterReadHeader (ras, &header);
@@ -1534,8 +1532,7 @@ process_rasterdata (int fd, job_options_t* job_options) {
     }
     page_end ();
     /* Emit page count according to CUPS requirements */
-    fprintf (stderr, "PAGE: %d 1\n", page);
-    page++;
+    fprintf (stderr, "PAGE: %d 1\n", job_options->page);
   }
   return 0;
 }
