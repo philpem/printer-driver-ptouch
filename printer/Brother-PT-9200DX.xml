@@ -31,27 +31,6 @@ USA
         <y>360</y>
       </dpi>
     </resolution>
-    <consumables>
-      <comments>
-        <en>
-	Black on White Thermal Paper
-	Fabric Tape Blue on White
-	Flexi Tape
-	Iron on Black Tape
-	Security Tape Black on White
-	Strong Adhesive Tape
-	TZ tape widths w: 1=6mm, 2=9mm, 3=12mm, 4=18mm, 5=24mm, 6=36mm
-	TZ foreground colours f: 1=black, 2=red, 3=blue, 4=gold, 5=white,
-	TZ background colours b: 1=clear, 2=white, 3=black, 4=red, 5=blue, 6=yellow, 7=green, 8=gold
-        </en>
-      </comments>
-      <partno>ALK251</partno>	
-      <partno>TZFAw</partno>
-      <partno>TZFXbwf</partno>
-      <partno>TZIYwf</partno>
-      <partno>TZSEw</partno>
-      <partno>TZSbwf</partno>
-    </consumables>
   </mechanism>
   <url>http://www.brother.co.uk/cms.cfm/s_page/55570/s_level/17290/s_product/PT9200DXU1</url>
   <lang>
