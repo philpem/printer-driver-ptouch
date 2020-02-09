@@ -100,7 +100,6 @@ xmlschema-printer: $(filter printer/%,$(nobase_dist_foomaticdb_DATA))
 	    echo -n "$$xml "; \
 	    xmlstarlet ed \
 		-d '/printer/unverified' \
-		-d '/printer/mechanism/consumables' \
 		"$$xml" \
 	    | xmllint --noout --schema $(XMLSCHEMA)/printer.xsd -; \
 	done
