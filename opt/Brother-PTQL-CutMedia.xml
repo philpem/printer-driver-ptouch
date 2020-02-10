@@ -37,13 +37,9 @@ USA
       <driver>ptouch-pt</driver>
       <arg_defval>ev/Off</arg_defval>
     </constraint>
-    <constraint sense='true'>
-      <driver>ptouch-ql</driver>
-      <arg_defval>ev/Off</arg_defval>
-    </constraint>
     <constraint sense='false'>
       <driver>ptouch-ql</driver>
-      <printer>printer/Brother-QL-500</printer>
+      <arg_defval>ev/Off</arg_defval>
     </constraint>
   </constraints>
   <enum_vals>

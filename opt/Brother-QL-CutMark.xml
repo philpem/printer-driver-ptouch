@@ -32,19 +32,6 @@ USA
     <arg_postscript />
     <arg_proto>&lt;&lt;/CutMedia %s&gt;&gt;setpagedevice</arg_proto>
   </arg_execution>
-  <constraints>
-    <constraint sense='true'>
-      <driver>ptouch-ql</driver>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-ql</driver>
-      <printer>printer/Brother-QL-550</printer>
-    </constraint>
-    <constraint sense='false'>
-      <driver>ptouch-ql</driver>
-      <printer>printer/Brother-QL-650TD</printer>
-    </constraint>
-  </constraints>
   <enum_vals>
    <enum_val id="ev/Off">
     <ev_longname>
