@@ -43,11 +43,6 @@ USA
     <arg_substitution />
     <arg_proto> BytesPerLine=%s </arg_proto>
   </arg_execution>
-  <constraints>
-    <constraint sense='true'>
-      <driver>ptouch-ql</driver>
-    </constraint>
-  </constraints>
   <enum_vals>
    <enum_val id="ev/3">
     <ev_longname>
@@ -146,7 +141,7 @@ USA
       <constraint sense='false'>
         <driver>ptouch-pt</driver>
       </constraint>
-      <constraint sense='true'>
+      <constraint sense='false'>
 	<driver>ptouch-ql</driver>
       </constraint>
     </constraints>

@@ -63,4 +63,13 @@ USA
     Prints 3 inches per second.
     </en>
   </comments>
+  <select>
+    <option id="opt/Brother-PTQL-Resolution">
+      <enum_val id="ev/300dpi" />
+    </option>
+    <option id="opt/Brother-PTQL-BytesPerLine">
+      <enum_val id="ev/90" />
+    </option>
+    <option id="opt/Brother-QL-CutMark" />
+  </select>
 </printer>

@@ -32,12 +32,6 @@ USA
    <arg_substitution />
    <arg_proto> -r%s</arg_proto>
   </arg_execution>
-  <constraints>
-   <constraint sense="true">
-    <driver>ptouch-ql</driver>
-    <arg_defval>ev/300dpi</arg_defval>
-   </constraint>
-  </constraints>
   <enum_vals>
    <enum_val id="ev/180dpi">
     <ev_longname>
@@ -68,7 +62,7 @@ USA
       <constraint sense='false'>
         <driver>ptouch-pt</driver>
       </constraint>
-      <constraint sense='true'>
+      <constraint sense='false'>
         <driver>ptouch-ql</driver>
       </constraint>
     </constraints>

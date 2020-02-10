@@ -38,16 +38,5 @@ USA
   <en>
   </en>
  </comments>
- <printers>
-  <printer>
-   <id>printer/Brother-QL-500</id>
-  </printer>
-  <printer>
-   <id>printer/Brother-QL-550</id>
-  </printer>
-  <printer>
-   <id>printer/Brother-QL-650TD</id>
-  </printer>
- </printers>
 </driver>
 
