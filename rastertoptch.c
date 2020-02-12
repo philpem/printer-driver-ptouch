@@ -611,30 +611,20 @@ emit_job_cmds (job_options_t* job_options) {
 }
 
 /**
- * Emit feed, cut and mirror command codes.
- * @param do_feed    Emit codes to actually feed
- * @param feed       Feed size
+ * Emit cut and mirror command codes.
  * @param do_cut     Emit codes to actually cut
  * @param do_mirror  Emit codes to mirror print
  */
 static inline void
-emit_feed_cut_mirror (bool do_feed, unsigned feed,
-                      bool do_cut,
-                      bool do_mirror) {
-  /* Determine feed nibble */
-  unsigned feed_nibble;
-  if (do_feed) {
-    feed_nibble = lrint (feed / 2.6 + 2.4); /* one suggested conversion */
-    if (feed_nibble > 31) feed_nibble = 31;
-  } else
-    feed_nibble = 0;
+emit_cut_mirror (bool do_cut,
+                 bool do_mirror) {
   /* Determine auto cut bit - we only handle after each page */
   unsigned char auto_cut_bit = do_cut ? 0x40 : 0x00;
   /* Determine mirror print bit*/
   unsigned char mirror_bit = do_mirror ? 0x80 : 0x00;
   /* Combine & emit printer command code */
   putchar (ESC); putchar ('i'); putchar ('M');
-  putchar ((char) (feed & 0x1f) | auto_cut_bit | mirror_bit);
+  putchar ((char) auto_cut_bit | mirror_bit);
 }
 
 /* Default is continuous roll */
@@ -755,10 +745,8 @@ emit_page_cmds (job_options_t* job_options,
       || header->CutMedia != prev_header->CutMedia
       || header->MirrorPrint != prev_header->MirrorPrint)
     /* We only know how to feed after each page */
-    emit_feed_cut_mirror (header->AdvanceMedia == CUPS_ADVANCE_PAGE,
-			  header->AdvanceDistance,
-                          header->CutMedia == CUPS_CUT_PAGE,
-                          header->MirrorPrint == CUPS_TRUE);
+    emit_cut_mirror (header->CutMedia == CUPS_CUT_PAGE,
+                     header->MirrorPrint == CUPS_TRUE);
 
   emit_feed (header);
 
@@ -1400,11 +1388,8 @@ process_rasterdata (job_options_t* job_options) {
       /* If special feed or cut at job end, emit commands to that effect */
       if (header->AdvanceMedia == CUPS_ADVANCE_JOB ||
 	  header->CutMedia == CUPS_CUT_JOB) {
-        emit_feed_cut_mirror
-          (header->AdvanceMedia == CUPS_ADVANCE_PAGE ||
-           header->AdvanceMedia == CUPS_ADVANCE_JOB,
-           header->AdvanceDistance,
-           header->CutMedia == CUPS_CUT_PAGE ||
+        emit_cut_mirror
+          (header->CutMedia == CUPS_CUT_PAGE ||
 	   header->CutMedia == CUPS_CUT_JOB,
            header->MirrorPrint == CUPS_TRUE);
         /* Emit eject marker */
