@@ -40,14 +40,4 @@ USA
     <arg_substitution />
     <arg_proto> ConcatPages </arg_proto>
   </arg_execution>
-  <constraints>
-    <constraint sense='true'>
-      <driver>ptouch-pt</driver>
-      <arg_defval>0</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch-ql</driver>
-      <arg_defval>0</arg_defval>
-    </constraint>
-  </constraints>
 </option>
