@@ -18,7 +18,7 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<option type='enum' id='opt/Brother-PTQL-Margin'>
+<option type='enum' id='opt/Brother-PT-Margin'>
   <comments>
     <en>The extra distance, in points (72nds of an inch), by which to
     advance the tape before and after each label
@@ -28,7 +28,7 @@ USA
     <en>Extra Margin</en>
   </arg_longname>
   <arg_shortname>
-    <en>Margin</en>
+    <en>ExtraMargin</en>
   </arg_shortname>
   <arg_execution>
     <arg_group>Finishing</arg_group>
@@ -40,10 +40,6 @@ USA
   <constraints>
     <constraint sense='true'>
       <driver>ptouch-pt</driver>
-      <arg_defval>ev/None</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch-ql</driver>
       <arg_defval>ev/None</arg_defval>
     </constraint>
   </constraints>
