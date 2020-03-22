@@ -1,0 +1,84 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<option type='enum' id='opt/Brother-QL-Margin'>
+  <comments>
+    <en>The extra distance, in points (72nds of an inch), by which to
+    advance the tape before and after each label
+    </en>
+  </comments>
+  <arg_longname>
+    <en>Extra Margin (ignored for die-cut tape)</en>
+  </arg_longname>
+  <arg_shortname>
+    <en>ExtraMargin</en>
+  </arg_shortname>
+  <arg_execution>
+    <arg_group>Finishing</arg_group>
+    <arg_order>110</arg_order>
+    <arg_spot>B</arg_spot>
+    <arg_substitution />
+    <arg_proto> Margin=%s </arg_proto>
+  </arg_execution>
+  <constraints>
+    <constraint sense='true'>
+      <driver>ptouch-ql</driver>
+      <arg_defval>ev/None</arg_defval>
+    </constraint>
+  </constraints>
+  <enum_vals>
+   <enum_val id="ev/None">
+    <ev_longname>
+     <en>None</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>0None</en>
+    </ev_shortname>
+    <ev_driverval>0</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/Small">
+    <ev_longname>
+     <en>Small</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>1Small</en>
+    </ev_shortname>
+    <ev_driverval>22</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/Medium">
+    <ev_longname>
+     <en>Medium</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>2Medium</en>
+    </ev_shortname>
+    <ev_driverval>34</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/Large">
+    <ev_longname>
+     <en>Large</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>3Large</en>
+    </ev_shortname>
+    <ev_driverval>74</ev_driverval>
+   </enum_val>
+  </enum_vals>
+</option>
