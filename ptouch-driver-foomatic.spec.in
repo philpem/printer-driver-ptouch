@@ -51,7 +51,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING NEWS README
 /usr/share/foomatic/db/source/driver/ptouch-pt.xml
 /usr/share/foomatic/db/source/driver/ptouch-ql.xml
 /usr/share/foomatic/db/source/printer/Brother-PT-*.xml
