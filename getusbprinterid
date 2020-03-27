@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+
+# len = 1024
+# LPIOC_GET_DEVICE_ID(len) = _IOC(_IOC_READ, 'P', IOCNR_GET_DEVICE_ID, len)
+# _IOC(), _IOC_READ as defined in /usr/include/asm/ioctl.h
+$LPIOC_GET_DEVICE_ID = 0x84005001;
+$LPIOC_GET_VID_PID = 0x84005006;
+
+open FILE, "$ARGV[0]" or die "cannot open $ARGV[0]";
+
+my $result;
+ioctl(FILE, $LPIOC_GET_DEVICE_ID , $result) or die;
+# Cut resulting string to its real length
+my $length = ord(substr($result, 1, 1)) + (ord(substr($result, 0, 1)) << 8);
+$result = substr($result, 2, $length-2);
+# Remove non-printable characters
+$result =~ tr/[\x0-\x1f]/\./;
+print "DeviceID $result\n";
+
+$result = pack("LL",0);
+ioctl(FILE, $LPIOC_GET_VID_PID, $result) or die;
+my( $v1, $v2 ) = unpack("LL", $result );
+print "Vendor '$v1', Product '$v2'\n";
+
+close FILE;
