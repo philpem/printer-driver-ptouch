@@ -683,40 +683,44 @@ emit_quality_rollfed_size (job_options_t* job_options,
                            unsigned image_height_px) {
   bool roll_fed_media = ! MediaTypeLabels (header);
 
-  const unsigned char PI_TYPE = 0x02;   // Paper type (roll fed media bit) is valid
+  const unsigned char PI_KIND = 0x02;   // Paper type (roll fed media bit) is valid
   const unsigned char PI_WIDTH = 0x04;  // Paper width is valid
   const unsigned char PI_LENGTH = 0x08; // Paper length is valid
+  const unsigned char PI_QUALITY = 0x40;
+  const unsigned char PI_RECOVER = 0x80;
 
-  /* Determine print quality bit */
-  unsigned char print_quality_bit
-    = (job_options->print_quality_high == CUPS_TRUE) ? 0x40 : 0x00;
-  unsigned char paper_type_id = roll_fed_media ? 0x0A : 0x0B;
+  unsigned char valid = PI_WIDTH | PI_RECOVER;
   /* Get tape width in mm */
-  int tape_width_mm = lrint (header->cupsPageSize [0] * MM_PER_PT);
+  unsigned int tape_width_mm = lrint (header->cupsPageSize [0] * MM_PER_PT);
   if (tape_width_mm > 0xff) {
     fprintf (stderr,
              "ERROR: Page width (%umm) exceeds 255mm\n",
              tape_width_mm);
     tape_width_mm = 0xff;
   }
-  /* Get tape height in mm */
-  unsigned tape_length_mm;
-  if (roll_fed_media)
-    tape_length_mm = 0;
-  else
-    tape_length_mm = lrint (header->cupsPageSize [1] * MM_PER_PT);
-  if (tape_length_mm > 0xff) {
-    fprintf (stderr,
-             "ERROR: Page height (%umm) exceeds 255mm; use continuous tape (MediaType=roll)\n",
-             tape_length_mm);
-    tape_length_mm = 0xff;
+  unsigned char paper_kind = 0;
+  unsigned int tape_length_mm = 0;
+  if (job_options->ql_series) {
+    if (job_options->print_quality_high == CUPS_TRUE)
+      valid |= PI_QUALITY;
+    valid |= PI_KIND | PI_LENGTH;
+    paper_kind = roll_fed_media ? 0x0A : 0x0B;
+    /* Get tape height in mm */
+    if (!roll_fed_media)
+      tape_length_mm = lrint (header->cupsPageSize [1] * MM_PER_PT);
+    if (tape_length_mm > 0xff) {
+      fprintf (stderr,
+	       "ERROR: Page height (%umm) exceeds 255mm; use continuous tape (MediaType=roll)\n",
+	       tape_length_mm);
+      tape_length_mm = 0xff;
+    }
   }
   /* Combine & emit printer command code */
   putchar (ESC); putchar ('i'); putchar ('z');
-  putchar (print_quality_bit | PI_TYPE | PI_WIDTH | PI_LENGTH);
-  putchar (paper_type_id);
+  putchar (valid);
+  putchar (paper_kind);
   putchar (tape_width_mm & 0xff);
-  putchar (tape_length_mm & 0xff);
+  putchar (tape_length_mm);
   putchar (image_height_px & 0xff);
   putchar ((image_height_px >> 8) & 0xff);
   putchar ((image_height_px >> 16) & 0xff);
