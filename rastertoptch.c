@@ -354,6 +354,8 @@ typedef struct {
   bool cut_mark;        /**< cut mark                             */
   bool chain_printing;  /**< chain printing                       */
   bool mirror_print;    /**< mirror print                         */
+  bool pt_series;       /**< pt series printer                    */
+  bool ql_series;       /**< ql series printer                    */
   int bytes_per_line;   /**< bytes per line (print head width)    */
   align_t align;        /**< pixel data alignment                 */
   bool software_mirror; /**< mirror pixel data if mirror printing */
@@ -383,6 +385,8 @@ parse_job_options (const char* str) {
     /* cut_mark */ false,
     /* chain_printing */ true,
     /* mirror_print */ false,
+    /* pt_series */ false,
+    /* ql_series */ false,
     /* bytes_per_line */ 90,
     /* align */ RIGHT,
     /* software_mirror*/ false,
@@ -422,6 +426,8 @@ parse_job_options (const char* str) {
     { "HalfCut", &options.half_cut },
     { "LabelPreamble", &options.label_preamble },
     { "MirrorPrint", &options.mirror_print },
+    { "PT", &options.pt_series },
+    { "QL", &options.ql_series },
     { "SoftwareMirror", &options.software_mirror },
     { }
   };
