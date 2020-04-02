@@ -63,6 +63,7 @@ USA
     <option id="opt/Brother-PTQL-BytesPerLine">
       <enum_val id="ev/16" />
     </option>
+    <option id="opt/Brother-PTQL-LabelPreamble" />
     <option id="opt/Brother-PT-PageSize">
       <arg_defval>ev/tz-24</arg_defval>
       <enum_val id="ev/tz-4" />
