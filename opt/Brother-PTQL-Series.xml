@@ -1,0 +1,73 @@
+<!--
+Copyright (c) 2020  Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<option type='enum' id='opt/Brother-PTQL-Series'>
+  <arg_longname>
+    <en>Printer Series</en>
+  </arg_longname>
+  <arg_shortname>
+    <en>PrinterSeries</en>
+  </arg_shortname>
+  <arg_execution>
+    <arg_group>PrinterSpecifics</arg_group>
+    <arg_order>100</arg_order>
+    <arg_spot>B</arg_spot>
+    <arg_substitution />
+    <arg_proto> %s </arg_proto>
+  </arg_execution>
+  <constraints>
+    <constraint sense="true">
+      <driver>ptouch-pt</driver>
+    </constraint>
+    <constraint sense="true">
+      <driver>ptouch-ql</driver>
+    </constraint>
+  </constraints>
+  <enum_vals>
+   <enum_val id="ev/PT">
+    <ev_longname>
+     <en>PT Series Printer</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>PT</en>
+    </ev_shortname>
+    <ev_driverval>PT</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-ql</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
+   <enum_val id="ev/QL">
+    <ev_longname>
+     <en>QL Series Printer</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>QL</en>
+    </ev_shortname>
+    <ev_driverval>QL</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
+  </enum_vals>
+</option>

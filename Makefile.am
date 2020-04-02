@@ -68,6 +68,7 @@ OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PTQL-NegativePrint.xml \
 				  opt/Brother-PTQL-PixelTransfer.xml \
 				  opt/Brother-PTQL-Resolution.xml \
+				  opt/Brother-PTQL-Series.xml \
 				  opt/Brother-PTQL-SoftwareMirror.xml \
 				  opt/Brother-PTQL-TransferMode.xml \
 				  opt/Brother-PT-HalfCut.xml \
