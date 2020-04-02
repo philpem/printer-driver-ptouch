@@ -64,6 +64,7 @@ OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PTQL-Debug.xml \
 				  opt/Brother-PTQL-BytesPerLine.xml \
 				  opt/Brother-PTQL-ConcatPages.xml \
+				  opt/Brother-PTQL-LabelPreamble.xml \
 				  opt/Brother-PTQL-MirrorPrint.xml \
 				  opt/Brother-PTQL-NegativePrint.xml \
 				  opt/Brother-PTQL-PixelTransfer.xml \
@@ -76,7 +77,6 @@ OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PT-Margin.xml \
 				  opt/Brother-PT-PageSize.xml \
 				  opt/Brother-QL-CutMark.xml \
-				  opt/Brother-QL-LabelPreamble.xml \
 				  opt/Brother-QL-Margin.xml \
 				  opt/Brother-QL-PageSize.xml \
 				  opt/Brother-QL-PrintDensity.xml \
