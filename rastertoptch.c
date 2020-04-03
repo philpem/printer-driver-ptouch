@@ -363,6 +363,7 @@ typedef struct {
   int legacy_xfer_mode; /**< legacy transfer mode (-1 = don't set)       */
   int xfer_mode;        /**< transfer mode (-1 = don't set)       */
   bool label_preamble;  /**< emit ESC i z ...                     */
+  bool label_recoyery;  /**< set PI_RECOVER flag                  */
   bool concat_pages;    /**< remove interlabel margins            */
   float margin;         /**< top and bottom margin                */
   bool debug;		/**< emit debug information               */
@@ -394,6 +395,7 @@ parse_job_options (const char* str) {
     /* legacy_xfer_mode (don't set) */ -1,
     /* xfer_mode (don't set) */ -1,
     /* label_preamble */ false,
+    /* label_recovery */ false,
     /* concat_pages */ false,
     /* margin */ 0.0,
     /* debug */ false,
@@ -425,6 +427,7 @@ parse_job_options (const char* str) {
     { "Debug", &options.debug },
     { "HalfCut", &options.half_cut },
     { "LabelPreamble", &options.label_preamble },
+    { "LabelRecovery", &options.label_recoyery },
     { "MirrorPrint", &options.mirror_print },
     { "PT", &options.pt_series },
     { "QL", &options.ql_series },
@@ -689,7 +692,9 @@ emit_quality_rollfed_size (job_options_t* job_options,
   const unsigned char PI_QUALITY = 0x40;
   const unsigned char PI_RECOVER = 0x80;
 
-  unsigned char valid = PI_WIDTH | PI_RECOVER;
+  unsigned char valid = PI_WIDTH;
+  if (job_options->label_recoyery)
+    valid |= PI_RECOVER;
   /* Get tape width in mm */
   unsigned int tape_width_mm = lrint (header->cupsPageSize [0] * MM_PER_PT);
   if (tape_width_mm > 0xff) {
