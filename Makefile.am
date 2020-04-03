@@ -65,6 +65,7 @@ OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PTQL-BytesPerLine.xml \
 				  opt/Brother-PTQL-ConcatPages.xml \
 				  opt/Brother-PTQL-LabelPreamble.xml \
+				  opt/Brother-PTQL-LabelRecovery.xml \
 				  opt/Brother-PTQL-MirrorPrint.xml \
 				  opt/Brother-PTQL-NegativePrint.xml \
 				  opt/Brother-PTQL-PixelTransfer.xml \
