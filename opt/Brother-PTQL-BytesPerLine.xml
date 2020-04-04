@@ -129,6 +129,23 @@ USA
       </constraint>
     </constraints>
    </enum_val>
+   <enum_val id="ev/70">
+    <ev_longname>
+     <en>70</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>70</en>
+    </ev_shortname>
+    <ev_driverval>70</ev_driverval>
+    <constraints>
+      <constraint sense='false'>
+        <driver>ptouch-pt</driver>
+      </constraint>
+      <constraint sense='false'>
+	<driver>ptouch-ql</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
    <enum_val id="ev/90">
     <ev_longname>
      <en>90</en>
