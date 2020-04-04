@@ -61,6 +61,7 @@ USA
       <enum_val id="ev/360dpi" />
       <enum_val id="ev/360x720dpi" />
     </option>
+    <option id='opt/Brother-PT-LegacyHires' />
     <option id="opt/Brother-PTQL-BytesPerLine">
       <enum_val id="ev/48" />
     </option>
