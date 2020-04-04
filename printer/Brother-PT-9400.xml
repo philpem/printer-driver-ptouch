@@ -58,6 +58,7 @@ USA
     <option id="opt/Brother-PTQL-Resolution">
       <enum_val id="ev/360dpi" />
     </option>
+    <option id='opt/Brother-PT-LegacyHires' />
     <option id="opt/Brother-PTQL-BytesPerLine">
       <enum_val id="ev/48" />
     </option>

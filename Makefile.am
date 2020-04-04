@@ -73,6 +73,7 @@ OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PTQL-SoftwareMirror.xml \
 				  opt/Brother-PTQL-TransferMode.xml \
 				  opt/Brother-PT-HalfCut.xml \
+				  opt/Brother-PT-LegacyHires.xml \
 				  opt/Brother-PT-LegacyTransferMode.xml \
 				  opt/Brother-PT-Margin.xml \
 				  opt/Brother-PT-PageSize.xml \

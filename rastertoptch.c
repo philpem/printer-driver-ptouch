@@ -363,6 +363,7 @@ typedef struct {
   int xfer_mode;        /**< transfer mode (-1 = don't set)       */
   bool label_preamble;  /**< emit ESC i z ...                     */
   bool label_recoyery;  /**< set PI_RECOVER flag                  */
+  bool legacy_hires;
   bool concat_pages;    /**< remove interlabel margins            */
   float margin;         /**< top and bottom margin                */
   unsigned int page;    /**< The current page number              */
@@ -394,6 +395,7 @@ parse_job_options (const char* str) {
     /* xfer_mode (don't set) */ -1,
     /* label_preamble */ false,
     /* label_recovery */ false,
+    /* legacy_hires */ false,
     /* concat_pages */ false,
     /* margin */ 0.0,
   };
@@ -424,6 +426,7 @@ parse_job_options (const char* str) {
     { "HalfCut", &options.half_cut },
     { "LabelPreamble", &options.label_preamble },
     { "LabelRecovery", &options.label_recoyery },
+    { "LegacyHires", &options.legacy_hires },
     { "MirrorPrint", &options.mirror_print },
     { "PT", &options.pt_series },
     { "QL", &options.ql_series },
@@ -699,13 +702,13 @@ emit_quality_rollfed_size (job_options_t* job_options,
              tape_width_mm);
     tape_width_mm = 0xff;
   }
-  unsigned char paper_kind = 0;
+  unsigned char media_type = 0;
   unsigned int tape_length_mm = 0;
   if (job_options->ql_series) {
     if (job_options->print_quality_high == CUPS_TRUE)
       valid |= PI_QUALITY;
     valid |= PI_KIND | PI_LENGTH;
-    paper_kind = roll_fed_media ? 0x0A : 0x0B;
+    media_type = roll_fed_media ? 0x0A : 0x0B;
     /* Get tape height in mm */
     if (!roll_fed_media)
       tape_length_mm = lrint (header->cupsPageSize [1] * MM_PER_PT);
@@ -716,10 +719,23 @@ emit_quality_rollfed_size (job_options_t* job_options,
       tape_length_mm = 0xff;
     }
   }
+  if (job_options->pt_series) {
+    /*
+     * On PT series printers, the media type must be set to 0x09 for
+     * high-resolution and draft printing, but not for normal resolution
+     * printing.
+     */
+    if (header->HWResolution [0] == 360 &&
+	(header->HWResolution [1] == 180 ||
+	 header->HWResolution [1] == 720)) {
+      valid |= PI_KIND;
+      media_type = 0x09;
+    }
+  }
   /* Combine & emit printer command code */
   putchar (ESC); putchar ('i'); putchar ('z');
   putchar (valid);
-  putchar (paper_kind);
+  putchar (media_type);
   putchar (tape_width_mm & 0xff);
   putchar (tape_length_mm);
   putchar (image_height_px & 0xff);
@@ -751,27 +767,29 @@ emit_page_cmds (job_options_t* job_options,
   default: break;
   }
 
-  /* Set width and resolution */
-  /* We only know how to select 360x360DPI or 360x720DPI */
-  if (header->HWResolution [0] == 360
-      && (header->HWResolution [1] == 360
-	  || header->HWResolution [1] == 720)) {
-    /* Get tape width in mm */
-    tape_width_mm = lrint (header->cupsPageSize [0] * MM_PER_PT);
-    if (tape_width_mm > 0xff) {
-      fprintf (stderr,
-	       "ERROR: Page width (%umm) exceeds 255mm\n",
-	       tape_width_mm);
-      tape_width_mm = 0xff;
-    }
-    /* Emit printer commands */
-    putchar (ESC); putchar ('i'); putchar ('c');
-    if (header->HWResolution [1] == 360) {
-      putchar (0x84); putchar (0x00); putchar (tape_width_mm & 0xff);
-      putchar (0x00); putchar (0x00);
-    } else {
-      putchar (0x86); putchar (0x09); putchar (tape_width_mm & 0xff);
-      putchar (0x00); putchar (0x01);
+  if (job_options->legacy_hires) {
+    /* Set width and resolution */
+    /* We only know how to select 360x360DPI or 360x720DPI */
+    if (header->HWResolution [0] == 360
+	&& (header->HWResolution [1] == 360
+	    || header->HWResolution [1] == 720)) {
+      /* Get tape width in mm */
+      tape_width_mm = lrint (header->cupsPageSize [0] * MM_PER_PT);
+      if (tape_width_mm > 0xff) {
+	fprintf (stderr,
+		 "ERROR: Page width (%umm) exceeds 255mm\n",
+		 tape_width_mm);
+	tape_width_mm = 0xff;
+      }
+      /* Emit printer commands */
+      putchar (ESC); putchar ('i'); putchar ('c');
+      if (header->HWResolution [1] == 360) {
+	putchar (0x84); putchar (0x00); putchar (tape_width_mm & 0xff);
+	putchar (0x00); putchar (0x00);
+      } else {
+	putchar (0x86); putchar (0x09); putchar (tape_width_mm & 0xff);
+	putchar (0x00); putchar (0x01);
+      }
     }
   }
 
@@ -783,6 +801,18 @@ emit_page_cmds (job_options_t* job_options,
   putchar (ESC); putchar ('i'); putchar ('M'); putchar (various_mode);
 
   char advanced_mode = 0;
+  if (!job_options->legacy_hires) {
+    if (header->HWResolution [0] == 360) {
+      if (header->HWResolution [1] == 180)
+	advanced_mode |= 0x01;  /* draft printing */
+      if (header->HWResolution [1] == 720)
+	advanced_mode |= 0x40;  /* hires printing */
+    }
+    if (header->HWResolution [0] == 300) {
+      if (header->HWResolution [1] == 600)
+	advanced_mode |= 0x40;  /* hires printing */
+    }
+  }
   if (job_options->half_cut)
     advanced_mode |= 0x04;
   if (!job_options->chain_printing)
