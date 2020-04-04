@@ -351,6 +351,7 @@ typedef struct {
   bool auto_cut;        /**< auto cut                             */
   bool half_cut;        /**< half cut                             */
   bool cut_mark;        /**< cut mark                             */
+  int cut_label;        /**< cut each N label                     */
   bool chain_printing;  /**< chain printing                       */
   bool mirror_print;    /**< mirror print                         */
   bool pt_series;       /**< pt series printer                    */
@@ -385,6 +386,7 @@ parse_job_options (const char* str) {
     /* auto_cut */ false,
     /* half_cut */ false,
     /* cut_mark */ false,
+    /* cut_label */ -1,
     /* chain_printing */ true,
     /* mirror_print */ false,
     /* pt_series */ false,
@@ -411,6 +413,7 @@ parse_job_options (const char* str) {
   };
   struct int_option int_options [] = {
     { "BytesPerLine", &options.bytes_per_line, 1, 255 },
+    { "CutLabel", &options.cut_label, 0, 255 },
     { "PrintDensity", &options.print_density, 0, 5 },
     { "LegacyTransferMode", &options.legacy_xfer_mode, 0, 255 },
     { "TransferMode", &options.xfer_mode, 0, 255 },
@@ -825,6 +828,10 @@ emit_page_cmds (job_options_t* job_options,
   if (!job_options->chain_printing)
     advanced_mode |= 0x08;
   putchar (ESC); putchar ('i'); putchar ('K'); putchar (advanced_mode);
+
+  if (job_options->cut_label != -1) {
+    putchar (ESC); putchar ('i'); putchar('A'); putchar (job_options->cut_label);
+  }
 
   unsigned feed = lrint (job_options->margin * pt2px);
   putchar (ESC); putchar ('i'); putchar ('d');

@@ -63,6 +63,7 @@ OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PTQL-ChainPrinting.xml \
 				  opt/Brother-PTQL-BytesPerLine.xml \
 				  opt/Brother-PTQL-ConcatPages.xml \
+				  opt/Brother-PTQL-CutLabel.xml \
 				  opt/Brother-PTQL-LabelPreamble.xml \
 				  opt/Brother-PTQL-LabelRecovery.xml \
 				  opt/Brother-PTQL-LastPageFlag.xml \
