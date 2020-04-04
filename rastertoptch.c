@@ -363,10 +363,12 @@ typedef struct {
   int xfer_mode;        /**< transfer mode (-1 = don't set)       */
   bool label_preamble;  /**< emit ESC i z ...                     */
   bool label_recoyery;  /**< set PI_RECOVER flag                  */
+  bool last_page_flag;  /**< flag last page in ESC i z            */
   bool legacy_hires;
   bool concat_pages;    /**< remove interlabel margins            */
   float margin;         /**< top and bottom margin                */
   unsigned int page;    /**< The current page number              */
+  bool last_page;       /**< This is the last page                */
 } job_options_t;
 
 /**
@@ -395,6 +397,7 @@ parse_job_options (const char* str) {
     /* xfer_mode (don't set) */ -1,
     /* label_preamble */ false,
     /* label_recovery */ false,
+    /* last_page_flag */ false,
     /* legacy_hires */ false,
     /* concat_pages */ false,
     /* margin */ 0.0,
@@ -426,6 +429,7 @@ parse_job_options (const char* str) {
     { "HalfCut", &options.half_cut },
     { "LabelPreamble", &options.label_preamble },
     { "LabelRecovery", &options.label_recoyery },
+    { "LastPageFlag", &options.last_page_flag },
     { "LegacyHires", &options.legacy_hires },
     { "MirrorPrint", &options.mirror_print },
     { "PT", &options.pt_series },
@@ -732,6 +736,9 @@ emit_quality_rollfed_size (job_options_t* job_options,
       media_type = 0x09;
     }
   }
+  unsigned char which_page = job_options->page > 1;
+  if (job_options->last_page_flag && job_options->last_page)
+    which_page = 2;
   /* Combine & emit printer command code */
   putchar (ESC); putchar ('i'); putchar ('z');
   putchar (valid);
@@ -742,7 +749,7 @@ emit_quality_rollfed_size (job_options_t* job_options,
   putchar ((image_height_px >> 8) & 0xff);
   putchar ((image_height_px >> 16) & 0xff);
   putchar ((image_height_px >> 24) & 0xff);
-  putchar (job_options->page != 1);   // n9: 0 for first page, 1 for other pages
+  putchar (which_page);
   putchar (0x00);   // n10, always 0
 }
 
@@ -1363,7 +1370,6 @@ void
 process_rasterdata (job_options_t* job_options) {
   cups_raster_t* ras;              /* Raster stream for printing    */
   cups_page_header2_t headers[2];  /* Page headers                  */
-  int more_pages;                  /* Are there more pages left?    */
   int bytes_per_line = job_options->bytes_per_line;
   cups_page_header2_t *next_header = headers;
   cups_page_header2_t *header = headers + 1;
@@ -1371,8 +1377,8 @@ process_rasterdata (job_options_t* job_options) {
 
   ras = cupsRasterOpen (0, CUPS_RASTER_READ);
   for (job_options->page = 1,
-         more_pages = cupsRasterReadHeader2 (ras, header);
-       more_pages;
+         job_options->last_page = ! cupsRasterReadHeader2 (ras, header);
+       ! job_options->last_page;
        tmp_header = next_header,
          next_header = header,
          header = tmp_header,
@@ -1414,8 +1420,8 @@ process_rasterdata (job_options_t* job_options) {
     emit_raster_lines (job_options, ras, header);
     unsigned char xormask = (header->NegativePrint ? ~0 : 0);
     /* Determine whether this is the last page (fetch next)    */
-    more_pages = cupsRasterReadHeader2 (ras, next_header);
-    if (more_pages) {
+    job_options->last_page = ! cupsRasterReadHeader2 (ras, next_header);
+    if (! job_options->last_page) {
       if (!job_options->concat_pages) {
         RLE_store_empty_lines
           (job_options, header, empty_lines, xormask);
