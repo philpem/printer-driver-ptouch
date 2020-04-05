@@ -27,11 +27,47 @@ USA
   <prototype>gs -q -dBATCH -dPARANOIDSAFER -dQUIET -dNOPAUSE -sDEVICE=cups %A%Z -sOutputFile=- - | rastertoptch '%B'</prototype>
   <margins>
     <general>
-      <left>0</left>
-      <top>0</top>
-      <right>0</right>
-      <bottom>0</bottom>
+      <left>4.32</left>
+      <bottom>8.4</bottom>
+      <right>4.32</right>
+      <top>8.4</top>
     </general>
+    <exception PageSize="102x152mm">
+      <bottom>17.28</bottom>
+      <top>17.28</top>
+    </exception>
+    <exception PageSize="103x164mm">
+      <left>2.88</left>
+      <bottom>14.17</bottom>
+      <right>2.88</right>
+      <top>14.17</top>
+    </exception>
+    <exception PageSize="54mm">
+      <left>5.76</left>
+      <right>5.76</right>
+    </exception>
+    <exception PageSize="103mm">
+      <left>2.88</left>
+      <right>2.88</right>
+    </exception>
+    <exception PageSize="12mm-circular">
+      <left>5.76</left>
+      <bottom>5.76</bottom>
+      <right>5.76</right>
+      <top>5.76</top>
+    </exception>
+    <exception PageSize="24mm-circular">
+      <left>5.76</left>
+      <bottom>5.76</bottom>
+      <right>5.76</right>
+      <top>5.76</top>
+    </exception>
+    <exception PageSize="58mm-circular">
+      <left>8.4</left>
+      <bottom>8.4</bottom>
+      <right>8.4</right>
+      <top>8.4</top>
+    </exception>
   </margins>
  </execution>
  <comments>
