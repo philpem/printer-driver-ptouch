@@ -1,5 +1,6 @@
 <!--
 Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+Copyright (c) 2020  Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
 
 This file is part of ptouch-driver.
 
@@ -30,149 +31,233 @@ USA
    <arg_order>100</arg_order>
    <arg_spot>A</arg_spot>
    <arg_postscript />
-   <arg_proto>%s</arg_proto>
+   <arg_proto>&lt;&lt;/PageSize[%s]/ImagingBBox null&gt;&gt;setpagedevice</arg_proto>
   </arg_execution>
   <constraints>
      <constraint sense='true'>
        <driver>ptouch-ql</driver>
-      <arg_defval>ev/62x50mm</arg_defval>
+      <arg_defval>ev/62mm</arg_defval>
      </constraint>
   </constraints>
   <enum_vals>
    <enum_val id="ev/17x54mm">
     <ev_longname>
-     <en>Hanging File Folder, Return Address label (17 x 54mm)</en>
+     <en>17mm x 54mm (0.66" x 2.1")</en>
     </ev_longname>
     <ev_shortname>
-     <en>ReturnAddressLabel</en>
+     <en>17x54mm</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[48 153]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>48.24 152.64</ev_driverval>
    </enum_val>
    <enum_val id="ev/17x87mm">
     <ev_longname>
-     <en>File Folder label (17 x 87mm)</en>
+     <en>17mm x 87mm (0.66" x 3.4")</en>
     </ev_longname>
     <ev_shortname>
-     <en>FileFolderLabel</en>
+     <en>17x87mm</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[48 247]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>48.24 246.24</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/23x23mm">
+    <ev_longname>
+     <en>23mm x 23mm (0.9"x0.9")</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>23x23mm</en>
+    </ev_shortname>
+    <ev_driverval>65.29 65.29</ev_driverval>
    </enum_val>
    <enum_val id="ev/29x90mm">
     <ev_longname>
-     <en>Standard Address Label (29 x 90mm)</en>
+     <en>29mm x 90mm (1.1" x 3.5")</en>
     </ev_longname>
     <ev_shortname>
-     <en>StandardAddressLabel</en>
+     <en>29x90mm</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[82 255]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
-   </enum_val>
-   <enum_val id="ev/29x209mm">
-    <ev_longname>
-     <en>Binder 3cm - Spine Tape (29 x 209mm)</en>
-    </ev_longname>
-    <ev_shortname>
-     <en>Binder3cmSpineTape</en>
-    </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[82 592]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>82.08 254.64</ev_driverval>
    </enum_val>
    <enum_val id="ev/38x90mm">
     <ev_longname>
-     <en>Large Address Label (38 x 90mm)</en>
+     <en>38mm x 90mm (1.4" x 3.5")</en>
     </ev_longname>
     <ev_shortname>
-     <en>LargeAddressLabel</en>
+     <en>38x90mm</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[108 255]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
-   </enum_val>
-   <enum_val id="ev/58x58mm">
-    <ev_longname>
-     <en>CD/DVD Circular Label (58 x 58mm)</en>
-    </ev_longname>
-    <ev_shortname>
-     <en>CD/DVDLabel</en>
-    </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[164 164]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>107.76 254.64</ev_driverval>
    </enum_val>
    <enum_val id="ev/62x29mm">
     <ev_longname>
-     <en>Small Address Label (62 x 29mm)</en>
+     <en>62mm x 29mm (2.3" x 1.1")</en>
     </ev_longname>
     <ev_shortname>
-     <en>SmallAddressLabel</en>
+     <en>62x29mm</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[176 82]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
-   </enum_val>
-   <enum_val id="ev/62x45mm">
-    <ev_longname>
-     <en>MO-Face Tape (62 x 45mm)</en>
-    </ev_longname>
-    <ev_shortname>
-     <en>MO-FaceTape</en>
-    </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[176 128]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
-   </enum_val>
-   <enum_val id="ev/62x50mm">
-    <ev_longname>
-     <en>Floppy Tape (62 x 50mm)</en>
-    </ev_longname>
-    <ev_shortname>
-     <en>FloppyTape</en>
-    </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[176 142]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>175.68 81.84</ev_driverval>
    </enum_val>
    <enum_val id="ev/62x100mm">
     <ev_longname>
-     <en>Shipping Label, Visitor Name Badge (62 x 100mm)</en>
+     <en>62mm x 100mm (2.3" x 3.9")</en>
     </ev_longname>
     <ev_shortname>
-     <en>ShippingLabel</en>
+     <en>62x100mm</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[176 283]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>175.68 282.96</ev_driverval>
    </enum_val>
-   <enum_val id="ev/62x209mm">
+   <enum_val id="ev/102x51">
     <ev_longname>
-     <en>Binder 5cm-Spine Tape (62 x 209mm)</en>
+     <en>102mm x 51mm (4" x 2")</en>
     </ev_longname>
     <ev_shortname>
-     <en>Binder5cmSpineTape</en>
+     <en>102x51mm</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[176 592]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>288 143.04</ev_driverval>
+    <constraints>
+     <constraint sense='false'>
+       <driver>ptouch-ql</driver>
+       <!-- only for QL-1100 and similar, wide printers -->
+     </constraint>
+    </constraints>
    </enum_val>
-   <enum_val id="ev/12x36mm">
+   <enum_val id="ev/102x152">
     <ev_longname>
-     <en>Compact Flash(TM) Tape (12 x 36mm)</en>
+     <en>102mm x 152mm (4" x 6")</en>
     </ev_longname>
     <ev_shortname>
-     <en>CompactFlashTape</en>
+     <en>102x152mm</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[34 102]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>288 432.96</ev_driverval>
+    <constraints>
+     <constraint sense='false'>
+       <driver>ptouch-ql</driver>
+       <!-- only for QL-1100 and similar, wide printers -->
+     </constraint>
+    </constraints>
    </enum_val>
-   <enum_val id="ev/12x26mm">
+   <enum_val id="ev/103x164">
     <ev_longname>
-     <en>SmartMedia(TM) Tape (12 x 26mm)</en>
+     <en>103mm x 164mm (4" x 6.5")</en>
     </ev_longname>
     <ev_shortname>
-     <en>SmartMediaTape</en>
+     <en>103x164mm</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[34 74]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>293.67 465.84</ev_driverval>
+    <constraints>
+     <constraint sense='false'>
+       <driver>ptouch-ql</driver>
+       <!-- only for QL-1100 and similar, wide printers -->
+     </constraint>
+    </constraints>
    </enum_val>
-   <enum_val id="ev/12x34mm">
+   <enum_val id="ev/12dia">
     <ev_longname>
-     <en>Memory Stick(TM) Tape (12 x 34mm)</en>
+     <en>12mm Circular (0.47")</en>
     </ev_longname>
     <ev_shortname>
-     <en>MemoryStickTape</en>
+     <en>12mm-circular</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[34 96]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>34.08 34.08</ev_driverval>
    </enum_val>
-   <enum_val id="ev/57x50mm">
+   <enum_val id="ev/24dia">
     <ev_longname>
-     <en>Stock Tape (57 x 50mm)</en>
+     <en>24mm Circular (0.94")</en>
     </ev_longname>
     <ev_shortname>
-     <en>StockTape</en>
+     <en>24mm-circular</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[161 142]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>68.16 68.16</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/58dia">
+    <ev_longname>
+     <en>58mm Circular (2.2", CD/DVD)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>58mm-circular</en>
+    </ev_shortname>
+    <ev_driverval>165.12 165.12</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/12mm">
+    <ev_longname>
+     <en>12mm (0.47")</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>12mm</en>
+    </ev_shortname>
+    <ev_driverval>34.08 283.5</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/29mm">
+    <ev_longname>
+     <en>29mm (1.1")</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>29mm</en>
+    </ev_shortname>
+    <ev_driverval>82.08 283.5</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/38mm">
+    <ev_longname>
+     <en>38mm (1.4")</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>38mm</en>
+    </ev_shortname>
+    <ev_driverval>107.76 283.5</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/50mm">
+    <ev_longname>
+     <en>50mm (1.9")</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>50mm</en>
+    </ev_shortname>
+    <ev_driverval>141.6 283.5</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/54mm">
+    <ev_longname>
+     <en>54mm (2.1")</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>54mm</en>
+    </ev_shortname>
+    <ev_driverval>153.12 283.5</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/62mm">
+    <ev_longname>
+     <en>62mm (2.4")</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>62mm</en>
+    </ev_shortname>
+    <ev_driverval>175.68 283.5</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/102mm">
+    <ev_longname>
+     <en>102mm (4")</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>102mm</en>
+    </ev_shortname>
+    <ev_driverval>283.68 283.5</ev_driverval>
+    <constraints>
+     <constraint sense='false'>
+       <driver>ptouch-ql</driver>
+       <!-- only for QL-1100 and similar, wide printers -->
+     </constraint>
+    </constraints>
+   </enum_val>
+   <enum_val id="ev/103mm">
+    <ev_longname>
+     <en>103mm (4")</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>103mm</en>
+    </ev_shortname>
+    <ev_driverval>293.67 283.5</ev_driverval>
+    <constraints>
+     <constraint sense='false'>
+       <driver>ptouch-ql</driver>
+       <!-- only for QL-1100 and similar, wide printers -->
+     </constraint>
+    </constraints>
    </enum_val>
    <enum_val id="ev/Custom">
     <ev_longname>
@@ -181,7 +266,64 @@ USA
     <ev_shortname>
      <en>Custom</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[%0 %1]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>%0 %1</ev_driverval>
    </enum_val>
+
+   <!--
+   <enum_val id="ev/29x209mm">
+    <ev_longname>
+     <en>Binder 3cm - Spine Tape (29 x 209mm)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>Binder3cmSpineTape</en>
+    </ev_shortname>
+    <ev_driverval>82 592</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/62x209mm">
+    <ev_longname>
+     <en>Binder 5cm-Spine Tape (62 x 209mm)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>Binder5cmSpineTape</en>
+    </ev_shortname>
+    <ev_driverval>176 592</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/12x36mm">
+    <ev_longname>
+     <en>Compact Flash(TM) Tape (12 x 36mm)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>CompactFlashTape</en>
+    </ev_shortname>
+    <ev_driverval>34 102</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/12x26mm">
+    <ev_longname>
+     <en>SmartMedia(TM) Tape (12 x 26mm)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>SmartMediaTape</en>
+    </ev_shortname>
+    <ev_driverval>34 74</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/12x34mm">
+    <ev_longname>
+     <en>Memory Stick(TM) Tape (12 x 34mm)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>MemoryStickTape</en>
+    </ev_shortname>
+    <ev_driverval>34 96</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/57x50mm">
+    <ev_longname>
+     <en>Stock Tape (57 x 50mm)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>StockTape</en>
+    </ev_shortname>
+    <ev_driverval>161 142</ev_driverval>
+   </enum_val>
+   -->
   </enum_vals>
 </option>
