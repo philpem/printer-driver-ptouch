@@ -67,6 +67,23 @@ USA
       </constraint>
     </constraints>
    </enum_val>
+   <enum_val id="ev/300x600dpi">
+    <ev_longname>
+     <en>300x600 dpi</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>300x600dpi</en>
+    </ev_shortname>
+    <ev_driverval>300x600</ev_driverval>
+    <constraints>
+      <constraint sense='false'>
+        <driver>ptouch-pt</driver>
+      </constraint>
+      <constraint sense='false'>
+        <driver>ptouch-ql</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
    <enum_val id="ev/360x180dpi">
     <ev_longname>
      <en>360x180 dpi</en>

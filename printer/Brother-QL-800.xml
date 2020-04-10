@@ -1,0 +1,71 @@
+<!--
+Copyright (c) Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<printer id="printer/Brother-QL-800">
+  <make>Brother</make>
+  <model>QL-800</model>
+  <pcmodel>BRQ800</pcmodel>
+  <mechanism>
+    <thermal/>
+    <!--not "color"-->
+    <resolution>
+      <dpi>
+        <x>300</x>
+        <y>600</y>
+      </dpi>
+    </resolution>
+  </mechanism>
+  <url>https://www.brother.co.uk/labelling/ql-printers/ql-800</url>
+  <lang>
+    <proprietary />
+  </lang>
+  <autodetect>
+    <general>
+      <ieee1284>MFG:Brother;CMD:PT-CBP;MDL:QL-800;CLS:PRINTER;</ieee1284>
+      <commandset>PT-CBP</commandset>
+      <description>Brother QL-800</description>
+      <manufacturer>Brother</manufacturer>
+      <model>QL-800</model>
+    </general>
+  </autodetect>
+  <functionality>B</functionality>
+  <driver>ptouch-ql</driver>
+  <unverified />
+  <!--no "contrib_url"-->
+  <comments>
+    <en>
+    This driver does not support two-color printing.
+    </en>
+  </comments>
+  <select>
+    <option id="opt/Brother-PTQL-TransferMode" />
+    <option id="opt/Brother-QL-StatusNotification" />
+    <option id="opt/Brother-PTQL-Resolution">
+      <arg_defval>ev/300dpi</arg_defval>
+      <enum_val id="ev/300dpi" />
+      <enum_val id="ev/300x600dpi" />
+    </option>
+    <option id="opt/Brother-PTQL-BytesPerLine">
+      <enum_val id="ev/90" />
+    </option>
+    <option id="opt/Brother-PTQL-AutoCut" />
+    <option id="opt/Brother-PTQL-CutLabel" />
+  </select>
+</printer>
