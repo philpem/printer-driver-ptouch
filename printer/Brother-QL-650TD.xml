@@ -70,6 +70,10 @@ USA
     <option id="opt/Brother-PTQL-BytesPerLine">
       <enum_val id="ev/90" />
     </option>
+    <option id="opt/Brother-PTQL-PixelTransfer">
+      <enum_val id="ev/RLE" sense="false" />
+      <enum_val id="ev/ULP" />
+    </option>
     <option id="opt/Brother-PTQL-AutoCut" />
   </select>
 </printer>

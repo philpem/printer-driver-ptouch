@@ -53,7 +53,7 @@ USA
       <constraint sense='false'>
         <driver>ptouch-pt</driver>
       </constraint>
-      <constraint sense='true'>
+      <constraint sense='false'>
         <driver>ptouch-ql</driver>
       </constraint>
     </constraints>
@@ -70,7 +70,7 @@ USA
      <constraint sense='true'>
       <driver>ptouch-pt</driver>
      </constraint>
-     <constraint sense='false'>
+     <constraint sense='true'>
       <driver>ptouch-ql</driver>
      </constraint>
     </constraints>
