@@ -998,14 +998,20 @@ flush_rle_buffer (job_options_t* job_options,
       unsigned emitted_lines = 0;
       while (rle_buffer_next - p > 0) {
         if (pixel_xfer == ULP) {
+	  /* ULP is only used by QL printers */
           putchar ('g'); putchar (0x00); putchar (bytes_per_line);
         }
         int emitted = 0;
         int linelen;
         switch (*p++) {
-        case 'G':
-          linelen = *p++;
-          linelen += ((int)(*p++)) << 8;
+	case 'G':
+	  linelen = *p++;
+	  linelen += ((int)(*p++)) << 8;
+	  goto expand_g_or_G;
+        case 'g':
+          linelen = ((int)(*p++)) << 8;
+          linelen += *p++;
+	expand_g_or_G:
           while (linelen > 0) {
             signed char l = *p++; linelen--;
             if (l < 0) { /* emit repeated data */
@@ -1205,9 +1211,15 @@ RLE_store_line (job_options_t* job_options,
   unsigned rle_len = rle_next - rle_buffer_next - 3;
   /* Store rle line meta data (length and (non)zero status) */
   if (nonzero) { /* Check for nonempty (no black pixels) line */
-    rle_buffer_next [0] = 'G';
-    rle_buffer_next [1] =  rle_len       & 0xff;
-    rle_buffer_next [2] = (rle_len >> 8) & 0xff;
+    if (job_options->ql_series) {
+      rle_buffer_next [0] = 'g';
+      rle_buffer_next [1] = (rle_len >> 8) & 0xff;
+      rle_buffer_next [2] =  rle_len       & 0xff;
+    } else {
+      rle_buffer_next [0] = 'G';
+      rle_buffer_next [1] =  rle_len       & 0xff;
+      rle_buffer_next [2] = (rle_len >> 8) & 0xff;
+    }
     rle_buffer_next = rle_next;
   } else {
     rle_buffer_next [0] = 'Z';
@@ -1238,9 +1250,8 @@ RLE_store_empty_lines (job_options_t* job_options,
                           empty_lines * blocks);
 
     for (; empty_lines--; ) {
-      *(rle_buffer_next++) = 'G';
-      /* leave space for the length */
-      rle_buffer_next += 2;
+      /* leave space for the command prefix */
+      rle_buffer_next += 3;
       unsigned char *start = rle_buffer_next;
       int len, rep_len;
       for (len = bytes_per_line; len > 0; len -= rep_len) {
@@ -1249,8 +1260,16 @@ RLE_store_empty_lines (job_options_t* job_options,
         *(rle_buffer_next++) = (signed char) (1 - rep_len);
         *(rle_buffer_next++) = xormask;
       }
-      start [-2] = (rle_buffer_next - start) & 0xff;
-      start [-1] = ((rle_buffer_next - start) >> 8) & 0xff;
+      unsigned int rle_len = rle_buffer_next - start;
+      if (job_options->ql_series) {
+	start [-3] = 'g';
+	start [-2] = (rle_len >> 8) & 0xff;
+	start [-1] = rle_len & 0xff;
+      } else {
+	start [-3] = 'G';
+	start [-2] = rle_len & 0xff;
+	start [-1] = (rle_len >> 8) & 0xff;
+      }
     }
   } else {
     ensure_rle_buf_space (job_options, header, empty_lines);
