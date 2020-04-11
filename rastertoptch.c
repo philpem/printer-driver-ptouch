@@ -370,6 +370,7 @@ typedef struct {
   bool last_page_flag;  /**< flag last page in ESC i z            */
   bool legacy_hires;
   bool concat_pages;    /**< remove interlabel margins            */
+  float min_margin;     /**< minimum top and bottom margin        */
   float margin;         /**< top and bottom margin                */
   unsigned int page;    /**< The current page number              */
   bool last_page;       /**< This is the last page                */
@@ -406,6 +407,7 @@ parse_job_options (const char* str) {
     /* last_page_flag */ false,
     /* legacy_hires */ false,
     /* concat_pages */ false,
+    /* min_margin */ 0.0,
     /* margin */ 0.0,
   };
 
@@ -452,6 +454,7 @@ parse_job_options (const char* str) {
     float max;
   };
   struct float_option float_options [] = {
+    { "MinMargin", &options.min_margin, 0, FLT_MAX },
     { "Margin", &options.margin, 0, FLT_MAX },
     { }
   };
@@ -854,9 +857,10 @@ emit_page_cmds (job_options_t* job_options,
     putchar (ESC); putchar ('i'); putchar('A'); putchar (job_options->cut_label);
   }
 
-  unsigned feed = 0;
+  float margin = 0.0;
   if (job_options->media != LABELS)
-    feed = lrint (job_options->margin * pt2px);
+    margin += job_options->min_margin + job_options->margin;
+  unsigned feed = lrint (margin * pt2px);
   putchar (ESC); putchar ('i'); putchar ('d');
   putchar (feed & 0xff); putchar ((feed >> 8) & 0xff);
 
@@ -1368,13 +1372,60 @@ emit_raster_lines (job_options_t* job_options,
     float top_distance_pt
       = page_size_y - header->cupsImagingBBox [3];
     top_empty_lines = lrint (top_distance_pt * pt2px [1]);
-    empty_lines += top_empty_lines;
+  }
+
+  unsigned image_height_px = lrint (page_size_y * pt2px [1]);
+  unsigned bot_empty_lines = 0;
+  if (image_height_px >= top_empty_lines + cupsHeight)
+    bot_empty_lines = image_height_px - top_empty_lines - cupsHeight;
+
+  /*
+   * QL printers have a specific top and bottom margin that must be left blank
+   * to allow printers to skip to the next label.  For continuous-length tape,
+   * this margin is defined as the minimum value allowed for the "ESC i d"
+   * command as defined in the manuals; if a smaller value is passed, the
+   * printer rounds that up.  For die-cut labels, the margin is implicit (the
+   * "ESC i d" command is always passed a value of 0).  For most die-cut
+   * labels, the margin is the same as the minimum continuous-length tape
+   * margin, but there are a few exceptions.
+   *
+   * PT printers only support continuous-length tape.  They are documented to
+   * work like QL printers, but in practice, they all seem to allow a minimum
+   * margin of 0 as well.  The minimum margin still makes sure the tape is cut
+   * in a blank space, so use the minimum margin amounts on those printers for
+   * which we have a specification.
+   *
+   * Below, we ensure that printers for which a min_margin is defined will
+   * always have a margin at lest that wide for continuous-length tape.  For
+   * die-cut labels, we assume that the page margins are equal to the implicit
+   * margins.  For page margins that are empty, we assume min_margin; in that
+   * case, we'll end up skipping lines at the beginning and/or end of the
+   * bitmap to allow for that minimum margin.
+   */
+  unsigned top_skip = 0, bot_skip = 0;
+  unsigned min_feed = lrint (job_options->min_margin * pt2px [1]);
+  if (job_options->media == LABELS && top_empty_lines) {
+    top_empty_lines = 0;
+  } else if (top_empty_lines >= min_feed) {
+    top_empty_lines -= min_feed;
+  } else {
+    top_skip = min_feed - top_empty_lines;
+    top_empty_lines = 0;
+  }
+  if (job_options->media == LABELS && bot_empty_lines) {
+    bot_empty_lines = 0;
+  } else if (bot_empty_lines >= min_feed) {
+    bot_empty_lines -= min_feed;
+  } else {
+    bot_skip = min_feed - bot_empty_lines;
+    bot_empty_lines = 0;
   }
 
   progress.page = job_options->page;
   progress.height = cupsHeight;
 
   /* Generate and store actual page data */
+  empty_lines += top_empty_lines;
   int y;
   for (y = 0; y < cupsHeight; y++) {
     /* Feedback to the user */
@@ -1382,6 +1433,8 @@ emit_raster_lines (job_options_t* job_options,
     /* Read one line of pixels */
     if (cupsRasterReadPixels (ras, buffer, cupsBytesPerLine) < 1)
       break;  /* Escape if no pixels read */
+    if (y < top_skip || y + bot_skip >= cupsHeight)
+      continue;
     bool nonempty_line =
       generate_emit_line (buffer, emit_line_buffer, buflen, bytes_per_line,
                           right_padding_bytes, shift, do_mirror, xormask);
@@ -1399,12 +1452,6 @@ emit_raster_lines (job_options_t* job_options,
   progress.completed = cupsHeight;
   report_progress (0);
 
-  unsigned image_height_px = lrint (page_size_y * pt2px [1]);
-  unsigned bot_empty_lines;
-  if (image_height_px >= top_empty_lines + y)
-    bot_empty_lines = image_height_px - top_empty_lines - y;
-  else
-    bot_empty_lines = 0;
   if (bot_empty_lines != 0 && !job_options->concat_pages)
     empty_lines += bot_empty_lines;
   return 0;
