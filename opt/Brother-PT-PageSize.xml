@@ -225,7 +225,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>Custom</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[%0 %1]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[%0 %1]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
   </enum_vals>
 </option>

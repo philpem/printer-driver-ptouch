@@ -18,53 +18,44 @@ along with ptouch-driver; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
-<option type="enum" id="opt/Brother-QL-RollFedMedia">
+<option type="enum" id="opt/Brother-QL-MediaType">
   <arg_longname>
-   <en>Roll Fed Media</en>
+   <en>Media Type</en>
   </arg_longname>
   <arg_shortname>
-   <en>RollFedMedia</en><!-- backends only know <en> shortnames! -->
+   <en>MediaType</en><!-- backends only know <en> shortnames! -->
   </arg_shortname>
   <arg_execution>
-   <arg_group>General</arg_group>
-   <arg_order>110</arg_order>
-   <arg_spot>A</arg_spot>
-   <arg_postscript />
-   <arg_proto>%s</arg_proto>
+    <arg_group>PrinterSpecifics</arg_group>
+    <arg_order>100</arg_order>
+    <arg_spot>B</arg_spot>
+    <arg_substitution />
+   <arg_proto> MediaType=%s </arg_proto>
   </arg_execution>
   <constraints>
     <constraint sense='true'>
       <driver>ptouch-ql</driver>
-      <arg_defval>ev/Auto</arg_defval>
+      <arg_defval>ev/Tape</arg_defval>
     </constraint>
   </constraints>
   <enum_vals>
-   <enum_val id="ev/Auto">
+   <enum_val id="ev/Tape">
     <ev_longname>
-     <en>Automatically determined by page size</en>
+     <en>Continuous-Length Tape</en>
     </ev_longname>
     <ev_shortname>
-     <en>Auto</en>
+     <en>Tape</en>
     </ev_shortname>
-    <ev_driverval></ev_driverval>
-   </enum_val>
-   <enum_val id="ev/Roll">
-    <ev_longname>
-     <en>Continuous roll</en>
-    </ev_longname>
-    <ev_shortname>
-     <en>Roll</en>
-    </ev_shortname>
-    <ev_driverval>&lt;&lt;/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>Tape</ev_driverval>
    </enum_val>
    <enum_val id="ev/Labels">
     <ev_longname>
-     <en>Labels</en>
+     <en>Die-Cut Labels</en>
     </ev_longname>
     <ev_shortname>
      <en>Labels</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>Labels</ev_driverval>
    </enum_val>
   </enum_vals>
 </option>

@@ -58,6 +58,7 @@
  *                               cutting [noHalfCut]
  * @param BytesPerLine=N         Emit N bytes per line [90]
  * @param Align=Right|Center     Pixel data alignment on tape [Right]
+ * @param MediaType=Tape|Labels  Media Type
  * @param PrintDensity=1|...|5   Print density level: 1=light, 5=dark
  * @param ConcatPages            Output all pages in one page [noConcatPages]
  * @param SoftwareMirror         Make the filter mirror pixel data
@@ -66,11 +67,9 @@
  *                               roll/label type, tape width, label height,
  *                               and pixel lines [noLabelPreamble]
  *
- * Information about media type, resolution, mirror print, negative
+ * Information about resolution, mirror print, negative
  * print, cut media, advance distance (feed) is extracted from the
- * CUPS raster page headers given in the input stream.  The MediaType
- * page header field can be either "roll" or "labels" for continuous
- * tape or pre-cut labels, respectively.
+ * CUPS raster page headers given in the input stream.
  *
  * LabelPreamble should usually not be used for the PT series printers.
  *
@@ -299,6 +298,7 @@ typedef enum {
  * Pixel data alignment type.
  */
 typedef enum {RIGHT, CENTER} align_t;
+typedef enum {TAPE, LABELS} media_t;
 
 /** CUPS Raster line buffer.                             */
 unsigned char* buffer;
@@ -360,6 +360,7 @@ typedef struct {
   bool ql_series;       /**< ql series printer                    */
   int bytes_per_line;   /**< bytes per line (print head width)    */
   align_t align;        /**< pixel data alignment                 */
+  media_t media;        /**< media type (TAPE or LABELS)          */
   bool software_mirror; /**< mirror pixel data if mirror printing */
   int print_density;    /**< printing density (1=light, ..., 5=dark, 0=don't change)    */
   int legacy_xfer_mode; /**< legacy transfer mode (-1 = don't set)       */
@@ -395,6 +396,7 @@ parse_job_options (const char* str) {
     /* ql_series */ false,
     /* bytes_per_line */ 90,
     /* align */ RIGHT,
+    /* media */ TAPE,
     /* software_mirror*/ false,
     /* print_density */ 0,
     /* legacy_xfer_mode (don't set) */ -1,
@@ -509,6 +511,24 @@ parse_job_options (const char* str) {
       }
       fprintf (stderr, "ERROR: the value of %s "
 	       "must be Right or Center\n", name);
+      exit (2);
+      continue;
+    }
+    if (strcasecmp (name, "MediaType") == 0) {
+      if (value) {
+	if (strcasecmp (value, "Tape") == 0) {
+	  options.media = TAPE;
+	  continue;
+	}
+      }
+      if (value) {
+	if (strcasecmp (value, "Labels") == 0) {
+	  options.media = LABELS;
+	  continue;
+	}
+      }
+      fprintf (stderr, "ERROR: the value of %s "
+	       "must be Tape or Labels\n", name);
       exit (2);
       continue;
     }
@@ -677,11 +697,6 @@ emit_job_cmds (job_options_t* job_options) {
   }
 }
 
-/* Default is continuous roll */
-bool MediaTypeLabels (cups_page_header2_t* header) {
-  return strcasecmp ("Labels", header->MediaType) != 0;
-}
-
 /**
  * Emit quality, roll fed media, and label size command codes.
  * @param job_options      Current job options
@@ -692,8 +707,6 @@ void
 emit_quality_rollfed_size (job_options_t* job_options,
                            cups_page_header2_t* header,
                            unsigned image_height_px) {
-  bool roll_fed_media = ! MediaTypeLabels (header);
-
   const unsigned char PI_KIND = 0x02;   // Paper type (roll fed media bit) is valid
   const unsigned char PI_WIDTH = 0x04;  // Paper width is valid
   const unsigned char PI_LENGTH = 0x08; // Paper length is valid
@@ -716,14 +729,20 @@ emit_quality_rollfed_size (job_options_t* job_options,
   if (job_options->ql_series) {
     if (job_options->print_quality_high == CUPS_TRUE)
       valid |= PI_QUALITY;
-    valid |= PI_KIND | PI_LENGTH;
-    media_type = roll_fed_media ? 0x0A : 0x0B;
-    /* Get tape height in mm */
-    if (!roll_fed_media)
+    valid |= PI_KIND;
+    switch (job_options->media) {
+    case TAPE:
+      media_type = 0x0A;
+      break;
+    case LABELS:
+      media_type = 0x0B;
+      valid |= PI_LENGTH;
       tape_length_mm = lrint (header->cupsPageSize [1] * MM_PER_PT);
+      break;
+    }
     if (tape_length_mm > 0xff) {
       fprintf (stderr,
-	       "ERROR: Page height (%umm) exceeds 255mm; use continuous tape (MediaType=roll)\n",
+	       "ERROR: Page height (%umm) exceeds 255mm; use continuous-length tape\n",
 	       tape_length_mm);
       tape_length_mm = 0xff;
     }
@@ -835,7 +854,9 @@ emit_page_cmds (job_options_t* job_options,
     putchar (ESC); putchar ('i'); putchar('A'); putchar (job_options->cut_label);
   }
 
-  unsigned feed = lrint (job_options->margin * pt2px);
+  unsigned feed = 0;
+  if (job_options->media != LABELS)
+    feed = lrint (job_options->margin * pt2px);
   putchar (ESC); putchar ('i'); putchar ('d');
   putchar (feed & 0xff); putchar ((feed >> 8) & 0xff);
 
@@ -1438,8 +1459,6 @@ process_rasterdata (job_options_t* job_options) {
 	     header->cupsWidth, header->cupsHeight);
     fprintf (stderr, "DEBUG: %s: NegativePrint: %d\n",
 	     progname, header->NegativePrint);
-    fprintf (stderr, "DEBUG: %s: MediaType: %s\n",
-	     progname, header->MediaType);
     page_prepare (header->cupsBytesPerLine, bytes_per_line);
     if (job_options->page == 1) {
       emit_job_cmds (job_options);
