@@ -46,7 +46,7 @@ USA
     <ev_shortname>
      <en>ReturnAddressLabel</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[48 153]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[48 153]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/17x87mm">
     <ev_longname>
@@ -55,7 +55,7 @@ USA
     <ev_shortname>
      <en>FileFolderLabel</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[48 247]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[48 247]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/29x90mm">
     <ev_longname>
@@ -64,7 +64,7 @@ USA
     <ev_shortname>
      <en>StandardAddressLabel</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[82 255]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[82 255]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/29x209mm">
     <ev_longname>
@@ -73,7 +73,7 @@ USA
     <ev_shortname>
      <en>Binder3cmSpineTape</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[82 592]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[82 592]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/38x90mm">
     <ev_longname>
@@ -82,7 +82,7 @@ USA
     <ev_shortname>
      <en>LargeAddressLabel</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[108 255]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[108 255]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/58x58mm">
     <ev_longname>
@@ -91,7 +91,7 @@ USA
     <ev_shortname>
      <en>CD/DVDLabel</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[164 164]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[164 164]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/62x29mm">
     <ev_longname>
@@ -100,7 +100,7 @@ USA
     <ev_shortname>
      <en>SmallAddressLabel</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[176 82]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[176 82]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/62x45mm">
     <ev_longname>
@@ -109,7 +109,7 @@ USA
     <ev_shortname>
      <en>MO-FaceTape</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[176 128]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[176 128]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/62x50mm">
     <ev_longname>
@@ -118,7 +118,7 @@ USA
     <ev_shortname>
      <en>FloppyTape</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[176 142]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[176 142]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/62x100mm">
     <ev_longname>
@@ -127,7 +127,7 @@ USA
     <ev_shortname>
      <en>ShippingLabel</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[176 283]/ImagingBBox null/MediaType (labels)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[176 283]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/62x209mm">
     <ev_longname>
@@ -136,7 +136,7 @@ USA
     <ev_shortname>
      <en>Binder5cmSpineTape</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[176 592]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[176 592]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/12x36mm">
     <ev_longname>
@@ -145,7 +145,7 @@ USA
     <ev_shortname>
      <en>CompactFlashTape</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[34 102]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[34 102]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/12x26mm">
     <ev_longname>
@@ -154,7 +154,7 @@ USA
     <ev_shortname>
      <en>SmartMediaTape</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[34 74]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[34 74]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/12x34mm">
     <ev_longname>
@@ -163,7 +163,7 @@ USA
     <ev_shortname>
      <en>MemoryStickTape</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[34 96]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[34 96]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/57x50mm">
     <ev_longname>
@@ -172,7 +172,7 @@ USA
     <ev_shortname>
      <en>StockTape</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[161 142]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[161 142]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
    <enum_val id="ev/Custom">
     <ev_longname>
@@ -181,7 +181,7 @@ USA
     <ev_shortname>
      <en>Custom</en>
     </ev_shortname>
-    <ev_driverval>&lt;&lt;/PageSize[%0 %1]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
+    <ev_driverval>&lt;&lt;/PageSize[%0 %1]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
   </enum_vals>
 </option>
