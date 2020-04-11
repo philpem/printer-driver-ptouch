@@ -87,5 +87,8 @@ USA
       <enum_val id="ev/hs-24" />
     </option>
     <option id="opt/Brother-PT-HalfCut" />
+    <option id="opt/Brother-PTQL-MinMargin">
+      <enum_val id="ev/2.8" />
+    </option>
   </select>
 </printer>
