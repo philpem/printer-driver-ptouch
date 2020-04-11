@@ -36,6 +36,7 @@ use Getopt::Long qw(GetOptions);
 use XML::LibXML;
 use File::Basename;
 use File::Path qw(make_path);
+use POSIX qw(round);
 
 sub find_or_create_node($$) {
     my ($obj, $type) = @_;
@@ -195,6 +196,22 @@ sub transform($) {
 		my $id = $driver->{dom}->createElement('id');
 		$id->appendText($printer_id);
 		$printer->appendChild($id);
+	    }
+	}
+	foreach my $option ($dom->findnodes('/option')) {
+	    next unless $option->findvalue('./arg_shortname/en') eq 'PageSize';
+	    foreach my $enum ($option->findnodes('./enum_vals/enum_val')) {
+		foreach my $driverval ($enum->findnodes('./ev_driverval')) {
+		    # Until January 31, 2020, the foomatic parser didn't
+		    # recognize values with fractional numbers like
+		    # "9.6 2834.65" in PageSize values.  Until that fix is
+		    # available widely enough, round the numbers.
+		    if ($driverval->textContent =~
+			/^\s*(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s*$/) {
+			$driverval->removeChildNodes();
+			$driverval->appendText(round($1) . ' ' . round($2));
+		    }
+		}
 	    }
 	}
     }
