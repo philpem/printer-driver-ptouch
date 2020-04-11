@@ -36,7 +36,7 @@ as the page size here is not well supported by applications, though.
    <arg_order>100</arg_order>
    <arg_spot>A</arg_spot>
    <arg_postscript />
-   <arg_proto>&lt;&lt;/PageSize[%s]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</arg_proto>
+   <arg_proto>&lt;&lt;/PageSize[%s]/ImagingBBox null&gt;&gt;setpagedevice</arg_proto>
   </arg_execution>
   <enum_vals>
    <!-- TZe Tape (3.5mm): print area width = 24 dots, margin = 0 dots -->
@@ -47,7 +47,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>tz-4</en>
     </ev_shortname>
-    <ev_driverval>10 283</ev_driverval>
+    <ev_driverval>9.6 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -62,7 +62,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>tz-6</en>
     </ev_shortname>
-    <ev_driverval>17 283</ev_driverval>
+    <ev_driverval>16.8 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -77,7 +77,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>tz-9</en>
     </ev_shortname>
-    <ev_driverval>26 283</ev_driverval>
+    <ev_driverval>25.6 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -92,7 +92,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>tz-12</en>
     </ev_shortname>
-    <ev_driverval>34 283</ev_driverval>
+    <ev_driverval>33.6 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -107,7 +107,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>tz-18</en>
     </ev_shortname>
-    <ev_driverval>51 283</ev_driverval>
+    <ev_driverval>51.2 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -122,7 +122,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>tz-24</en>
     </ev_shortname>
-    <ev_driverval>68 283</ev_driverval>
+    <ev_driverval>68 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -136,7 +136,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>tz-36</en>
     </ev_shortname>
-    <ev_driverval>102 283</ev_driverval>
+    <ev_driverval>102.4 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -151,7 +151,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>hs-6</en>
     </ev_shortname>
-    <ev_driverval>16 283</ev_driverval>
+    <ev_driverval>16 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -166,7 +166,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>hs-9</en>
     </ev_shortname>
-    <ev_driverval>25 283</ev_driverval>
+    <ev_driverval>24.8 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -181,7 +181,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>hs-12</en>
     </ev_shortname>
-    <ev_driverval>33 283</ev_driverval>
+    <ev_driverval>32.8 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -196,7 +196,7 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>hs-18</en>
     </ev_shortname>
-    <ev_driverval>50 283</ev_driverval>
+    <ev_driverval>50.4 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
@@ -211,12 +211,21 @@ as the page size here is not well supported by applications, though.
     <ev_shortname>
      <en>hs-24</en>
     </ev_shortname>
-    <ev_driverval>67 283</ev_driverval>
+    <ev_driverval>67.2 283.5</ev_driverval>
     <constraints>
       <constraint sense="false">
         <driver>ptouch-pt</driver>
       </constraint>
     </constraints>
+   </enum_val>
+   <enum_val id="ev/Custom">
+    <ev_longname>
+     <en>Custom size</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>Custom</en>
+    </ev_shortname>
+    <ev_driverval>&lt;&lt;/PageSize[%0 %1]/ImagingBBox null/MediaType (roll)&gt;&gt;setpagedevice</ev_driverval>
    </enum_val>
   </enum_vals>
 </option>
