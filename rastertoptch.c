@@ -372,6 +372,7 @@ typedef struct {
   bool concat_pages;    /**< remove interlabel margins            */
   float min_margin;     /**< minimum top and bottom margin        */
   float margin;         /**< top and bottom margin                */
+  int status_notification; /**< automatic status notification     */
   unsigned int page;    /**< The current page number              */
   bool last_page;       /**< This is the last page                */
 } job_options_t;
@@ -409,6 +410,7 @@ parse_job_options (const char* str) {
     /* concat_pages */ false,
     /* min_margin */ 0.0,
     /* margin */ 0.0,
+    /* status_notification (don't set) */ -1,
   };
 
   struct int_option {
@@ -423,6 +425,7 @@ parse_job_options (const char* str) {
     { "PrintDensity", &options.print_density, 0, 5 },
     { "LegacyTransferMode", &options.legacy_xfer_mode, 0, 255 },
     { "TransferMode", &options.xfer_mode, 0, 255 },
+    { "StatusNotification", &options.status_notification, 0, 1 },
     { }
   };
 
@@ -697,6 +700,9 @@ emit_job_cmds (job_options_t* job_options) {
   int xfer_mode = job_options->xfer_mode;
   if (xfer_mode >= 0 && xfer_mode < 0x100) {
     putchar (ESC); putchar ('i'); putchar ('a'); putchar (xfer_mode);
+  }
+  if (job_options->status_notification != -1) {
+    putchar (ESC); putchar ('i'); putchar ('!'), putchar (job_options->status_notification);
   }
 }
 
