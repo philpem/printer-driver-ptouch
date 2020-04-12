@@ -70,10 +70,10 @@ OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PTQL-PixelTransfer.xml \
 				  opt/Brother-PTQL-Resolution.xml \
 				  opt/Brother-PTQL-SoftwareMirror.xml \
+				  opt/Brother-PTQL-TransferMode.xml \
 				  opt/Brother-PT-HalfCut.xml \
 				  opt/Brother-PT-LegacyTransferMode.xml \
 				  opt/Brother-PT-PageSize.xml \
-				  opt/Brother-PT-TransferMode.xml \
 				  opt/Brother-QL-CutMark.xml \
 				  opt/Brother-QL-LabelPreamble.xml \
 				  opt/Brother-QL-PageSize.xml \
