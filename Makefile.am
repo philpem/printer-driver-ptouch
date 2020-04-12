@@ -87,7 +87,8 @@ OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-QL-MediaType.xml \
 				  opt/Brother-QL-PageSize.xml \
 				  opt/Brother-QL-PrintDensity.xml \
-				  opt/Brother-QL-PrintQuality.xml
+				  opt/Brother-QL-PrintQuality.xml \
+				  opt/Brother-QL-StatusNotification.xml
 
 foomaticdbdir			= $(datadir)/foomatic/db/source
 driversdir			= $(foomaticdbdir)/driver
