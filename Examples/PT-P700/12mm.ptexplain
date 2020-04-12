@@ -1,0 +1,16 @@
+00 Reset (100)
+ESC @ Initialize
+ESC i a 01 Switch to raster mode
+ESC i U 4a 00 0c 52 54 00 fc 91 b1 00 00 02 00 00 00 Undocumented command
+ESC i z 84 00 0c 00 e1 00 00 00 00 00 Print information command ([02=kind] 04=width [08=length] [40=quality] 80=recover) width=12 lines=225 page=first
+ESC i M 40 Various mode settings (40=auto_cut [80=mirror])
+ESC i K 08 Advanced mode settings ([01=draft] [04=half_cut] 08=nochain [10=special_tape] [40=hires] [80=no_clearing])
+ESC i d 0e 00 Specify margin amount (14 lines)
+M 02 Select compression mode (TIFF)
+G 0a 00 Raster graphics transfer (10 bytes)
+[221 more G lines]
+G 0a 00 Raster graphics transfer (10 bytes)
+Z Zero raster graphics
+Z Zero raster graphics
+^Z End of job
+Raster data written to 12mm-1.png
