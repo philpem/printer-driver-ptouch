@@ -70,7 +70,6 @@ OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PTQL-ConcatPages.xml \
 				  opt/Brother-PTQL-CutLabel.xml \
 				  opt/Brother-PTQL-LabelPreamble.xml \
-				  opt/Brother-PTQL-LabelRecovery.xml \
 				  opt/Brother-PTQL-LastPageFlag.xml \
 				  opt/Brother-PTQL-MinMargin.xml \
 				  opt/Brother-PTQL-MirrorPrint.xml \
@@ -81,6 +80,7 @@ OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PTQL-SoftwareMirror.xml \
 				  opt/Brother-PTQL-TransferMode.xml \
 				  opt/Brother-PT-HalfCut.xml \
+				  opt/Brother-PT-LabelRecovery.xml \
 				  opt/Brother-PT-LegacyHires.xml \
 				  opt/Brother-PT-LegacyTransferMode.xml \
 				  opt/Brother-PT-Margin.xml \

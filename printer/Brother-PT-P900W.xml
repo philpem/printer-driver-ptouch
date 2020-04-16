@@ -68,7 +68,7 @@ USA
       <enum_val id="ev/70" />
     </option>
     <option id="opt/Brother-PTQL-LabelPreamble" />
-    <option id="opt/Brother-PTQL-LabelRecovery" />
+    <option id="opt/Brother-PT-LabelRecovery" />
     <option id="opt/Brother-PTQL-LastPageFlag" />
     <option id="opt/Brother-PTQL-CutLabel" />
     <option id="opt/Brother-PT-PageSize">
