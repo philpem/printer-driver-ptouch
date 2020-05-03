@@ -40,45 +40,261 @@ USA
   <constraints>
     <constraint sense='true'>
       <driver>ptouch-ql</driver>
-      <arg_defval>ev/None</arg_defval>
+      <arg_defval>ev/0mm</arg_defval>
     </constraint>
   </constraints>
   <enum_vals>
-   <enum_val id="ev/None">
+   <enum_val id="ev/0mm">
     <ev_longname>
-     <en>None</en>
+     <en>0 mm</en>
     </ev_longname>
     <ev_shortname>
-     <en>0None</en>
+     <en>0mm</en>
     </ev_shortname>
     <ev_driverval>0</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Small">
+   <enum_val id="ev/1mm">
     <ev_longname>
-     <en>Small</en>
+     <en>1 mm</en>
     </ev_longname>
     <ev_shortname>
-     <en>1Small</en>
+     <en>1mm</en>
     </ev_shortname>
-    <ev_driverval>22</ev_driverval>
+    <ev_driverval>2.83</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Medium">
+   <enum_val id="ev/2mm">
     <ev_longname>
-     <en>Medium</en>
+     <en>2 mm</en>
     </ev_longname>
     <ev_shortname>
-     <en>2Medium</en>
+     <en>2mm</en>
     </ev_shortname>
-    <ev_driverval>34</ev_driverval>
+    <ev_driverval>5.67</ev_driverval>
    </enum_val>
-   <enum_val id="ev/Large">
+   <enum_val id="ev/3mm">
     <ev_longname>
-     <en>Large</en>
+     <en>3 mm</en>
     </ev_longname>
     <ev_shortname>
-     <en>3Large</en>
+     <en>3mm</en>
     </ev_shortname>
-    <ev_driverval>74</ev_driverval>
+    <ev_driverval>8.50</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/4mm">
+    <ev_longname>
+     <en>4 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>4mm</en>
+    </ev_shortname>
+    <ev_driverval>11.34</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/5mm">
+    <ev_longname>
+     <en>5 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>5mm</en>
+    </ev_shortname>
+    <ev_driverval>14.17</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/6mm">
+    <ev_longname>
+     <en>6 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>6mm</en>
+    </ev_shortname>
+    <ev_driverval>17.01</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/7mm">
+    <ev_longname>
+     <en>7 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>7mm</en>
+    </ev_shortname>
+    <ev_driverval>19.84</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/8mm">
+    <ev_longname>
+     <en>8 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>8mm</en>
+    </ev_shortname>
+    <ev_driverval>22.68</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/9mm">
+    <ev_longname>
+     <en>9 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>9mm</en>
+    </ev_shortname>
+    <ev_driverval>25.51</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/10mm">
+    <ev_longname>
+     <en>10 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>10mm</en>
+    </ev_shortname>
+    <ev_driverval>28.35</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/11mm">
+    <ev_longname>
+     <en>11 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>11mm</en>
+    </ev_shortname>
+    <ev_driverval>31.18</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/12mm">
+    <ev_longname>
+     <en>12 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>12mm</en>
+    </ev_shortname>
+    <ev_driverval>34.02</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/13mm">
+    <ev_longname>
+     <en>13 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>13mm</en>
+    </ev_shortname>
+    <ev_driverval>36.85</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/14mm">
+    <ev_longname>
+     <en>14 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>14mm</en>
+    </ev_shortname>
+    <ev_driverval>39.69</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/15mm">
+    <ev_longname>
+     <en>15 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>15mm</en>
+    </ev_shortname>
+    <ev_driverval>42.52</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/16mm">
+    <ev_longname>
+     <en>16 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>16mm</en>
+    </ev_shortname>
+    <ev_driverval>45.35</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/17mm">
+    <ev_longname>
+     <en>17 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>17mm</en>
+    </ev_shortname>
+    <ev_driverval>48.19</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/18mm">
+    <ev_longname>
+     <en>18 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>18mm</en>
+    </ev_shortname>
+    <ev_driverval>51.02</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/19mm">
+    <ev_longname>
+     <en>19 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>19mm</en>
+    </ev_shortname>
+    <ev_driverval>53.86</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/20mm">
+    <ev_longname>
+     <en>20 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>20mm</en>
+    </ev_shortname>
+    <ev_driverval>56.69</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/21mm">
+    <ev_longname>
+     <en>21 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>21mm</en>
+    </ev_shortname>
+    <ev_driverval>59.53</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/22mm">
+    <ev_longname>
+     <en>22 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>22mm</en>
+    </ev_shortname>
+    <ev_driverval>62.36</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/23mm">
+    <ev_longname>
+     <en>23 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>23mm</en>
+    </ev_shortname>
+    <ev_driverval>65.20</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/24mm">
+    <ev_longname>
+     <en>24 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>24mm</en>
+    </ev_shortname>
+    <ev_driverval>68.03</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/25mm">
+    <ev_longname>
+     <en>25 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>25mm</en>
+    </ev_shortname>
+    <ev_driverval>70.87</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/26mm">
+    <ev_longname>
+     <en>26 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>26mm</en>
+    </ev_shortname>
+    <ev_driverval>73.70</ev_driverval>
+   </enum_val>
+   <enum_val id="ev/27mm">
+    <ev_longname>
+     <en>27 mm</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>27mm</en>
+    </ev_shortname>
+    <ev_driverval>76.54</ev_driverval>
    </enum_val>
   </enum_vals>
 </option>
