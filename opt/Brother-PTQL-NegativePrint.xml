@@ -35,14 +35,4 @@ USA
     <arg_postscript />
     <arg_proto>&lt;&lt;/NegativePrint true&gt;&gt;setpagedevice</arg_proto>
   </arg_execution>
-  <constraints>
-    <constraint sense='true'>
-      <driver>ptouch-pt</driver>
-      <arg_defval>0</arg_defval>
-    </constraint>
-    <constraint sense='true'>
-      <driver>ptouch-ql</driver>
-      <arg_defval>0</arg_defval>
-    </constraint>
-  </constraints>
 </option>
