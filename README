@@ -3,10 +3,11 @@
 			    ptouch-driver
 
 This is ptouch-driver, a printer driver based on CUPS and foomatic,
-for the Brother P-touch label printer family.
+for the Brother P-touch and QL label printer families.
 
-ptouch-driver was originally developed by Arne John Glenstrup. Maintenance
-has (as of September 2015) been taken over by Phil Pemberton.
+ptouch-driver was originally developed by Arne John Glenstrup.  Maintenance has
+(as of September 2015) been taken over by Phil Pemberton, and by Andreas
+Gruenbacher in May 2020.
 
 See the file `INSTALL' for directions on how to install this software.
 
@@ -26,6 +27,7 @@ Brother Industries, Ltd.
 
 -----
 
+Copyright (c) 2020  Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
 Copyright (c) 2015-2016 Philip Pemberton <philpem@philpem.me.uk>
 Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
 
