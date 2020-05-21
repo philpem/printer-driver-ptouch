@@ -217,15 +217,18 @@ sub transform($) {
     }
 }
 
+my $srcdir = '.';
 my $out;
-if (!GetOptions('out=s' => \$out) || !defined $out) {
+if (!GetOptions(
+	'srcdir=s' => \$srcdir,
+	'out=s' => \$out) || !defined $out) {
     die "Usage: $0 --out=DIR file.xml ...\n";
 }
 
 my $doms = {};
 
 foreach my $filename (@ARGV) {
-    my $dom = XML::LibXML->load_xml(location => $filename, { no_blanks => 1 });
+    my $dom = XML::LibXML->load_xml(location => "$srcdir/$filename", { no_blanks => 1 });
     $doms->{$filename} = $dom;
 }
 
