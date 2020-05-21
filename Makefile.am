@@ -132,7 +132,7 @@ $(addprefix generated/,$(DRIVERS)): generated/stamp-h1
 $(addprefix generated/,$(PRINTERS)): generated/stamp-h1
 $(addprefix generated/,$(OPTIONS)): generated/stamp-h1
 generated/stamp-h1: $(DRIVERS) $(PRINTERS) $(OPTIONS) foomaticalize
-	./foomaticalize --out=generated $(DRIVERS) $(PRINTERS) $(OPTIONS)
+	$(srcdir)/foomaticalize --srcdir=$(srcdir) --out=generated $(DRIVERS) $(PRINTERS) $(OPTIONS)
 	@touch $@
 
 clean-local:
