@@ -213,6 +213,7 @@
  * <tr><td>PT-1960  <td>auto     <td>RLE<td>180<td> 96<td>12<td>TZ6-18mm
  * <tr><td>PT-2300  <td>auto     <td>RLE<td>180<td>112<td>14<td>TZ6-18mm
  * <tr><td>PT-2420PC<td>manual   <td>RLE<td>180<td>128<td>16<td>TZ6-24mm
+ * <tr><td>PT-2430PC<td>auto     <td>RLE<td>180<td>128<td>16<td>TZ6-24mm
  * <tr><td>PT-2450DX<td>auto     <td>RLE<td>180<td>128<td>16<td>TZ6-24mm
  * <tr><td>PT-2500PC<td>auto     <td>RLE<td>180<td>128<td>16<td>TZ6-24mm
  * <tr><td>PT-2600  <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ,AV6-24mm

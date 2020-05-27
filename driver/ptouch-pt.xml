@@ -67,6 +67,9 @@ USA
    <id>printer/Brother-PT-2420PC</id>
   </printer>
   <printer>
+   <id>printer/Brother-PT-2430PC</id>
+  </printer>
+  <printer>
    <id>printer/Brother-PT-2450DX</id>
   </printer>
   <printer>
