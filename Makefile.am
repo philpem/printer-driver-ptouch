@@ -53,6 +53,7 @@ PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-PT-1960.xml \
 				  printer/Brother-PT-2300.xml \
 				  printer/Brother-PT-2420PC.xml \
+				  printer/Brother-PT-2430PC.xml \
 				  printer/Brother-PT-2450DX.xml \
 				  printer/Brother-PT-2500PC.xml \
 				  printer/Brother-PT-2600.xml \
