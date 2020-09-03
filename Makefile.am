@@ -63,7 +63,8 @@ PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-PT-9200PC.xml \
 				  printer/Brother-PT-9400.xml \
 				  printer/Brother-PT-9500PC.xml \
-				  printer/Brother-PT-9600.xml
+				  printer/Brother-PT-9600.xml \
+				  printer/Brother-PT-9700PC.xml
 OPTIONS				= opt/Brother-PTQL-Align.xml \
 				  opt/Brother-PTQL-AutoCut.xml \
 				  opt/Brother-PTQL-ChainPrinting.xml \

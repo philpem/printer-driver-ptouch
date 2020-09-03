@@ -225,6 +225,8 @@
  * <tr><td>PT-9500PC<td>auto/half<td>RLE<td>360<br>
                                         360x720<td>384<td>48<td>TZ,AV6-36mm
  * <tr><td>PT-9600  <td>auto/half<td>RLE<td>360<td>384<td>48<td>TZ,AV6-36mm
+ * <tr><td>PT-9700PC<td>auto/half<td>RLE<td>360<br>
+                                        360x720<td>384<td>48<td>TZ4-36mm
  * </table>
  *
  * <h2>Tape characteristics</h2>
