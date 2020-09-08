@@ -685,6 +685,11 @@ static void explain (void) {
 	  print_command ("Undocumented command");
 	  break;
 
+	case 'c':  /* ESC i c */
+	  d = get_more (DATA, 5);
+	  print_command ("Legacy hires");
+	  break;
+
 	default:
 	  unknown_command ();
 	  break;

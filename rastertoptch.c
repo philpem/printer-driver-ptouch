@@ -1345,15 +1345,15 @@ emit_raster_lines (job_options_t* job_options,
       (header->cupsPageSize[0] - header->cupsImagingBBox[2]) * pt2px [0];
   }
   /* Calculate right_padding_bytes and shift */
-  int right_padding_bits;
+  unsigned right_padding_bits;
   if (job_options->align == CENTER) {
     unsigned left_spacing_px =
       header->cupsImagingBBox[0] * pt2px [0];
-    right_padding_bits
-      = (bytes_per_line * 8
-         - (left_spacing_px + cupsWidth + right_spacing_px)) / 2
-      + right_spacing_px;
-    if (right_padding_bits < 0) right_padding_bits = 0;
+    unsigned width = left_spacing_px + cupsWidth + right_spacing_px;
+    if (bytes_per_line * 8 < width)
+      right_padding_bits = 0;
+    else
+      right_padding_bits = (bytes_per_line * 8 - width) / 2 + right_spacing_px;
   } else
     right_padding_bits = right_spacing_px;
   int right_padding_bytes = right_padding_bits / 8;
