@@ -99,6 +99,9 @@ USA
   <printer>
    <id>printer/Brother-PT-9600</id>
   </printer>
+  <printer>
+   <id>printer/Brother-PT-P300BT</id>
+  </printer>
  </printers>
 </driver>
 
