@@ -36,7 +36,6 @@ use Getopt::Long qw(GetOptions);
 use XML::LibXML;
 use File::Basename;
 use File::Path qw(make_path);
-use POSIX qw(round);
 
 sub find_or_create_node($$) {
     my ($obj, $type) = @_;
@@ -209,7 +208,7 @@ sub transform($) {
 		    if ($driverval->textContent =~
 			/^\s*(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s*$/) {
 			$driverval->removeChildNodes();
-			$driverval->appendText(round($1) . ' ' . round($2));
+			$driverval->appendText(sprintf("%.0f", $1) . ' ' . sprintf("%.0f", $2));
 		    }
 		}
 	    }
