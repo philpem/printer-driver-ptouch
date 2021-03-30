@@ -13,6 +13,7 @@
 #include <ctype.h>
 #include <assert.h>
 #include <getopt.h>
+#include <libgen.h>
 
 #if HAVE_LIBPNG
 # include <png.h>

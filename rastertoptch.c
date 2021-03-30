@@ -273,6 +273,7 @@
 #include <limits.h>
 #include <stdbool.h>
 #include <getopt.h>
+#include <libgen.h>
 
 static const char* progname;
 
