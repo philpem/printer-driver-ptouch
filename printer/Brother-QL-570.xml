@@ -66,5 +66,6 @@ USA
       <enum_val id="ev/ULP" />
     </option>
     <option id="opt/Brother-PTQL-AutoCut" />
+    <option id="opt/Brother-PTQL-CutLabel" />
   </select>
 </printer>
