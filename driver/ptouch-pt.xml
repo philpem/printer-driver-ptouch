@@ -102,6 +102,9 @@ USA
   <printer>
    <id>printer/Brother-PT-P300BT</id>
   </printer>
+  <printer>
+   <id>printer/Brother-PT-P710BT</id>
+   </printer>
  </printers>
 </driver>
 
