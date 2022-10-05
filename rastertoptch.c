@@ -203,6 +203,7 @@
  * <tr><td>QL-650TD <td>auto     <td>ULP<td>300<td>720<td>90<td>DK12-62mm
  * <tr><td>PT-PC    <td>auto     <td>BIP<td>180<td>128<td> 3<td>TZ6-24mm
  * <tr><td>PT-18R   <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ6-18mm
+ * <tr><td>PT-D460BT<td>Manual   <td>RLE<td>360<td>???<td>16<td>TZ4-18mm
  * <tr><td>PT-550A  <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ6-36mm
  * <tr><td>PT-P700  <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ4-24mm
  * <tr><td>PT-P710BT<td>auto     <td>RLE<td>180<td>128<td>16<td>TZ4-24mm
