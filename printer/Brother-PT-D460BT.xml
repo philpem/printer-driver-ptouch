@@ -65,6 +65,7 @@ USA
     </option>
     <option id="opt/Brother-PTQL-LabelPreamble" />
     <option id="opt/Brother-PT-LabelRecovery" />
+    <option id="opt/Brother-PTQL-LastPageFlag" />
     <option id="opt/Brother-PT-PageSize">
       <arg_defval>ev/tz-18</arg_defval>
       <enum_val id="ev/tz-4" />
@@ -72,6 +73,9 @@ USA
       <enum_val id="ev/tz-9" />
       <enum_val id="ev/tz-12" />
       <enum_val id="ev/tz-18" />
+      <enum_val id="ev/tz-18x50" />
+      <enum_val id="ev/tz-18x25" />
+      <enum_val id="ev/Custom" />
     </option>
   </select>
 </printer>
