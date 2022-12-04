@@ -28,8 +28,18 @@ Brother Industries, Ltd.
 
 -----
 
+If you have any issues with the driver, please open a Github issue.
+
+For code changes, please create a fork 
+
+-----
+
+
+Currently maintained by:
+Copyright (c) 2015-2022 Philip Pemberton <philpem@philpem.me.uk>
+
+Previous development work by:
 Copyright (c) 2020  Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
-Copyright (c) 2015-2016 Philip Pemberton <philpem@philpem.me.uk>
 Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
 
 This file is part of ptouch-driver.
