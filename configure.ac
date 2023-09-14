@@ -1,11 +1,11 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.59)
-AC_INIT(ptouch-driver, 1.5, andreas.gruenbacher@gmail.com)
+AC_PREREQ([2.71])
+AC_INIT([ptouch-driver],[1.7],[philpem@philpem.me.uk])
 AM_INIT_AUTOMAKE([-Wall -Wno-portability])
 AC_CONFIG_SRCDIR([rastertoptch.c])
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
 AC_PROG_CC
