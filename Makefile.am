@@ -36,6 +36,7 @@ DRIVERS				= driver/ptouch-pt.xml \
 PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-QL-550.xml \
 				  printer/Brother-QL-570.xml \
+				  printer/Brother-QL-600.xml \
 				  printer/Brother-QL-650TD.xml \
 				  printer/Brother-QL-700.xml \
 				  printer/Brother-QL-800.xml \
@@ -45,6 +46,7 @@ PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-PT-18R.xml \
 				  printer/Brother-PT-550A.xml \
 				  printer/Brother-PT-E550W.xml \
+				  printer/Brother-PT-P300BT.xml \
 				  printer/Brother-PT-P700.xml \
 				  printer/Brother-PT-P710BT.xml \
 				  printer/Brother-PT-P900W.xml \
