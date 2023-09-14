@@ -114,6 +114,34 @@ as the page size here is not well supported by applications, though.
       </constraint>
     </constraints>
    </enum_val>
+   <enum_val id="ev/tz-18x50">
+    <ev_longname>
+     <en>18x50mm (TZ Tape)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>tz-18x50</en>
+    </ev_shortname>
+    <ev_driverval>51.2 141.75</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
+   <enum_val id="ev/tz-18x25">
+    <ev_longname>
+     <en>18x25mm (TZ Tape)</en>
+    </ev_longname>
+    <ev_shortname>
+     <en>tz-18x25</en>
+    </ev_shortname>
+    <ev_driverval>51.2 70.88</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
+   </enum_val>
    <!-- TZe Tape (24mm): print area width = 128 dots, margin = 21 dots -->
    <enum_val id="ev/tz-24">
     <ev_longname>
@@ -226,6 +254,11 @@ as the page size here is not well supported by applications, though.
      <en>Custom</en>
     </ev_shortname>
     <ev_driverval>&lt;&lt;/PageSize[%0 %1]/ImagingBBox null&gt;&gt;setpagedevice</ev_driverval>
+    <constraints>
+      <constraint sense="false">
+        <driver>ptouch-pt</driver>
+      </constraint>
+    </constraints>
    </enum_val>
   </enum_vals>
 </option>
