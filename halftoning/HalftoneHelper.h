@@ -23,4 +23,9 @@ extern "C"
 {
     extern int do_halftone_err_diff(unsigned char* buffer, int bufLen);
 
+    extern void nll_clear_buffers();
+    extern void nll_add_line(unsigned char* buffer, int bufLen);
+    extern void nll_process();
+    extern int nll_get_next_line(unsigned char* buffer, int bufLen);
+
 }

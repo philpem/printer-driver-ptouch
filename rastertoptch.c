@@ -1445,12 +1445,34 @@ emit_raster_lines (job_options_t* job_options,
 
   /* Generate and store actual page data */
   empty_lines += top_empty_lines;
-  int y;
+  int y, result;
+
+  // This filter needs all of the image at once. 
+  if (job_options->halftone == NLL)
+  {
+    nll_clear_buffers();
+    for (y = 0; y < cupsHeight; y++) {
+      if (cupsRasterReadPixels (ras, buffer, cupsBytesPerLine) < 1)
+        break;  /* Escape if no pixels read */
+      nll_add_line(buffer, cupsBytesPerLine);
+    }
+    nll_process();
+  }
+
+
   for (y = 0; y < cupsHeight; y++) {
     /* Feedback to the user */
     progress.completed = y;
     /* Read one line of pixels */
-    if (cupsRasterReadPixels (ras, buffer, cupsBytesPerLine) < 1)
+    if (job_options->halftone == NLL)
+    {
+      result = nll_get_next_line(buffer, cupsBytesPerLine);
+    }
+    else
+    {
+      result = cupsRasterReadPixels (ras, buffer, cupsBytesPerLine);
+    }
+    if (result < 1)
       break;  /* Escape if no pixels read */
     if (y < top_skip || y + bot_skip >= cupsHeight)
       continue;
@@ -1458,6 +1480,9 @@ emit_raster_lines (job_options_t* job_options,
       case ERR_DIFF:
         fprintf(stderr, "cbpl %d bpl %d\n", cupsBytesPerLine, bytes_per_line);
         halftone_bytes = do_halftone_err_diff(buffer, cupsBytesPerLine);
+        break;
+      case NLL:
+        halftone_bytes = result;
         break;
       default:
         /* NO-OP */

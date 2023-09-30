@@ -210,9 +210,42 @@ extern "C"
     ErrDiff H(Filter::itRGB, Filter::itBW);
     buffer_t input(buffer, buffer + bufLen), output;
     H.ProcessLine(input, output);
+    assert(output.size() <= bufLen);
     memcpy(buffer, output.data() , output.size());
     return output.size();
   }
 
+  std::vector<buffer_t> input_image, output_image;
+
+  extern void nll_clear_buffers()
+  {
+    input_image.clear();
+    output_image.clear();
+  }
+
+  extern void nll_add_line(unsigned char* buffer, int bufLen)
+  {
+    buffer_t line(buffer, buffer+bufLen);
+    input_image.push_back(line);
+  }
+
+  extern void nll_process()
+  {
+    NLL H(64, Filter::itRGB, Filter::itBW);
+    H.ProcessImage(input_image,output_image);    
+  }
+
+  extern int nll_get_next_line(unsigned char* buffer, int bufLen) 
+  {
+    if (output_image.size()==0)
+    {
+      return 0;
+    }
+    buffer_t line = output_image.front();
+    assert(line.size() <= bufLen);
+    memcpy(buffer, line.data(), line.size());
+    output_image.erase(output_image.begin());
+    return line.size();
+  }
 
 }
