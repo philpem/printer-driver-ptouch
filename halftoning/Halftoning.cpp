@@ -3,6 +3,7 @@
 
 // DYMO LabelWriter Drivers
 // Copyright (C) 2008 Sanford L.P.
+// C linkages added 2023 by VintagePC <https://github.com/vintagepc>
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -195,3 +196,23 @@ EHalftoneError::GetErrorCode()
  * End of "$Id: Halftoning.cpp 4759 2008-06-19 19:02:27Z vbuzuev $".
  */
 
+ // C linkages for C++ classes:
+
+using ErrDiff = DymoPrinterDriver::CErrorDiffusionHalftoning;
+using NLL = DymoPrinterDriver::CNLLHalftoning;
+using Filter = DymoPrinterDriver::CHalftoneFilter;
+using DymoPrinterDriver::buffer_t;
+using std::vector;
+extern "C"
+{
+  extern int do_halftone_err_diff(unsigned char* buffer, int bufLen) 
+  {
+    ErrDiff H(Filter::itRGB, Filter::itBW);
+    buffer_t input(buffer, buffer + bufLen), output;
+    H.ProcessLine(input, output);
+    memcpy(buffer, output.data() , output.size());
+    return output.size();
+  }
+
+
+}
