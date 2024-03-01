@@ -28,6 +28,7 @@ If applicable, add screenshots to help explain your problem.
  - OS version [e.g. 22]
  - printer-driver-ptouch version (if you installed from a package e.g. RPM or Apt, this is the package version)
  - What software are you using to create and send the print job?
+ - Printer model: [e.g. PT-1234, QL-567]
  - **If you are using a QL series (paper label) printer with continuous (not pre-cut or die-cut) labels:** Have you set up a custom page size for the label size you want?
 
 **If you are reporting a print issue**
