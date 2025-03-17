@@ -878,8 +878,8 @@ int main(int argc, char *argv[]) {
       colors[n].on = "";
       colors[n].off = "";
     }
-    colors[FLAG_CLEARED].on = "[";
-    colors[FLAG_CLEARED].off = "]";
+    colors[FLAG_SET].on = "[";
+    colors[FLAG_SET].off = "]";
   }
 
   explain ();
