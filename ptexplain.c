@@ -669,6 +669,11 @@ static void explain (void) {
 	  print_command ("Specify margin amount (%u lines)", u);
 	  break;
 
+	case 'D':  /* ESC i D */
+	  c = get (DATA);
+	  print_command ("Set print density (%d/5)", c);
+	  break;
+
 	case 'U':  /* ESC i U */
 	  /* Undocumented command used by the Windows 10 PT-P900W driver */
 	  d = get_more (DATA, 15);
