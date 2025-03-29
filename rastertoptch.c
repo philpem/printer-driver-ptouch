@@ -277,6 +277,8 @@
 #include <getopt.h>
 #include <libgen.h>
 
+#include "halftoning/HalftoneHelper.h"
+
 static const char* progname;
 
 /** Length of a PostScript point in mm */
@@ -303,6 +305,7 @@ typedef enum {
  */
 typedef enum {RIGHT, CENTER} align_t;
 typedef enum {TAPE, LABELS} media_t;
+typedef enum {DEFAULT=-1, ERR_DIFF, NLL, HALFTONE_MAX=NLL} halftone_t;
 
 /** CUPS Raster line buffer.                             */
 unsigned char* buffer;
@@ -377,6 +380,7 @@ typedef struct {
   float min_margin;     /**< minimum top and bottom margin        */
   float margin;         /**< top and bottom margin                */
   int status_notification; /**< automatic status notification     */
+  int halftone;  /**< Halftone selection                   */
   unsigned int page;    /**< The current page number              */
   bool last_page;       /**< This is the last page                */
 } job_options_t;
@@ -391,7 +395,7 @@ job_options_t
 parse_job_options (const char* str) {
   job_options_t options = {
     /* pixel_xfer */ RLE,
-    /* print_quality_high */ true,
+    /* print_quality_high */ CUPS_TRUE,
     /* auto_cut */ false,
     /* half_cut */ false,
     /* cut_mark */ false,
@@ -415,6 +419,8 @@ parse_job_options (const char* str) {
     /* min_margin */ 0.0,
     /* margin */ 0.0,
     /* status_notification (don't set) */ -1,
+    /* halftone */ DEFAULT,
+    
   };
 
   struct int_option {
@@ -430,6 +436,7 @@ parse_job_options (const char* str) {
     { "LegacyTransferMode", &options.legacy_xfer_mode, 0, 255 },
     { "TransferMode", &options.xfer_mode, 0, 255 },
     { "StatusNotification", &options.status_notification, 0, 1 },
+    { "HalfTone", &options.halftone, -1, 1 },
     { }
   };
 
@@ -495,11 +502,11 @@ parse_job_options (const char* str) {
     if (strcasecmp (name, "PrintQuality") == 0) {
       if (value) {
 	if (strcasecmp (value, "High") == 0) {
-	  options.print_quality_high = true;
+	  options.print_quality_high = CUPS_TRUE;
 	  continue;
 	}
 	if (strcasecmp (value, "Fast") == 0) {
-	  options.print_quality_high = false;
+	  options.print_quality_high = CUPS_FALSE;
 	  continue;
 	}
       }
@@ -634,8 +641,8 @@ page_prepare (unsigned cups_buffer_size, unsigned device_buffer_size) {
 #endif
 
   /* Allocate line buffer */
-  buffer = malloc (cups_buffer_size);
-  emit_line_buffer = malloc (device_buffer_size);
+  buffer = (unsigned char*) malloc (cups_buffer_size);
+  emit_line_buffer = (unsigned char*) malloc (device_buffer_size);
   if (!buffer || !emit_line_buffer) {
     fprintf
       (stderr,
@@ -1105,7 +1112,7 @@ ensure_rle_buf_space (job_options_t* job_options,
     if (new_alloced <= 1000000)
       p = realloc (rle_buffer, new_alloced * sizeof (char));
     if (p) {
-      rle_buffer = p;
+      rle_buffer = (unsigned char*) p;
       rle_buffer_next = rle_buffer + nextpos;
       rle_alloced = new_alloced;
     } else { /* Gain memory by flushing buffer to printer */
@@ -1339,8 +1346,8 @@ emit_raster_lines (job_options_t* job_options,
   /* Calculate extra horizontal spacing pixels if the right side of */
   /* cupsImagingBBox doesn't touch the cupsPageSize box             */
   float pt2px[] = {
-    header->HWResolution [0] / 72.0,
-    header->HWResolution [1] / 72.0
+    header->HWResolution [0] / 72.0f,
+    header->HWResolution [1] / 72.0f
   };
   unsigned right_spacing_px = 0;
   if (header->cupsImagingBBox[2] < header->cupsPageSize[0]) {
@@ -1389,6 +1396,8 @@ emit_raster_lines (job_options_t* job_options,
   if (image_height_px >= top_empty_lines + cupsHeight)
     bot_empty_lines = image_height_px - top_empty_lines - cupsHeight;
 
+  unsigned halftone_bytes = buflen;
+
   /*
    * QL printers have a specific top and bottom margin that must be left blank
    * to allow printers to skip to the next label.  For continuous-length tape,
@@ -1436,17 +1445,52 @@ emit_raster_lines (job_options_t* job_options,
 
   /* Generate and store actual page data */
   empty_lines += top_empty_lines;
-  int y;
+  int y, result;
+
+  // This filter needs all of the image at once. 
+  if (job_options->halftone == NLL)
+  {
+    nll_clear_buffers();
+    for (y = 0; y < cupsHeight; y++) {
+      if (cupsRasterReadPixels (ras, buffer, cupsBytesPerLine) < 1)
+        break;  /* Escape if no pixels read */
+      nll_add_line(buffer, cupsBytesPerLine);
+    }
+    nll_process();
+  }
+
+
   for (y = 0; y < cupsHeight; y++) {
     /* Feedback to the user */
     progress.completed = y;
     /* Read one line of pixels */
-    if (cupsRasterReadPixels (ras, buffer, cupsBytesPerLine) < 1)
+    if (job_options->halftone == NLL)
+    {
+      result = nll_get_next_line(buffer, cupsBytesPerLine);
+    }
+    else
+    {
+      result = cupsRasterReadPixels (ras, buffer, cupsBytesPerLine);
+    }
+    if (result < 1)
       break;  /* Escape if no pixels read */
     if (y < top_skip || y + bot_skip >= cupsHeight)
       continue;
+    switch (job_options->halftone) {
+      case ERR_DIFF:
+        fprintf(stderr, "cbpl %d bpl %d\n", cupsBytesPerLine, bytes_per_line);
+        halftone_bytes = do_halftone_err_diff(buffer, cupsBytesPerLine);
+        break;
+      case NLL:
+        halftone_bytes = result;
+        break;
+      default:
+        /* NO-OP */
+        halftone_bytes = buflen;
+        break;
+    }
     bool nonempty_line =
-      generate_emit_line (buffer, emit_line_buffer, buflen, bytes_per_line,
+      generate_emit_line (buffer, emit_line_buffer, halftone_bytes, bytes_per_line,
                           right_padding_bytes, shift, do_mirror, xormask);
     if (nonempty_line) {
       if (empty_lines) {
@@ -1490,8 +1534,8 @@ process_rasterdata (job_options_t* job_options) {
          header = tmp_header,
 	 job_options->page++) {
     float pt2px[] = {
-      header->HWResolution [0] / 72.0,
-      header->HWResolution [1] / 72.0
+      header->HWResolution [0] / 72.0f,
+      header->HWResolution [1] / 72.0f
     };
     fprintf (stderr, "DEBUG: %s: PageSize: %.2fx%.2f pt / %.2fx%.2f mm / %.2fx%.2f px\n",
 	     progname,
@@ -1516,6 +1560,8 @@ process_rasterdata (job_options_t* job_options) {
 	     header->cupsWidth, header->cupsHeight);
     fprintf (stderr, "DEBUG: %s: NegativePrint: %d\n",
 	     progname, header->NegativePrint);
+    fprintf (stderr, "DEBUG: %s: Halftone: %d\n",
+	     progname, job_options->halftone);
     page_prepare (header->cupsBytesPerLine, bytes_per_line);
     if (job_options->page == 1) {
       emit_job_cmds (job_options);
