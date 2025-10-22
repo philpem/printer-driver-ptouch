@@ -82,6 +82,9 @@ USA
    <id>printer/Brother-PT-2610</id>
   </printer>
   <printer>
+   <id>printer/Brother-PT-2700</id>
+  </printer>
+  <printer>
    <id>printer/Brother-PT-3600</id>
   </printer>
   <printer>

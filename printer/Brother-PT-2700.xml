@@ -1,0 +1,75 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<printer id="printer/Brother-PT-2700">
+  <make>Brother</make>
+  <model>PT-2700</model>
+  <pcmodel>BR2700</pcmodel>
+  <mechanism>
+    <thermal/>
+    <!--not "color"-->
+    <resolution>
+      <dpi>
+        <x>180</x>
+        <y>180</y>
+      </dpi>
+    </resolution>
+  </mechanism>
+  <url>https://www.brother-usa.com/products/pt2700</url>
+  <lang>
+    <proprietary />
+  </lang>
+  <autodetect>
+    <general>
+      <ieee1284>MFG:Brother;CMD:PT-CBP;MDL:2700;CLS:PRINTER;</ieee1284>
+      <commandset>PT-CBP</commandset>
+      <description>Brother PT-2700</description>
+      <manufacturer>Brother</manufacturer>
+      <model>PT-2700</model>
+    </general>
+  </autodetect>
+  <functionality>D</functionality>
+  <driver>ptouch-pt</driver>
+  <unverified/>
+  <!--no "contrib_url"-->
+  <comments>
+    <en>
+    Prints 10mm per second.
+    </en>
+  </comments>
+  <select>
+    <option id="opt/Brother-PT-LegacyTransferMode" />
+    <option id="opt/Brother-PTQL-Resolution">
+      <enum_val id="ev/180dpi" />
+    </option>
+    <option id="opt/Brother-PTQL-BytesPerLine">
+      <enum_val id="ev/16" />
+    </option>
+    <option id="opt/Brother-PT-PageSize">
+      <arg_defval>ev/tz-24</arg_defval>
+      <enum_val id="ev/tz-4" />
+      <enum_val id="ev/tz-6" />
+      <enum_val id="ev/tz-9" />
+      <enum_val id="ev/tz-12" />
+      <enum_val id="ev/tz-18" />
+      <enum_val id="ev/tz-24" />
+    </option>
+  </select>
+</printer>

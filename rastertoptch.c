@@ -220,6 +220,7 @@
  * <tr><td>PT-2500PC<td>auto     <td>RLE<td>180<td>128<td>16<td>TZ6-24mm
  * <tr><td>PT-2600  <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ,AV6-24mm
  * <tr><td>PT-2610  <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ,AV6-24mm
+ * <tr><td>PT-2700  <td>auto     <td>RLE<td>180<td>128<td>16<td>TZ,TZ4-24mm
  * <tr><td>PT-3600  <td>auto/half<td>RLE<td>360<td>384<td>48<td>TZ,AV6-36mm
  * <tr><td>PT-9200DX<td>auto/half<td>RLE<td>360<td>384<td>48<td>TZ6-36mm
  * <tr><td>PT-9200PC<td>auto/half<td>RLE<td>360<td>384<td>48<td>TZ6-36mm
