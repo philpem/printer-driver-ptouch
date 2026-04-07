@@ -38,6 +38,11 @@ USA
        <driver>ptouch-ql</driver>
       <arg_defval>ev/62mm</arg_defval>
      </constraint>
+     <constraint sense='true'>
+       <driver>ptouch-ql-wide</driver>
+      <arg_defval>ev/103x164mm</arg_defval>
+     </constraint>
+
   </constraints>
   <enum_vals>
    <enum_val id="ev/17x54mm">
@@ -112,8 +117,8 @@ USA
     </ev_shortname>
     <ev_driverval>288 143.04</ev_driverval>
     <constraints>
-     <constraint sense='false'>
-       <driver>ptouch-ql</driver>
+     <constraint sense='true'>
+       <driver>ptouch-ql-wide</driver>
        <!-- only for QL-1100 and similar, wide printers -->
      </constraint>
     </constraints>
@@ -127,8 +132,8 @@ USA
     </ev_shortname>
     <ev_driverval>288 432.96</ev_driverval>
     <constraints>
-     <constraint sense='false'>
-       <driver>ptouch-ql</driver>
+     <constraint sense='true'>
+       <driver>ptouch-ql-wide</driver>
        <!-- only for QL-1100 and similar, wide printers -->
      </constraint>
     </constraints>
@@ -142,8 +147,8 @@ USA
     </ev_shortname>
     <ev_driverval>293.67 465.84</ev_driverval>
     <constraints>
-     <constraint sense='false'>
-       <driver>ptouch-ql</driver>
+     <constraint sense='true'>
+       <driver>ptouch-ql-wide</driver>
        <!-- only for QL-1100 and similar, wide printers -->
      </constraint>
     </constraints>
@@ -238,8 +243,8 @@ USA
     </ev_shortname>
     <ev_driverval>283.68 283.5</ev_driverval>
     <constraints>
-     <constraint sense='false'>
-       <driver>ptouch-ql</driver>
+     <constraint sense='true'>
+       <driver>ptouch-ql-wide</driver>
        <!-- only for QL-1100 and similar, wide printers -->
      </constraint>
     </constraints>
@@ -253,8 +258,8 @@ USA
     </ev_shortname>
     <ev_driverval>293.67 283.5</ev_driverval>
     <constraints>
-     <constraint sense='false'>
-       <driver>ptouch-ql</driver>
+     <constraint sense='true'>
+       <driver>ptouch-ql-wide</driver>
        <!-- only for QL-1100 and similar, wide printers -->
      </constraint>
     </constraints>

@@ -1,0 +1,78 @@
+<!--
+Copyright (c) 2006  Arne John Glenstrup <panic@itu.dk>
+
+This file is part of ptouch-driver.
+
+ptouch-driver is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+ptouch-driver is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ptouch-driver; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
+-->
+<driver id="driver/ptouch-ql-wide">
+ <name>ptouch-ql-wide</name>
+ <pcdriver>QL</pcdriver>
+ <url></url>
+ <execution>
+  <filter />
+  <prototype>gs -q -dBATCH -dPARANOIDSAFER -dQUIET -dNOPAUSE -sDEVICE=cups %A%Z -sOutputFile=- - | rastertoptch '%B'</prototype>
+  <margins>
+    <general>
+      <left>4.32o</left>
+      <bottom>0</bottom>
+      <right>4.32</right>
+      <top>0</top>
+    </general>
+    <exception PageSize="102x152mm">
+      <bottom>17.28</bottom>
+      <top>17.28</top>
+    </exception>
+    <exception PageSize="103x164mm">
+      <left>2.88</left>
+      <bottom>14.17</bottom>
+      <right>2.88</right>
+      <top>14.17</top>
+    </exception>
+    <exception PageSize="54mm">
+      <left>5.76</left>
+      <right>5.76</right>
+    </exception>
+    <exception PageSize="103mm">
+      <left>2.88</left>
+      <right>2.88</right>
+    </exception>
+    <exception PageSize="12mm-circular">
+      <left>5.76</left>
+      <bottom>5.76</bottom>
+      <right>5.76</right>
+      <top>5.76</top>
+    </exception>
+    <exception PageSize="24mm-circular">
+      <left>5.76</left>
+      <bottom>5.76</bottom>
+      <right>5.76</right>
+      <top>5.76</top>
+    </exception>
+    <exception PageSize="58mm-circular">
+      <left>8.4</left>
+      <bottom>8.4</bottom>
+      <right>8.4</right>
+      <top>8.4</top>
+    </exception>
+  </margins>
+ </execution>
+ <comments>
+  <en>
+  </en>
+ </comments>
+</driver>
+

@@ -32,7 +32,8 @@ noinst_PROGRAMS			= ptexplain
 ptexplain_LDADD			= $(LIBPNG)
 
 DRIVERS				= driver/ptouch-pt.xml \
-				  driver/ptouch-ql.xml
+				  driver/ptouch-ql.xml \
+				  driver/ptouch-ql-wide.xml
 PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-QL-550.xml \
 				  printer/Brother-QL-570.xml \
@@ -42,6 +43,7 @@ PRINTERS			= printer/Brother-QL-500.xml \
 				  printer/Brother-QL-800.xml \
 				  printer/Brother-QL-810W.xml \
 				  printer/Brother-QL-820NWB.xml \
+				  printer/Brother-QL-1100.xml \
 				  printer/Brother-PT-PC.xml \
 				  printer/Brother-PT-18R.xml \
 				  printer/Brother-PT-550A.xml \

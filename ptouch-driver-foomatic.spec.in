@@ -53,6 +53,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 /usr/share/foomatic/db/source/driver/ptouch-pt.xml
 /usr/share/foomatic/db/source/driver/ptouch-ql.xml
+/usr/share/foomatic/db/source/driver/ptouch-ql-wide.xml
 /usr/share/foomatic/db/source/printer/Brother-PT-*.xml
 /usr/share/foomatic/db/source/printer/Brother-QL-*.xml
 /usr/share/foomatic/db/source/opt/Brother-PT-*.xml
