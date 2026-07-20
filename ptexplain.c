@@ -36,6 +36,14 @@ bool verbose;
 const char *write_prefix;
 unsigned int noisy_commands_ignored;
 
+//
+static const int DO_NOT_PRINT = 0;
+static const int PRINT_ASCII = 1;
+static const int PRINT_BLOCK = 2;
+static const int PRINT_LEGACY = 3;
+
+int raster_print_charset = DO_NOT_PRINT;
+
 enum data_type {
   INFO,
   CONTROL,
@@ -354,18 +362,108 @@ static void explain_raster_line (unsigned int bytes, enum compression_mode compr
 	}
       }
     }
-    if (write_prefix)
+    if (write_prefix || raster_print_charset != DO_NOT_PRINT)
       add_row (decompressed, row_size);
     if (verbose)
       print_command ("(%d bytes)", row_size);
   } else {
     const unsigned char *d = get_more (RASTER, bytes);
-    if (write_prefix)
+    if (write_prefix || raster_print_charset != DO_NOT_PRINT)
       add_row (d, bytes);
     if (verbose)
       print_command (NULL);
   }
   reset_command ();
+}
+
+static bool getpixel (int x, int y) {
+  unsigned int img_columns = (image.row_size * 8);
+  unsigned int img_rows = image.blank_rows + (image.size / image.row_size);
+
+  // The actual raster data
+  // Mirror horizontally since the first bit in the raster line is top right, not top left
+  if (x > 0 && y >= 0 && x < img_columns && y < img_rows) {
+    unsigned int index = y * img_columns + (img_columns - 1) - x;
+    return (image.buffer[index / 8] >> (7 - index % 8)) & 0x1;
+  }
+  // Padding around the frame: dark (handling this simplifies callers)
+  // The outer frame: light
+  if (x == -2 || y == -2 || x == img_columns + 1 || y == img_rows + 1)
+    return true;
+  // The inner frame: dark (to separate the frame from the raster image)
+  if (x == -1 || y == -1 || x == img_columns || y == img_rows )
+    return false;
+}
+
+static void print_image () {
+  int x, y;
+  int img_columns = (image.row_size * 8);
+  int img_rows = image.blank_rows + (image.size / image.row_size);
+
+  // This adds 4 for a 2-line frame on both sides
+  int total_columns = img_columns, total_rows = img_rows;
+  int column_step, row_step;
+
+  // This prints the raster data, with two pixels of frame around it to mark
+  // the bounds. The frames are added by `getpixel   and identified by negative
+  // indices or past the raster data. The getpixel function is responsible for
+  // rsolving coordinates to the raster data or the frame, and return white
+  // for anything outside the frame.
+  x = -2, y = -2;
+  while (y < total_rows + 2) {
+    if (raster_print_charset == PRINT_LEGACY) {
+      // This uses the "Symbols for Legacy Computing" unicode block (U+1FBxx), which has characters split into 6 pixels (2 wide, 3 high).
+      // The character numbering is neatly binary (numbering pixels top left to
+      // top right and then down), except that the full empty, half left, half
+      // right and fully filled characters are missing, so those are handled
+      // explicitly below using the Block Elements unicode block.
+      char index = getpixel (x, y) | getpixel (x + 1, y) << 1 | getpixel (x, y + 1) << 2 | getpixel (x + 1, y + 1) << 3 | getpixel (x, y + 2) << 4 | getpixel (x + 1, y + 2) << 5;
+      if (index == 0) {
+	printf(" ");
+      } else if (index == 0x15) {
+	// U+258C Left half block
+	printf("\xe2\x96\x8c");
+      } else if (index == 0x2a) {
+	// U+2590 Right half block
+	printf("\xe2\x96\x90");
+      } else if (index == 0x3f) {
+	// U+2588 Full block
+	printf("\xe2\x96\x88");
+      } else {
+	// Compensate for the missing symbols in the neat sequence
+	index -= index > 0x3f ? 4 : (index > 0x2a ? 3 : (index > 0x15 ? 2 : 1));
+	// utf-8 encoding of U+1FBxx
+	printf("\xf0\x9f\xac%c", 0x80 + index);
+      }
+      row_step = 3;
+      column_step = 2;
+    } else if (raster_print_charset == PRINT_BLOCK) {
+      // Last byte of characters from the unicode "Block Elements" - U+2580 and onwards
+      // https://en.wikipedia.org/wiki/Block_Elements
+      char lookup[16] = {0x00, 0x98, 0x9D, 0x80, 0x96, 0x8C, 0x9E, 0x9B, 0x97, 0x9A, 0x90, 0x9C, 0x84, 0x99, 0x9F, 0x88};
+      char index = getpixel (x, y) | getpixel (x + 1, y) << 1 | getpixel (x, y + 1) << 2 | getpixel (x + 1, y + 1) << 3;
+      char out = lookup[index];
+      if (out == 0) {
+	printf(" ");
+      } else {
+	// utf-8 encoding of U+25xx
+	printf("\xe2\x96%c", out);
+      }
+      row_step = column_step = 2;
+    } else { // PRINT_ASCII
+      char out = getpixel (x, y) ? '#' : ' ';
+      printf("%c", out);
+      row_step = column_step = 1;
+    }
+    x += column_step;
+    if (x >= total_columns + 2) {
+      x = -2;
+      y += row_step;
+      printf("\n");
+    }
+  }
+  printf("Raster data: %u×%u pixels\n", img_columns, img_rows);
+
 }
 
 #if HAVE_LIBPNG
@@ -434,10 +532,21 @@ static void write_image (void)
   image.size = 0;
 }
 #else /* HAVE_LIBPNG */
-static void write_image (void)
+static void write_image(void)
 {
 }
 #endif /* HAVE_LIBPNG */
+
+static void write_or_print_image() {
+  if (! image.size)
+    return;
+
+  if (write_prefix)
+    write_image ();
+  if (raster_print_charset != DO_NOT_PRINT)
+    print_image ();
+
+}
 
 
 static void check_compression_mode (enum compression_mode *compression_mode) {
@@ -760,13 +869,13 @@ static void explain (void) {
 
     case 0x0c:  /* Form Feed */
       print_command ("Print command");
-      write_image ();
+      write_or_print_image ();
       break;
 
     case CTRL_Z: /* ^Z */
       print_command ("End of job");
       initialized = false;
-      write_image ();
+      write_or_print_image ();
       break;
 
     default:
@@ -791,6 +900,9 @@ static void usage (int status) {
 #if HAVE_LIBPNG
 	   "  -w, --write=PREFIX   write raster data to PREFIXn.png\n"
 #endif
+	   "  -p, --print-legacy   write raster data to STDOUT using Unicode Symbols for Legacy Computing (compact, but limited font compatibility)\n"
+	   "  --print-block        write raster data to STDOUT using Unicode Block Elements (better font compatibility, but bigger)\n"
+	   "  --print-ascii        write raster data to STDOUT using ASCII (works with all fonts, but biggest)\n"
 	   "  -s, --silent         hide raster graphics commands\n"
 	   "  -v, --verbose        show all commands and all data\n"
 	   "      --color={always,auto,never}\n"
@@ -801,14 +913,17 @@ static void usage (int status) {
 }
 
 static struct option long_options[] = {
-  { "input",       required_argument, NULL, 'i' },
-  { "silent",      no_argument,       NULL, 's' },
-  { "verbose",     no_argument,       NULL, 'v' },
+  { "input",        required_argument, NULL, 'i' },
+  { "silent",       no_argument,       NULL, 's' },
+  { "verbose",      no_argument,       NULL, 'v' },
 #if HAVE_LIBPNG
-  { "write",       required_argument, NULL, 'w' },
+  { "write",        required_argument, NULL, 'w' },
 #endif
-  { "color",       required_argument, NULL, 'c' },
-  { "help",        no_argument,       NULL, 'h' },
+  { "print-ascii",  no_argument,       &raster_print_charset , PRINT_ASCII },
+  { "print-block",  no_argument,       &raster_print_charset , PRINT_BLOCK },
+  { "print-legacy", no_argument,       &raster_print_charset , PRINT_LEGACY},
+  { "color",        required_argument, NULL, 'c' },
+  { "help",         no_argument,       NULL, 'h' },
   { }
 };
 
@@ -819,7 +934,7 @@ int main(int argc, char *argv[]) {
 
   progname = basename (argv [0]);
 
-  options = "w:i:svh" + (HAVE_LIBPNG ? 0 : 2);
+  options = "w:i:svhp" + (HAVE_LIBPNG ? 0 : 2);
 
   for (;;) {
     char c = getopt_long (argc, argv, options, long_options, NULL);
@@ -854,6 +969,11 @@ int main(int argc, char *argv[]) {
 	else
 	  usage (2);
 	break;
+
+      case 'p':  /* --print-legacy */
+	// This uses the legacy charset, which has the highest resolution
+        raster_print_charset = PRINT_LEGACY;
+        break;
 
       case 'h':  /* --help */
         usage (0);
