@@ -21,6 +21,20 @@ This package contains the following directories:
   opt      foomatic options XML files
   printer  foomatic printer XML files
 
+Page rotation
+-------------
+
+PT printers offer RotatePage=None (the default), CW, and CCW. CW rotates
+clockwise and CCW counterclockwise, as viewed on the printed page. The
+option exchanges physical paper width and height while preserving the
+original logical page size seen by PostScript document code. Rasterization
+uses the printer's selected horizontal and vertical resolutions.
+
+Use this for documents whose width must run along the tape. Leave it off
+when the application already rotates its output, and avoid combining it
+with a separate CUPS landscape/orientation override. Other printer settings
+and QL printers are unchanged.
+
 Please note: This software is not in any way related to Brother
 Industries, Ltd., except that it is intended for use with their
 products.  Any comments to this software should NOT be directed to

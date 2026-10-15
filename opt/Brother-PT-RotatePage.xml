@@ -1,0 +1,127 @@
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
+<option type="enum" id="opt/Brother-PT-RotatePage">
+  <comments>
+    <en>
+      Rotate the rendered page and exchange the physical paper dimensions.
+      Document code continues to see its original logical paper size.
+      Leave this off when the application already rotates its output.
+    </en>
+  </comments>
+  <arg_longname>
+    <en>Rotate page and paper together</en>
+  </arg_longname>
+  <arg_shortname>
+    <en>RotatePage</en>
+  </arg_shortname>
+  <arg_execution>
+    <arg_group>General</arg_group>
+    <arg_order>140</arg_order>
+    <arg_spot>A</arg_spot>
+    <arg_postscript />
+    <arg_proto>%s</arg_proto>
+  </arg_execution>
+  <constraints>
+    <constraint sense="true">
+      <driver>ptouch-pt</driver>
+      <arg_defval>ev/None</arg_defval>
+    </constraint>
+    <constraint sense="false">
+      <driver>ptouch-ql</driver>
+    </constraint>
+  </constraints>
+  <enum_vals>
+    <enum_val id="ev/None">
+      <ev_longname>
+        <en>Off</en>
+      </ev_longname>
+      <ev_shortname>
+        <en>None</en>
+      </ev_shortname>
+      <ev_driverval></ev_driverval>
+    </enum_val>
+    <enum_val id="ev/CW">
+      <ev_longname>
+        <en>90 degrees clockwise</en>
+      </ev_longname>
+      <ev_shortname>
+        <en>CW</en>
+      </ev_shortname>
+      <ev_driverval>userdict /pt_rotate known not {
+userdict /pt_rotate true put
+userdict /pt_beginpage systemdict /currentpagedevice get exec
+ /BeginPage get put
+userdict /pt_rotated_beginpage {
+   0 systemdict /currentpagedevice get exec /PageSize get
+   1 get translate -90 rotate
+ userdict /pt_beginpage get exec
+} bind put
+% Report logical paper to document code; render on the transposed device.
+userdict /currentpagedevice {
+ systemdict /currentpagedevice get exec dup length dict copy
+ dup dup /PageSize get aload pop exch 2 array astore
+ /PageSize exch put
+ dup /BeginPage userdict /pt_beginpage get put
+} bind put
+userdict /setpagedevice {
+ dup length dict copy
+ % Preserve page hooks, including updates which do not change PageSize.
+ dup /BeginPage known {
+  dup /BeginPage get userdict /pt_rotated_beginpage get ne {
+   userdict /pt_beginpage 2 index /BeginPage get put
+  } if
+ } if
+ dup /BeginPage userdict /pt_rotated_beginpage get put
+ dup /PageSize known {
+  dup dup /PageSize get aload pop exch 2 array astore
+  /PageSize exch put
+ } if
+ systemdict /setpagedevice get exec
+} bind put
+&lt;&lt; /PageSize systemdict /currentpagedevice get exec /PageSize get &gt;&gt;
+setpagedevice
+} if</ev_driverval>
+    </enum_val>
+    <enum_val id="ev/CCW">
+      <ev_longname>
+        <en>90 degrees counterclockwise</en>
+      </ev_longname>
+      <ev_shortname>
+        <en>CCW</en>
+      </ev_shortname>
+      <ev_driverval>userdict /pt_rotate known not {
+userdict /pt_rotate true put
+userdict /pt_beginpage systemdict /currentpagedevice get exec
+ /BeginPage get put
+userdict /pt_rotated_beginpage {
+   systemdict /currentpagedevice get exec /PageSize get
+   0 get 0 translate 90 rotate
+ userdict /pt_beginpage get exec
+} bind put
+% Report logical paper to document code; render on the transposed device.
+userdict /currentpagedevice {
+ systemdict /currentpagedevice get exec dup length dict copy
+ dup dup /PageSize get aload pop exch 2 array astore
+ /PageSize exch put
+ dup /BeginPage userdict /pt_beginpage get put
+} bind put
+userdict /setpagedevice {
+ dup length dict copy
+ % Preserve page hooks, including updates which do not change PageSize.
+ dup /BeginPage known {
+  dup /BeginPage get userdict /pt_rotated_beginpage get ne {
+   userdict /pt_beginpage 2 index /BeginPage get put
+  } if
+ } if
+ dup /BeginPage userdict /pt_rotated_beginpage get put
+ dup /PageSize known {
+  dup dup /PageSize get aload pop exch 2 array astore
+  /PageSize exch put
+ } if
+ systemdict /setpagedevice get exec
+} bind put
+&lt;&lt; /PageSize systemdict /currentpagedevice get exec /PageSize get &gt;&gt;
+setpagedevice
+} if</ev_driverval>
+    </enum_val>
+  </enum_vals>
+</option>
